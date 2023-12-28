@@ -11,29 +11,29 @@ exports.signUp = (req, res) => {
     .pbkdf2Sync(req.body.password, salt, iterations, keylen, digest)
     .toString("base64");
   const data = {
-    userid: req.body.userid,
+    user_id: req.body.user_id,
     password: hashedPassword,
     salt: salt,
     nickname: req.body.nickname,
     email: req.body.email,
   };
-  User.create({
-    user_id: req.body.userid,
-    password: hashedPassword,
-    salt: salt,
-    nickname: req.body.nickname,
-    email: req.body.email,
-  }).then((result) => {
-    console.log("user create 성공");
-    res.send({ ...data, result: true });
-  });
+  User.create(data)
+    .then((result) => {
+      console.log("회원가입 성공");
+      res.send({ result: true, message: "회원가입에 성공하였습니다." });
+    })
+    .catch((error) => {
+      console.log("회원가입 실패", error);
+      res.send({ result: false, message: "회원가입에 실패하였습니다." });
+    });
 };
+
 // 로그인
 exports.signIn = async (req, res) => {
   const user = await User.findOne({ where: { user_id: req.body.user_id } });
 
   if (!user) {
-    return res.send({ result: false });
+    return res.send({ result: false, message: "사용자를 찾을 수 없습니다." });
   }
 
   const iterations = 100;
@@ -45,11 +45,11 @@ exports.signIn = async (req, res) => {
   if (user.password === hashedPassword) {
     req.session.user = user; // 세션에 사용자 정보 저장
     req.session.isAuthenticated = true; // 로그인 상태를 true로 설정
-    console.log("로그인성공"); // 세션 상태 출력
-    res.send({ session: req.session.user });
+    console.log("로그인성공");
+    res.send({ result: true });
   } else {
     console.log("로그인실패");
-    res.send({ result: false });
+    res.send({ result: false, message: "비밀번호가 일치하지 않습니다." });
   }
 };
 
@@ -99,5 +99,32 @@ exports.FindId = (req, res) => {
       // 해당 이메일로 등록된 아이디가 없으면 userid: null
       res.send({ user_id: null });
     }
+  });
+};
+
+exports.updatePassword = async (req, res) => {
+  const { user_id, changePassword } = req.body;
+  const user = await User.findOne({ where: { user_id: user_id } });
+
+  if (!user) {
+    return res.send({ result: false, message: "유저를 찾을 수 없습니다." });
+  }
+
+  const salt = crypto.randomBytes(16).toString("base64");
+  const iterations = 100;
+  const keylen = 64;
+  const digest = "sha512";
+  const hashedPassword = crypto
+    .pbkdf2Sync(changePassword, salt, iterations, keylen, digest)
+    .toString("base64");
+  // 변경된 정보 저장
+  user.password = hashedPassword;
+  user.salt = salt;
+  await user.save();
+
+  res.send({
+    result: true,
+    message: "비밀번호가 성공적으로 변경되었습니다.",
+    isAuthenticated: req.session.isAuthenticated,
   });
 };
