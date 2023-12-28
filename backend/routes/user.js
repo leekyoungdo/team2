@@ -15,4 +15,7 @@ router.post("/findid", controller.FindId);
 // 비밀번호 변경
 router.post("/updatepassword", controller.updatePassword);
 
+// 닉네임 수정
+router.post("/updatenickname", controller.updateNickname);
+
 module.exports = router;

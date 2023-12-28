@@ -102,6 +102,7 @@ exports.FindId = (req, res) => {
   });
 };
 
+
 exports.updatePassword = async (req, res) => {
   const { user_id, changePassword } = req.body;
   const user = await User.findOne({ where: { user_id: user_id } });
@@ -127,4 +128,35 @@ exports.updatePassword = async (req, res) => {
     message: "비밀번호가 성공적으로 변경되었습니다.",
     isAuthenticated: req.session.isAuthenticated,
   });
+
+// 닉네임 변경
+exports.updateNickname = async (req, res) => {
+  const { user_id } = req.session.user;
+  const { nickname } = req.body;
+  const data = { user_id: user_id, nickname: nickname };
+
+  await User.update(data, { where: { user_id: user_id } });
+  const user = await User.findOne({ where: { user_id: user_id } });
+
+  if (user) {
+    user.nickname = nickname;
+    await user.save();
+
+    // 세션에 있는 사용자 정보도 업데이트
+    req.session.user = user.dataValues;
+    req.session.save((err) => {
+      if (err) {
+        // 에러 처리
+        res.send({ result: false, message: "세션 업데이트에 실패하였습니다." });
+      } else {
+        console.log(req.session.user);
+        res.send({
+          result: true,
+          message: "닉네임이 성공적으로 수정되었습니다.",
+        });
+      }
+    });
+  } else {
+    res.send({ result: false, message: "유저를 찾을 수 없습니다." });
+  }
 };
