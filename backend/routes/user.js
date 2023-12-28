@@ -13,9 +13,11 @@ router.post("/checknickname", controller.checkNickname);
 // 아이디 찾기
 router.post("/findid", controller.FindId);
 // 비밀번호 변경
-router.post("/updatepassword", controller.updatePassword);
+router.patch("/updatepassword", controller.updatePassword);
 
 // 닉네임 수정
-router.post("/updatenickname", controller.updateNickname);
+router.patch("/updatenickname", controller.updateNickname);
+// 회원 탈퇴
+router.delete("/deleteuser", controller.deleteUser);
 
 module.exports = router;

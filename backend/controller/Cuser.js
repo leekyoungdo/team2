@@ -104,8 +104,7 @@ exports.FindId = (req, res) => {
 
 // 비밀번호 변경
 exports.updatePassword = async (req, res) => {
-  const { user_id, changePassword } = req.body;
-  const user = await User.findOne({ where: { user_id: user_id } });
+  const user = await User.findOne({ where: { user_id: req.session.user } });
 
   if (!user) {
     return res.send({ result: false, message: "유저를 찾을 수 없습니다." });
@@ -116,22 +115,30 @@ exports.updatePassword = async (req, res) => {
   const keylen = 64;
   const digest = "sha512";
   const hashedPassword = crypto
-    .pbkdf2Sync(changePassword, salt, iterations, keylen, digest)
+    .pbkdf2Sync(req.body.password, salt, iterations, keylen, digest)
     .toString("base64");
   // 변경된 정보 저장
-  user.password = hashedPassword;
-  user.salt = salt;
-  await user.save();
-
-  res.send({
-    result: true,
-    message: "비밀번호가 성공적으로 변경되었습니다.",
-    isAuthenticated: req.session.isAuthenticated,
+  const data = {
+    password: hashedPassword,
+    salt: salt,
+  };
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "비밀번호가 성공적으로 변경되었습니다.",
+        isAuthenticated: req.session.isAuthenticated,
+      });
+    } else res.send({ result: false });
   });
 };
 
 // 닉네임 변경
-exports.updateNickname = async (req, res) => {
+exports.updateNickname = (req, res) => {
   const data = { nickname: req.body.nickname };
 
   User.update(data, {
@@ -139,11 +146,34 @@ exports.updateNickname = async (req, res) => {
       user_id: req.session.user,
     },
   }).then((result) => {
-    if (result)
+    if (result) {
       res.send({
         result: true,
         message: "닉네임이 성공적으로 수정되었습니다.",
       });
-    else res.send({ result: false });
+    } else res.send({ result: false });
+  });
+};
+
+// 회원 탈퇴
+exports.deleteUser = (req, res) => {
+  User.findOne({ where: { user_id: req.session.user } }).then((row) => {
+    if (row) {
+      const hashedPassword = crypto
+        .pbkdf2Sync(req.body.password, row.salt, 100, 64, "sha512")
+        .toString("base64");
+      if (row.password === hashedPassword) {
+        User.destroy({
+          where: { user_id: req.session.user },
+        }).then((result) => {
+          if (result) {
+            req.session.destroy((err) => {
+              if (err) throw err;
+              res.send({ result: true });
+            });
+          } else res.send({ result: false });
+        });
+      }
+    } else res.send({ result: false });
   });
 };
