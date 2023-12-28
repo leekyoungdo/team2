@@ -135,7 +135,7 @@ exports.updatePassword = async (req, res) => {
       });
     } else res.send({ result: false });
   });
-};
+}
 
 // 닉네임 변경
 exports.updateNickname = (req, res) => {
