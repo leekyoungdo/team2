@@ -1,5 +1,5 @@
 import dogpic from "./mdog.jpg";
-import "./Shelter.css";
+import "./Shelter.scss";
 import { useState } from "react";
 
 export default function Shelter() {
@@ -62,7 +62,12 @@ export default function Shelter() {
       <div className="showDogs">
         {dogs.filter(filterDogsByLocation).map((dog, index) => (
           <div className="Dog" key={index}>
-            <img src={dogpic} alt="강아지" title="주인을 기다리고 있어요" />
+            <img
+              className="shelterDogPic"
+              src={dogpic}
+              alt="강아지"
+              title="주인을 기다리고 있어요"
+            />
             <div className="Profile">
               견종: {dog.견종}
               <br /> 성별: {dog.성별}
