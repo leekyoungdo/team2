@@ -102,7 +102,6 @@ exports.FindId = (req, res) => {
   });
 };
 
-
 exports.updatePassword = async (req, res) => {
   const { user_id, changePassword } = req.body;
   const user = await User.findOne({ where: { user_id: user_id } });
@@ -128,7 +127,7 @@ exports.updatePassword = async (req, res) => {
     message: "비밀번호가 성공적으로 변경되었습니다.",
     isAuthenticated: req.session.isAuthenticated,
   });
-
+};
 // 닉네임 변경
 exports.updateNickname = async (req, res) => {
   const { user_id } = req.session.user;
