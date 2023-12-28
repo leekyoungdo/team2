@@ -35,6 +35,9 @@ function User(Sequelize, DataTypes) {
       dog_age: {
         type: DataTypes.INTEGER,
       },
+      dog_intro: {
+        type: DataTypes.STRING(255),
+      },
     },
     {
       tableName: "User",

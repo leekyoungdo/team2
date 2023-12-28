@@ -13,5 +13,15 @@ db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
 db.User = require("./User")(sequelize, Sequelize);
+db.Board = require("./Board")(sequelize, Sequelize);
+
+// 회원 -> 게시판 join
+db.User.hasMany(db.Board, {
+  foreignKey: "user_id",
+});
+db.Board.belongsTo(db.User, {
+  ondelete: "cascade",
+  foreignKey: "user_id",
+});
 
 module.exports = db;
