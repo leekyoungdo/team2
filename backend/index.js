@@ -3,6 +3,7 @@ const session = require("express-session");
 const app = express();
 const PORT = 8000;
 
+app.use("/static", express.static("static"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(

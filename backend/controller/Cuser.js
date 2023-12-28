@@ -43,7 +43,7 @@ exports.signIn = async (req, res) => {
     .pbkdf2Sync(req.body.password, user.salt, iterations, keylen, digest)
     .toString("base64");
   if (user.password === hashedPassword) {
-    req.session.user = user; // 세션에 사용자 정보 저장
+    req.session.user = user.user_id; // 세션에 사용자 아이디 저장
     req.session.isAuthenticated = true; // 로그인 상태를 true로 설정
     console.log("로그인성공");
     res.send({ result: true });
@@ -102,9 +102,9 @@ exports.FindId = (req, res) => {
   });
 };
 
+// 비밀번호 변경
 exports.updatePassword = async (req, res) => {
-  const { user_id, changePassword } = req.body;
-  const user = await User.findOne({ where: { user_id: user_id } });
+  const user = await User.findOne({ where: { user_id: req.session.user } });
 
   if (!user) {
     return res.send({ result: false, message: "유저를 찾을 수 없습니다." });
@@ -115,47 +115,109 @@ exports.updatePassword = async (req, res) => {
   const keylen = 64;
   const digest = "sha512";
   const hashedPassword = crypto
-    .pbkdf2Sync(changePassword, salt, iterations, keylen, digest)
+    .pbkdf2Sync(req.body.password, salt, iterations, keylen, digest)
     .toString("base64");
   // 변경된 정보 저장
-  user.password = hashedPassword;
-  user.salt = salt;
-  await user.save();
+  const data = {
+    password: hashedPassword,
+    salt: salt,
+  };
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "비밀번호가 성공적으로 변경되었습니다.",
+        isAuthenticated: req.session.isAuthenticated,
+      });
+    } else res.send({ result: false });
+  });
+}
 
-  res.send({
-    result: true,
-    message: "비밀번호가 성공적으로 변경되었습니다.",
-    isAuthenticated: req.session.isAuthenticated,
+// 닉네임 변경
+exports.updateNickname = (req, res) => {
+  const data = { nickname: req.body.nickname };
+
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "닉네임이 성공적으로 수정되었습니다.",
+      });
+    } else res.send({ result: false });
   });
 };
-// 닉네임 변경
-exports.updateNickname = async (req, res) => {
-  const { user_id } = req.session.user;
-  const { nickname } = req.body;
-  const data = { user_id: user_id, nickname: nickname };
 
-  await User.update(data, { where: { user_id: user_id } });
-  const user = await User.findOne({ where: { user_id: user_id } });
-
-  if (user) {
-    user.nickname = nickname;
-    await user.save();
-
-    // 세션에 있는 사용자 정보도 업데이트
-    req.session.user = user.dataValues;
-    req.session.save((err) => {
-      if (err) {
-        // 에러 처리
-        res.send({ result: false, message: "세션 업데이트에 실패하였습니다." });
-      } else {
-        console.log(req.session.user);
-        res.send({
-          result: true,
-          message: "닉네임이 성공적으로 수정되었습니다.",
+// 회원 탈퇴
+exports.deleteUser = (req, res) => {
+  User.findOne({ where: { user_id: req.session.user } }).then((row) => {
+    if (row) {
+      const hashedPassword = crypto
+        .pbkdf2Sync(req.body.password, row.salt, 100, 64, "sha512")
+        .toString("base64");
+      if (row.password === hashedPassword) {
+        User.destroy({
+          where: { user_id: req.session.user },
+        }).then((result) => {
+          if (result) {
+            req.session.destroy((err) => {
+              if (err) throw err;
+              res.send({ result: true });
+            });
+          } else res.send({ result: false });
         });
       }
-    });
-  } else {
-    res.send({ result: false, message: "유저를 찾을 수 없습니다." });
-  }
+    } else res.send({ result: false });
+  });
+};
+
+// 회원 강아지 정보 입력
+exports.updateDogInfo = (req, res) => {
+  const data = {
+    dog_name: req.body.dog_name,
+    dog_gender: req.body.dog_gender,
+    dog_age: req.body.dog_age,
+    dog_intro: req.body.dog_intro,
+  };
+
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "정보가 수정되었습니다.",
+      });
+    } else res.send({ result: false });
+  });
+};
+
+exports.uploadImage = (req, res) => {
+  console.log("file:", req.file);
+
+  const data = {
+    image: req.file.path,
+  };
+
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "이미지가 수정되었습니다.",
+      });
+    } else res.send({ result: false });
+  });
 };
