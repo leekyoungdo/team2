@@ -1,6 +1,7 @@
 const express = require("express");
 const controller = require("../controller/Cuser");
 const router = express.Router();
+const { upload } = require("../multer/multerConfig");
 
 // 회원가입
 router.post("/signup", controller.signUp);
@@ -13,9 +14,27 @@ router.post("/checknickname", controller.checkNickname);
 // 아이디 찾기
 router.post("/findid", controller.FindId);
 // 비밀번호 변경
-router.post("/updatepassword", controller.updatePassword);
+router.patch("/updatepassword", controller.updatePassword);
 
 // 닉네임 수정
-router.post("/updatenickname", controller.updateNickname);
+router.patch("/updatenickname", controller.updateNickname);
+// 회원 탈퇴
+router.delete("/deleteuser", controller.deleteUser);
+// 회원 강아지 정보 입력
+router.patch("/updatedoginfo", controller.updateDogInfo);
+// 마이페이지 이미지 변경
+router.post(
+  "/uploadimage",
+  upload.single("image"),
+  controller.uploadImage,
+  (error, req, res, next) => {
+    if (error) {
+      console.error(error);
+      res.status(500).json({ message: error.message });
+    } else {
+      next();
+    }
+  }
+);
 
 module.exports = router;
