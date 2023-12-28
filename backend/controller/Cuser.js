@@ -177,3 +177,26 @@ exports.deleteUser = (req, res) => {
     } else res.send({ result: false });
   });
 };
+
+// 회원 강아지 정보 입력
+exports.updateDogInfo = (req, res) => {
+  const data = {
+    dog_name: req.body.dog_name,
+    dog_gender: req.body.dog_gender,
+    dog_age: req.body.dog_age,
+    dog_intro: req.body.dog_intro,
+  };
+
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "정보가 수정되었습니다.",
+      });
+    } else res.send({ result: false });
+  });
+};

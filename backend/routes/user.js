@@ -19,5 +19,7 @@ router.patch("/updatepassword", controller.updatePassword);
 router.patch("/updatenickname", controller.updateNickname);
 // 회원 탈퇴
 router.delete("/deleteuser", controller.deleteUser);
+// 회원 강아지 정보 입력
+router.patch("/updatedoginfo", controller.updateDogInfo);
 
 module.exports = router;
