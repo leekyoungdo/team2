@@ -200,3 +200,24 @@ exports.updateDogInfo = (req, res) => {
     } else res.send({ result: false });
   });
 };
+
+exports.uploadImage = (req, res) => {
+  console.log("file:", req.file);
+
+  const data = {
+    image: req.file.path,
+  };
+
+  User.update(data, {
+    where: {
+      user_id: req.session.user,
+    },
+  }).then((result) => {
+    if (result) {
+      res.send({
+        result: true,
+        message: "이미지가 수정되었습니다.",
+      });
+    } else res.send({ result: false });
+  });
+};
