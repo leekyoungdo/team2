@@ -12,6 +12,8 @@ router.post("/checkid", controller.checkId);
 router.post("/checknickname", controller.checkNickname);
 // 아이디 찾기
 router.post("/findid", controller.FindId);
+// 비밀번호 변경
+router.post("/updatepassword", controller.updatePassword);
 
 // 닉네임 수정
 router.post("/updatenickname", controller.updateNickname);
