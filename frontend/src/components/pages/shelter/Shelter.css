@@ -1,0 +1,24 @@
+img {
+  width: 150px;
+  height: 150px;
+  object-fit: cover;
+}
+
+.Dog {
+  width: 400px;
+  height: 150px;
+  padding: 10px;
+  margin: 10px;
+  display: flex;
+  background-color: skyblue;
+}
+
+.Profile {
+  margin-left: 10px;
+  background-color: aliceblue;
+}
+
+.shelterHead {
+  display: flex;
+  align-items: center;
+}
