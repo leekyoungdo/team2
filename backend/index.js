@@ -32,6 +32,9 @@ app.use("/user", userRouter);
 const boardRouter = require("./routes/board");
 app.use("/board", boardRouter);
 
+const commentRouter = require("./routes/comment");
+app.use("/comment", commentRouter);
+
 app.listen(PORT, function () {
   console.log(`Sever Open: ${PORT}`);
 });
