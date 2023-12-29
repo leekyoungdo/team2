@@ -15,6 +15,9 @@ db.Sequelize = Sequelize;
 db.User = require("./User")(sequelize, Sequelize);
 db.Board = require("./Board")(sequelize, Sequelize);
 db.Comment = require("./Comment")(sequelize, Sequelize);
+db.Chat_Room = require("./Chat_Room")(sequelize, Sequelize);
+db.Chat_Member = require("./Chat_Member")(sequelize, Sequelize);
+db.Message = require("./Message")(sequelize, Sequelize);
 
 // 게시판 관련 join
 db.User.hasMany(db.Board, {
@@ -39,6 +42,38 @@ db.User.hasMany(db.Comment, {
 db.Comment.belongsTo(db.User, {
   ondelete: "cascade",
   foreignKey: "user_id",
+});
+
+// 채팅 참여 관련 join
+db.User.hasMany(db.Chat_Member, {
+  foreignKey: "user_id",
+});
+db.Chat_Member.belongsTo(db.User, {
+  ondelete: "cascade",
+  foreignKey: "user_id",
+});
+db.Chat_Room.hasMany(db.Chat_Member, {
+  foreignKey: "chat_id",
+});
+db.Chat_Member.belongsTo(db.Chat_Room, {
+  ondelete: "cascade",
+  foreignKey: "chat_id",
+});
+
+// 채팅메세지 관련 join
+db.User.hasMany(db.Message, {
+  foreignKey: "user_id",
+});
+db.Message.belongsTo(db.User, {
+  ondelete: "cascade",
+  foreignKey: "user_id",
+});
+db.Chat_Room.hasMany(db.Message, {
+  foreignKey: "chat_id",
+});
+db.Message.belongsTo(db.Chat_Room, {
+  ondelete: "cascade",
+  foreignKey: "chat_id",
 });
 
 module.exports = db;
