@@ -2,6 +2,8 @@ const express = require("express");
 const session = require("express-session");
 const app = express();
 const PORT = 8000;
+const cors = require("cors");
+app.use(cors()); //모든 접근 허용
 
 app.use("/static", express.static("static"));
 app.use(express.urlencoded({ extended: true }));
