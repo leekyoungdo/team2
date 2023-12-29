@@ -36,5 +36,7 @@ router.post(
     }
   }
 );
+// 로그아웃
+router.post("/logout", controller.logout);
 
 module.exports = router;

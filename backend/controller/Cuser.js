@@ -221,3 +221,15 @@ exports.uploadImage = (req, res) => {
     } else res.send({ result: false });
   });
 };
+
+// 로그아웃
+exports.logout = (req, res) => {
+  if (req.session.user) {
+    req.session.destroy((err) => {
+      if (err) throw err;
+      res.send({ result: true, message: "로그아웃에 성공하였습니다." });
+    });
+  } else {
+    res.send({ result: false, message: "로그아웃에 실패하였습니다." });
+  }
+};
