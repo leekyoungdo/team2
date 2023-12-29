@@ -1,11 +1,13 @@
 import dogpic from "./mdog.jpg";
 import "./Shelter.scss";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
 export default function Shelter() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [dogs, setDogs] = useState([]);
 
-  const dogs = [
+  const exampleDogs = [
     {
       견종: "골든 리트리버",
       성별: "수컷",
@@ -28,6 +30,21 @@ export default function Shelter() {
       설명: "사람을 잘 따르는 비글입니다.",
     },
   ];
+
+  useEffect(() => {
+    setDogs(exampleDogs);
+  }, []);
+
+  // useEffect(() => {
+  //   axios
+  //     .get("/api/dogs") // 백엔드에서 유기견 데이터를 받아오는 API endpoint를 입력
+  //     .then((res) => {
+  //       setDogs(res.data);
+  //     })
+  //     .catch((err) => {
+  //       console.error(err);
+  //     });
+  // }, []);
 
   const filterDogsByLocation = (dog) => {
     return dog.구조지역.includes(searchQuery);
