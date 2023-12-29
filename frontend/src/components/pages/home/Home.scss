@@ -1,67 +1,67 @@
-.nav {
-  width: 600px;
-  display: flex;
-  padding: 10px;
-  margin: 10px;
-  background-color: pink;
-  justify-content: space-around;
-}
+// .nav {
+//   width: 600px;
+//   display: flex;
+//   padding: 10px;
+//   margin: 10px;
+//   background-color: pink;
+//   justify-content: space-around;
+// }
 
-.bannerShowDogs {
-  width: 800px;
-  background-color: plum;
-  height: 180px;
-  padding: 10px;
-  margin: 10px;
-  overflow-x: hidden;
-  //   overflow: hidden;
-  .bannerDog {
-    width: 600px;
-    height: 150px;
-    padding: 10px;
-    margin: 10px;
-    display: flex;
-    height: 100%;
-    align-content: center;
-    align-items: center;
-    background-color: skyblue;
+// .bannerShowDogs {
+//   width: 800px;
+//   background-color: plum;
+//   height: 180px;
+//   padding: 10px;
+//   margin: 10px;
+//   overflow-x: hidden;
+//   //   overflow: hidden;
+//   .bannerDog {
+//     width: 600px;
+//     height: 150px;
+//     padding: 10px;
+//     margin: 10px;
+//     display: flex;
+//     height: 100%;
+//     align-content: center;
+//     align-items: center;
+//     background-color: skyblue;
 
-    .DogPic {
-      width: 120px; // 원하는 크기로 조절해주세요
-      height: 120px; // 원하는 크기로 조절해주세요
-      object-fit: cover;
-    }
-  }
-}
+//     .DogPic {
+//       width: 120px; // 원하는 크기로 조절해주세요
+//       height: 120px; // 원하는 크기로 조절해주세요
+//       object-fit: cover;
+//     }
+//   }
+// }
 
-.picBar {
-  width: 150px;
-  height: 200px;
-  background-color: rgb(177, 235, 135);
-  padding: 10px;
-  margin: 10px;
-  .DogPic {
-    width: 110px; // 원하는 크기로 조절해주세요
-    height: 110px; // 원하는 크기로 조절해주세요
-    object-fit: cover;
-  }
-  .title {
-    font-size: 9px;
-  }
-  .string {
-    font-size: 7px;
-  }
-}
+// .picBar {
+//   width: 150px;
+//   height: 200px;
+//   background-color: rgb(177, 235, 135);
+//   padding: 10px;
+//   margin: 10px;
+//   .DogPic {
+//     width: 110px; // 원하는 크기로 조절해주세요
+//     height: 110px; // 원하는 크기로 조절해주세요
+//     object-fit: cover;
+//   }
+//   .title {
+//     font-size: 9px;
+//   }
+//   .string {
+//     font-size: 7px;
+//   }
+// }
 
-.Box {
-  width: 600px;
-  height: 150px;
-  padding: 10px;
-  margin: 10px;
-  background-color: skyblue;
-}
+// .Box {
+//   width: 600px;
+//   height: 150px;
+//   padding: 10px;
+//   margin: 10px;
+//   background-color: skyblue;
+// }
 
-.ourDogs {
-  height: 250px;
-  display: flex;
-}
+// .ourDogs {
+//   height: 250px;
+//   display: flex;
+// }
