@@ -2,7 +2,7 @@
 // import dogpic from './mdog.jpg';
 // import React, { useState, useRef, useEffect } from 'react';
 
-// export default function Home() {
+export default function Home() {}
 //   const [currentIndex, setCurrentIndex] = useState(0);
 
 //   const bannerDogsRef = useRef(null);
