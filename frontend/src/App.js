@@ -5,6 +5,7 @@ import SignUp from "./pages/signup/SignUp";
 import SignIn from "./pages/signin/SignIn";
 import Home from "./pages/home/Home";
 import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
+import MakeCommunity from "./pages/15_makecommunity/MakeCommunity";
 
 function App() {
   return (
@@ -16,6 +17,10 @@ function App() {
           <Route path="/user/signin" element={<SignIn />} />
           <Route path="/shelterboard" element={<ShelterBoard />} />
           <Route path="/communityboard" element={<CommunityBoard />} />
+          <Route
+            path="/communityboard/makecommunity"
+            element={<MakeCommunity />}
+          />
         </Routes>
       </main>
     </BrowserRouter>
