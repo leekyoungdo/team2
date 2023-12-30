@@ -5,9 +5,14 @@ exports.createChatRoom = async (req, res) => {
   try {
     const { chat_name, chat_category } = req.body;
 
-    await Chat_Room.create({
+    const createdChatRoom = await Chat_Room.create({
       chat_name: chat_name,
       chat_category: chat_category,
+    });
+
+    await Chat_Member.create({
+      user_id: req.session.user,
+      chat_id: createdChatRoom.chat_id,
     });
 
     res.send({ result: true, message: "채팅방이 성공적으로 생성되었습니다." });
