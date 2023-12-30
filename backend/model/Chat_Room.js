@@ -13,7 +13,7 @@ function Chat_Room(Sequelize, DataTypes) {
       },
       chat_time: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn("NOW"),
       },
       chat_category: {
         type: DataTypes.STRING(30),
