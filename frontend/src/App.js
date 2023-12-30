@@ -1,10 +1,13 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import ShelterBoard from "./pages/12_shelterboard/ShelterBoard";
-import SignUp from "./pages/signup/SignUp";
-import SignIn from "./pages/signin/SignIn";
-import Home from "./pages/home/Home";
+import SignUp from './pages/6_signup/SignUp';
+import SignIn from './pages/7_signin/SignIn';
+import Home from './pages/home/Home';
 import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
+
+import NotFound from './pages/20_notfound/NotFound';
+
 
 function App() {
   return (
