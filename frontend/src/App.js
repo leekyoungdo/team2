@@ -1,12 +1,12 @@
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Shelter from './pages/shelter/Shelter';
-import SignUp from './pages/signup/SignUp';
-import SignIn from './pages/signin/SignIn';
+import SignUp from './pages/6_signup/SignUp';
+import SignIn from './pages/7_signin/SignIn';
 import Home from './pages/home/Home';
 import Board from './components/pages/board/Board';
 
-import NotFound from './pages/notfound/NotFound';
+import NotFound from './pages/20_notfound/NotFound';
 
 function App() {
   return (
