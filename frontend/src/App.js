@@ -4,6 +4,7 @@ import Shelter from "./pages/shelter/Shelter";
 import SignUp from "./pages/signup/SignUp";
 import SignIn from "./pages/signin/SignIn";
 import Home from "./pages/home/Home";
+import Board from "./components/pages/board/Board";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Route path="/user/signup" element={<SignUp />} />
           <Route path="/user/signin" element={<SignIn />} />
           <Route path="/shelter" element={<Shelter />} />
+          <Route path="/board" element={<Board />} />
         </Routes>
       </main>
     </BrowserRouter>
