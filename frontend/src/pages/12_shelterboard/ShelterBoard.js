@@ -1,9 +1,9 @@
 import dogpic from "./mdog.jpg";
-import "./Shelter.scss";
+import "./ShelterBoard.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export default function Shelter() {
+export default function ShelterBoard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dogs, setDogs] = useState([]);
 
@@ -55,7 +55,7 @@ export default function Shelter() {
       <h3>홈버튼</h3>
       <h1>🐶유기견 공고</h1>
 
-      <div className="shelterHead">
+      <div className="ShelterBoardHead">
         <h3>🔍</h3>
         <form
           name="searchDogs"
@@ -80,7 +80,7 @@ export default function Shelter() {
         {dogs.filter(filterDogsByLocation).map((dog, index) => (
           <div className="Dog" key={index}>
             <img
-              className="shelterDogPic"
+              className="ShelterBoardDogPic"
               src={dogpic}
               alt="강아지"
               title="주인을 기다리고 있어요"
