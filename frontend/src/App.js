@@ -1,10 +1,12 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Shelter from "./pages/shelter/Shelter";
-import SignUp from "./pages/signup/SignUp";
-import SignIn from "./pages/signin/SignIn";
-import Home from "./pages/home/Home";
-import Board from "./components/pages/board/Board";
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Shelter from './pages/shelter/Shelter';
+import SignUp from './pages/signup/SignUp';
+import SignIn from './pages/signin/SignIn';
+import Home from './pages/home/Home';
+import Board from './components/pages/board/Board';
+
+import NotFound from './pages/notfound/NotFound';
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
           <Route path="/user/signin" element={<SignIn />} />
           <Route path="/shelter" element={<Shelter />} />
           <Route path="/board" element={<Board />} />
+
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </BrowserRouter>
