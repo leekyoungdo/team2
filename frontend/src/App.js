@@ -1,12 +1,10 @@
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Shelter from './pages/shelter/Shelter';
-import SignUp from './pages/signup/SignUp';
-import SignIn from './pages/signin/SignIn';
-import Home from './pages/home/Home';
-import Board from './components/pages/board/Board';
-
-import NotFound from './pages/notfound/NotFound';
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ShelterBoard from "./pages/12_shelterboard/ShelterBoard";
+import SignUp from "./pages/signup/SignUp";
+import SignIn from "./pages/signin/SignIn";
+import Home from "./pages/home/Home";
+import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
 
 function App() {
   return (
@@ -16,10 +14,8 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/user/signup" element={<SignUp />} />
           <Route path="/user/signin" element={<SignIn />} />
-          <Route path="/shelter" element={<Shelter />} />
-          <Route path="/board" element={<Board />} />
-
-          <Route path="*" element={<NotFound />} />
+          <Route path="/shelterboard" element={<ShelterBoard />} />
+          <Route path="/communityboard" element={<CommunityBoard />} />
         </Routes>
       </main>
     </BrowserRouter>
