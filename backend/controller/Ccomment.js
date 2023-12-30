@@ -2,6 +2,55 @@ const { User } = require("../model");
 const { Comment } = require("../model");
 const { Board } = require("../model");
 
+// 댓글 전체 조회
+exports.getAllComment = (req, res) => {
+  Comment.findAll({
+    where: {
+      board_id: req.params.board_id,
+    },
+    // 필요 없으면 삭제해도됨
+    include: [
+      {
+        model: User,
+        attributes: ["nickname"],
+      },
+    ],
+  })
+    .then((comments) => {
+      res.send({ result: true, comments });
+    })
+    .catch((error) => {
+      console.error("Error getting all comments:", error);
+      res.send({ result: false, message: "댓글 조회 실패" });
+    });
+};
+
+// 댓글 하나 조회
+exports.getComment = (req, res) => {
+  Comment.findOne({
+    where: {
+      comment_id: req.params.comment_id,
+    },
+    include: [
+      {
+        model: User,
+        attributes: ["nickname"],
+      },
+    ],
+  })
+    .then((comment) => {
+      if (comment) {
+        res.send({ result: true, comment });
+      } else {
+        res.send({ result: false, message: "해당 댓글이 존재하지 않습니다." });
+      }
+    })
+    .catch((error) => {
+      console.error("Error getting comment:", error);
+      res.send({ result: false, message: "댓글 조회 실패" });
+    });
+};
+
 // 댓글 작성
 exports.postComment = async (req, res) => {
   if (!req.body.user_id) {
@@ -13,6 +62,7 @@ exports.postComment = async (req, res) => {
     board_id: req.body.board_id,
     user_id: req.body.user_id,
     comment_content: req.body.comment_content,
+    makecomment: Date.now(),
   };
 
   try {
