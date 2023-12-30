@@ -11,9 +11,9 @@ module.exports = (server) => {
     // 채팅방 생성
     socket.on("createChat", (res) => {
       console.log("client data", res);
-      socket.join(res.chat_title);
-      io.to(res.chat_title).emit("notice", {
-        msg: `${res.chat_title}방이 생성되었습니다!`,
+      socket.join(res.chat_name);
+      io.to(res.chat_name).emit("notice", {
+        msg: `${res.chat_name}이 생성되었습니다!`,
       });
     });
   });

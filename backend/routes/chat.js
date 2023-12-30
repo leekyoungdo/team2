@@ -3,6 +3,6 @@ const controller = require("../controller/Cchat");
 const router = express.Router();
 
 // 채팅방 생성
-router.post("/createRoom", controller.createChatRoom);
+router.post("/createroom", controller.createChatRoom);
 
 module.exports = router;
