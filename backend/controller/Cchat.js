@@ -79,3 +79,43 @@ exports.deleteChatRoom = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 채팅메세지 생성
+exports.createMsg = async (req, res) => {
+  try {
+    const { chat_name, msg_content } = req.body;
+    const chatRoom = await Chat_Room.findOne({
+      where: { chat_name: chat_name },
+    });
+
+    await Message.create({
+      user_id: req.session.user,
+      chat_id: chatRoom.chat_id,
+      msg_content: msg_content,
+    });
+
+    res.send({ result: true });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
+// 채팅메세지 조회
+exports.getAllMsg = async (req, res) => {
+  try {
+    const chatRoom = await Chat_Room.findOne({
+      where: { chat_name: req.body.chat_name },
+    });
+
+    const dm = await Message.findAll({
+      where: { chat_id: chatRoom.chat_id },
+      attributes: ["user_id", "msg_content", "send_time"],
+    });
+
+    res.send(dm);
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};

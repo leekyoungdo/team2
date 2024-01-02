@@ -30,5 +30,14 @@ module.exports = (server) => {
       });
       socket.leave(user.chat_name);
     });
+
+    // 채팅메세지
+    socket.on("sendMsg", (res) => {
+      console.log("채팅메세지 보내기", res);
+      io.to(user.chat_name).emit("chat", {
+        nickname: user.nickname,
+        msg: res.msg,
+      });
+    });
   });
 };
