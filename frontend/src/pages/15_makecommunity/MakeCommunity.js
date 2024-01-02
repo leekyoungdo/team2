@@ -1,17 +1,67 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import "./MakeCommunity.scss";
+import AxiosMockAdapter from "axios-mock-adapter";
 
 export default function MakeCommunity() {
+  const [loggedInUserId, setLoggedInUserId] = useState(null);
+
+  //가짜 api
+  // axios 인스턴스 생성
+  const axios_fake = axios.create();
+  const mock = new AxiosMockAdapter(axios_fake);
+
+  mock.onPost("/user/signin").reply(200, {
+    user_id: "로그인한 유저testUser",
+    // ... 기타 필요한 필드들
+  });
+
+  const communityList = [];
+  // "/communityboard/makecommunity" 요청에 대한 가짜 응답
+  mock.onPost("/communityboard/makecommunity").reply((config) => {
+    const newCommunity = JSON.parse(config.data); // 요청 본문을 파싱
+    communityList.push(newCommunity); // 파싱한 데이터를 배열에 추가
+    return [200, { message: "커뮤니티 생성에 성공했습니다." }]; // 응답을 반환
+  });
+
+  useEffect(() => {
+    const fetchLoggedInUser = async () => {
+      try {
+        const response = await axios_fake.post("/user/signin");
+        setLoggedInUserId(response.data.user_id);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchLoggedInUser();
+  }, []);
+
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
     // 서버에 데이터를 전송하는 코드를 여기에 작성합니다.
+    const payload = {
+      manager_user_id: loggedInUserId,
+      region: data.region,
+      groupName: data.groupName,
+      groupIntro: data.groupIntro,
+    };
+    try {
+      const response = await axios_fake.post(
+        "/communityboard/makecommunity",
+        payload
+      );
+      console.log(response.data); // <-- 서버로부터의 응답을 콘솔에 출력
+    } catch (error) {
+      console.error(error); // 에러 처리
+    }
   };
 
   return (
