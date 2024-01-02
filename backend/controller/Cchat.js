@@ -21,3 +21,25 @@ exports.createChatRoom = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 채팅방 입장
+exports.entryChatRoom = async (req, res) => {
+  try {
+    const entryChatRoom = await Chat_Room.findOne({
+      where: { chat_name: req.body.chat_name },
+    });
+
+    await Chat_Member.create({
+      user_id: req.session.user,
+      chat_id: entryChatRoom.chat_id,
+    });
+
+    res.send({
+      result: true,
+      message: `${req.session.user}님이 입장했습니다.`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
