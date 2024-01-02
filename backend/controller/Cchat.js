@@ -100,3 +100,22 @@ exports.createMsg = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 채팅메세지 조회
+exports.getAllMsg = async (req, res) => {
+  try {
+    const chatRoom = await Chat_Room.findOne({
+      where: { chat_name: req.body.chat_name },
+    });
+
+    const dm = await Message.findAll({
+      where: { chat_id: chatRoom.chat_id },
+      attributes: ["user_id", "msg_content", "send_time"],
+    });
+
+    res.send(dm);
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};

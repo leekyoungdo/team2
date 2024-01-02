@@ -13,5 +13,7 @@ router.delete("/deleteroom", controller.deleteChatRoom);
 
 // 채팅메세지 생성
 router.post("/createmsg", controller.createMsg);
+// 채팅메세지 조회
+router.get("/getmsg", controller.getAllMsg);
 
 module.exports = router;
