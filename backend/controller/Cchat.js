@@ -64,3 +64,18 @@ exports.exitChatRoom = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 채팅방 삭제
+exports.deleteChatRoom = async (req, res) => {
+  try {
+    await Chat_Room.destroy({ where: { chat_name: req.body.chat_name } });
+
+    res.send({
+      result: true,
+      message: "채팅방이 삭제되었습니다.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
