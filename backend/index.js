@@ -44,6 +44,9 @@ app.use("/comment", commentRouter);
 const chatRouter = require("./routes/chat");
 app.use("/chat", chatRouter);
 
+const communityRouter = require("./routes/community");
+app.use("/community", communityRouter);
+
 server.listen(PORT, function () {
   console.log(`Sever Open: ${PORT}`);
 });
