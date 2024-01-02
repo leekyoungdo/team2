@@ -5,16 +5,30 @@ module.exports = (server) => {
     },
   });
 
+  let user = {};
+
   io.on("connection", (socket) => {
     console.log("socket id", socket.id);
 
-    // 채팅방 생성
-    socket.on("createChat", (res) => {
-      console.log("client data", res);
-      socket.join(res.chat_name);
-      io.to(res.chat_name).emit("notice", {
-        msg: `${res.chat_name}이 생성되었습니다!`,
+    // 채팅방 입장
+    socket.on("entry", (res) => {
+      console.log("채팅방 입장", res);
+      const { chat_name, chat_category, nickname } = res;
+      user = { chat_name: chat_name, nickname: nickname };
+
+      socket.join(chat_name);
+      io.to(chat_name).emit("notice", {
+        msg: `${nickname}님이 입장하셨습니다.`,
       });
+    });
+
+    // 채팅방 나가기
+    socket.on("disconnect", () => {
+      console.log("채팅방 나가기", user);
+      io.to(user.chat_name).emit("notice", {
+        msg: `${user.nickname}님이 퇴장하셨습니다.`,
+      });
+      socket.leave(user.chat_name);
     });
   });
 };
