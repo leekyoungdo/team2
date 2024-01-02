@@ -16,7 +16,7 @@ export default function SignUp() {
   const onValid = (data) => {
     console.log(data);
     axios
-      .post('http://localhost:8000/user/signup', {
+      .post(`${process.env.REACT_APP_DB_HOST}/user/signup`, {
         user_id: data.user_id,
         password: data.password,
         nickname: data.nickname,
@@ -26,7 +26,7 @@ export default function SignUp() {
         console.log(res.data);
 
         if (res.data.result) {
-          alert('로그인 성공!');
+          alert('회원가입 성공!');
           navigator('/'); // home으로 이동
         } else {
           alert('회원가입에 실패하였습니다.');
