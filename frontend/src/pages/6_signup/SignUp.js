@@ -16,7 +16,7 @@ export default function SignUp() {
   const onValid = (data) => {
     console.log(data);
     axios
-      .post(`${process.env.REACT_APP_DB_HOST}/user/signup`, {
+      .post(`${process.env.REACT_APP_HOST}/user/signup`, {
         user_id: data.user_id,
         password: data.password,
         nickname: data.nickname,
