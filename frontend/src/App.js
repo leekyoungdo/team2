@@ -6,6 +6,7 @@ import SignIn from './pages/7_signin/SignIn';
 import Home from './pages/home/Home';
 import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
 import MakeCommunity from "./pages/15_makecommunity/MakeCommunity";
+import Community from './pages/16_community/Community';
 
 import NotFound from './pages/20_notfound/NotFound';
 
@@ -24,7 +25,13 @@ function App() {
             path="/communityboard/makecommunity"
             element={<MakeCommunity />}
           />
+                    <Route
+            path="/communityboard/community"
+            element={<Community />}
+          />
         </Routes>
+        
+
       </main>
     </BrowserRouter>
   );
