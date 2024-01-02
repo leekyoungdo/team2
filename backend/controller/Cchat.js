@@ -43,3 +43,24 @@ exports.entryChatRoom = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 채팅방 나가기
+exports.exitChatRoom = async (req, res) => {
+  try {
+    const chatRoom = await Chat_Room.findOne({
+      where: { chat_name: req.body.chat_name },
+    });
+
+    await Chat_Member.destroy({
+      where: { user_id: req.session.user, chat_id: chatRoom.chat_id },
+    });
+
+    res.send({
+      result: true,
+      message: `${req.session.user}님이 채팅방을 나가셨습니다.`,
+    });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};

@@ -6,5 +6,7 @@ const router = express.Router();
 router.post("/createroom", controller.createChatRoom);
 // 채팅방 입장
 router.post("/entryroom", controller.entryChatRoom);
+// 채팅방 나가기
+router.delete("/exitroom", controller.exitChatRoom);
 
 module.exports = router;
