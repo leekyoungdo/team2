@@ -1,23 +1,25 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import ShelterBoard from "./pages/12_shelterboard/ShelterBoard";
-import SignUp from "./pages/6_signup/SignUp";
-import SignIn from "./pages/7_signin/SignIn";
-import Home from "./pages/home/Home";
-import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
-import MakeCommunity from "./pages/15_makecommunity/MakeCommunity";
-import Community from "./pages/16_community/Community";
-import CommunityInnerBoard from "./pages/17_communityinnerboard/CommunityInnerBoard";
-import CommunityPage from "./pages/17.1_communitypage/CommunityPage";
-import CommunityTalk from "./pages/19_communitytalk/CommunityTalk";
+import './App.css';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import ShelterBoard from './pages/12_shelterboard/ShelterBoard';
+import SignUp from './pages/6_signup/SignUp';
+import SignIn from './pages/7_signin/SignIn';
+import Write from './pages/8_write/Write';
+import Post from './pages/9_Post/Post';
+import Home from './pages/home/Home';
+import CommunityBoard from './pages/14_communityboard/CommunityBoard';
+import MakeCommunity from './pages/15_makecommunity/MakeCommunity';
+import Community from './pages/16_community/Community';
+import CommunityInnerBoard from './pages/17_communityinnerboard/CommunityInnerBoard';
+import CommunityPage from './pages/17.1_communitypage/CommunityPage';
+import CommunityTalk from './pages/19_communitytalk/CommunityTalk';
 
-import NotFound from "./pages/20_notfound/NotFound";
+import NotFound from './pages/20_notfound/NotFound';
 
 function App() {
   const getData = async () => {
     // npm start 명령어로 실행 시
-    console.log("HOST:", process.env.REACT_APP_HOST); // http://localhost:8000
-    console.log("TEST:", process.env.REACT_APP_ENV_TEST); // develop
+    console.log('HOST:', process.env.REACT_APP_HOST); // http://localhost:8000
+    console.log('TEST:', process.env.REACT_APP_ENV_TEST); // develop
     // # npm run build > # serve -s build 명령어로 실행 시 아래와 같이 출력됨.
     // http://000.000.000.000:8000
     // prod
@@ -37,9 +39,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/user/signup" element={<SignUp />} />
           <Route path="/user/signin" element={<SignIn />} />
-          {/* <Route path="/board/boardsubmit" element={<Write />} />
-          <Route path="/board/getboardId/board_id" element={<Page />} />
-          <Route path="/dmpage" element={<DmPage />} />
+          <Route path="/board/write" element={<Write />} />
+          <Route path="/board/post" element={<Post />} />
+          {/* <Route path="/dmpage" element={<DmPage />} />
           <Route path="/dm" element={<Dm />} /> */}
           <Route path="/shelterboard" element={<ShelterBoard />} />
           <Route path="/communityboard" element={<CommunityBoard />} />
