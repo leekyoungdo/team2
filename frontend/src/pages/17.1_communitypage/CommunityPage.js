@@ -183,63 +183,101 @@ export default function CommunityPage() {
 
   return (
     <>
-      <div>목록으로</div>
+      <div className="media">
+        <div className="container main">
+          {page.map((post) => (
+            <div key={post.pageNum}>
+              <div className="container page one" key={post.pageNum}>
+                <div className="detail">
+                  <div className="Writer">작성자 : {post.writer}</div>
+                  <div className="Comment">댓글 : {post.commentNum}</div>
+                  <div className="Views">조회수 : {post.views}</div>
+                </div>
+                <div className="Title">{post.title}</div>
+              </div>
 
-      {page.map((post) => (
-        <div key={post.pageNum}>
-          <div className="Writer">작성자 : {post.writer}</div>
-          <div className="Title">제목 : {post.title}</div>
-          <div className="Comment">댓글: {post.commentNum}</div>
-          <div className="Views">조회수: {post.views}</div>
-          <div className="Content">{post.content}</div>
-        </div>
-      ))}
+              <div className="container page two">
+                <div className="Content">{post.content}</div>
+                <div className="container comment">
+                  <table className="commentsTable">
+                    <tbody>
+                      {comments.map((post, index) => (
+                        <tr key={index}>
+                          <td className="cWriter">{post.writer}</td>
+                          <td className="cContent">{post.content}</td>
+                          {/* 로그인한 사용자와 댓글 작성자가 동일한 경우에만 삭제 버튼을 보여줌 */}
+                          {post.writer === loggedInUserId && (
+                            <td>
+                              <button
+                                className="button delete"
+                                onClick={() => handleDeleteComment(post.id)}
+                              >
+                                삭제
+                              </button>
+                            </td>
+                          )}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                <div className="container commentwrite">
+                  <form onSubmit={handleFormSubmit}>
+                    <label>
+                      {/* 로그인한 사용자의 아이디를 보여주고, 수정할 수 없게 합니다 */}
+                      <input
+                        type="text"
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          width: "100px",
 
-      <table className="commentsTable">
-        <thead>
-          <tr>
-            <th>작성자</th>
-            <th>댓글 내용</th>
-          </tr>
-        </thead>
-        <tbody>
-          {comments.map((post, index) => (
-            <tr>
-              <td className="Writer">{post.writer}</td>
-              <td className="Content">{post.content}</td>
-              {/* 로그인한 사용자와 댓글 작성자가 동일한 경우에만 삭제 버튼을 보여줌 */}
-              {post.writer === loggedInUserId && (
-                <td>
-                  <button onClick={() => handleDeleteComment(post.id)}>
-                    댓글 삭제
-                  </button>
-                </td>
-              )}
-            </tr>
+                          textAlign: "right",
+                          marginRight: "20px",
+                          fontWeight: "900",
+                        }}
+                        name="writer"
+                        value={loggedInUserId}
+                        readOnly
+                      />
+                    </label>
+                    <br />
+                    <label>
+                      <input
+                        className="cSection"
+                        placeholder="댓글을 입력해주세요"
+                        type="text"
+                        style={{
+                          border: "none",
+                          background: "transparent",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                        name="content"
+                        value={newComment.content}
+                        onChange={handleInputChange}
+                      />
+                    </label>
+                    <button className="button submit" type="submit">
+                      댓글 작성
+                    </button>
+                  </form>
+                </div>
+              </div>
+            </div>
           ))}
-        </tbody>
-      </table>
 
-      <button onClick={handlePrevPage}>이전 페이지</button>
-      <button onClick={handleNextPage}>다음 페이지</button>
-
-      <form onSubmit={handleFormSubmit}>
-        <label>
-          작성자:
-          {/* 로그인한 사용자의 아이디를 보여주고, 수정할 수 없게 합니다 */}
-          <input type="text" name="writer" value={loggedInUserId} readOnly />
-        </label>
-        <label>
-          내용:
-          <input
-            type="text"
-            name="content"
-            value={newComment.content}
-            onChange={handleInputChange}
-          />
-        </label>
-        <button type="submit">댓글 작성</button>
-      </form>
+          <div className="tab">
+            <button className="button prev" onClick={handlePrevPage}>
+              이전 페이지
+            </button>
+            <button className="button next" onClick={handleNextPage}>
+              다음 페이지
+            </button>
+            <button className="button back">목록으로</button>
+          </div>
+        </div>
+      </div>
     </>
   );
 }
