@@ -9,22 +9,25 @@ async function apiAnimal() {
   try {
     const getApi = await axios.get(apiUrl);
     const originData = getApi.data.response.body.items.item;
-    const parsedData = originData.map((item) => {
-      return {
-        kindCd: item.kindCd,
-        sexCd: item.sexCd,
-        age: item.age,
-        happenPlace: item.happenPlace,
-        popfile: item.popfile,
-        specialMark: item.specialMark,
-      };
-    });
+    const parsedData = originData
+      .filter((item) => item.kindCd.startsWith("[개]"))
+      .map((item) => {
+        const onlyDogKindCd = item.kindCd.replace("[개] ", "");
+        return {
+          kindCd: onlyDogKindCd,
+          sexCd: item.sexCd,
+          age: item.age,
+          happenPlace: item.happenPlace,
+          popfile: item.popfile,
+          specialMark: item.specialMark,
+        };
+      });
     data.push(...parsedData);
   } catch (error) {
     throw error;
   }
 
-  return { data };
+  return data;
 }
 
 module.exports = apiAnimal;
