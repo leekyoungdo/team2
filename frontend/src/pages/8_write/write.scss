@@ -1,0 +1,70 @@
+$breakpoints: (
+  'desktop': 1024px,
+  'mobile': 480px,
+);
+
+@mixin respond($breakpoint) {
+  @media (max-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// 평상시 기본 데스크탑 스타일
+* {
+  background-color: #f8f8f8;
+  // 모바일 레이아웃
+  @include respond('mobile') {
+    background-color: #f8f8f8;
+  }
+}
+
+@mixin box {
+  border-radius: 30px;
+  border: 2px solid black;
+  background-color: white;
+}
+
+@mixin box-size {
+  width: 500px;
+  height: 30px;
+}
+
+.board-type-container {
+  .board-type-select {
+    @include box;
+    @include box-size;
+  }
+}
+
+.title-container {
+  .title-text {
+    @include box;
+    @include box-size;
+  }
+}
+
+.title-text {
+  // padding-left: 10px;
+}
+
+.contents-text {
+  @include box;
+  width: 500px;
+  height: 300px;
+  resize: none;
+}
+
+.upload-button {
+  @include box;
+  width: 90px;
+  height: 30px;
+  padding: 5px;
+  font-size: 15px;
+}
+
+.submit-button {
+  @include box;
+  width: 90px;
+  height: 30px;
+  font-size: 15px;
+}
