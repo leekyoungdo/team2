@@ -1,9 +1,9 @@
 .navContainer {
   border: 1px solid red;
-  width: 300px; 
+  width: 300px;
   height: 100vh;
-  color: black; 
-  padding: 20px; 
+  color: black;
+  padding: 20px;
 
   ul {
     list-style-type: none;
@@ -14,7 +14,7 @@
     overflow: auto;
     border: 1px solid red;
   }
-  
+
   .category {
     text-decoration: none;
     padding: 10px;
@@ -22,20 +22,19 @@
     color: #000;
     font-weight: bold;
   }
-  
+
   li a:hover {
-    background: #F5BA3F;
-    color: #fff; 
+    background: #f5ba3f;
+    color: #fff;
   }
 
   li a:active {
-    background: #F5BA3F;
+    background: #f5ba3f;
     color: #fff;
   }
-  
-  
+
   li a.home {
-    background : #F5BA3F;
+    background: #f5ba3f;
     color: #fff;
   }
 }

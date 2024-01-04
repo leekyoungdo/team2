@@ -42,7 +42,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <div style={{ display: "flex", minHeight: "100vh" }}>
+      <div style={{ display: "flex", maxHeight: "100vh" }}>
         <Nav style={{ flex: "0 0 300px", minWidth: "300px" }} />
         <main style={{ flex: 1, overflowY: "auto", padding: "20px" }}>
           <Routes>

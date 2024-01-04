@@ -6,6 +6,11 @@ import axios from "axios";
 export default function ShelterBoard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dogs, setDogs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dogsPerPage] = useState(10);
+  const indexOfLastDog = currentPage * dogsPerPage;
+  const indexOfFirstDog = indexOfLastDog - dogsPerPage;
+  const currentDogs = dogs.slice(indexOfFirstDog, indexOfLastDog);
 
   const exampleDogs = [
     {
@@ -31,23 +36,33 @@ export default function ShelterBoard() {
     },
   ];
 
-  useEffect(() => {
-    setDogs(exampleDogs);
-  }, []);
+  // useEffect(() => {
+  //   setDogs(exampleDogs);
+  // }, []);
 
-  useEffect(() => {
+  const getApi = () => {
     axios
-      .get("/dog/getapi") // 요청할 API의 주소를 입력해주세요.
+      .get(`${process.env.REACT_APP_HOST}/dog/getapi`) // 요청할 API의 주소를 입력해주세요.
       .then((res) => {
+        console.log(res.data);
         setDogs(res.data);
       })
       .catch((err) => {
         console.error(err);
       });
+  };
+
+  useEffect(() => {
+    getApi();
   }, []);
 
+  // 계속 불러오지 않고 한번만 자료 받아서 반영해야함.
+
   const filterDogsByLocation = (dog) => {
-    return dog.구조지역.includes(searchQuery);
+    if (!dog.happenPlace) {
+      return false;
+    }
+    return dog.happenPlace.includes(searchQuery);
   };
 
   return (
@@ -75,9 +90,18 @@ export default function ShelterBoard() {
           <button type="submit">검색</button>
         </form>
       </div>
+      <div className="pagination">
+        {Array(Math.ceil(dogs.length / dogsPerPage))
+          .fill()
+          .map((_, index) => (
+            <button key={index} onClick={() => setCurrentPage(index + 1)}>
+              {index + 1}
+            </button>
+          ))}
+      </div>
 
       <div className="showDogs">
-        {dogs.filter(filterDogsByLocation).map((dog, index) => (
+        {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
           <div className="Dog" key={index}>
             <img
               className="ShelterBoardDogPic"
