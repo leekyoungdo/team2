@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./CommunityPage.module.scss";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
+import { boardlist } from "../17_communityinnerboard/CommunityInnerBoard";
 
 export default function CommunityPage() {
   //가짜 api
@@ -112,6 +113,27 @@ export default function CommunityPage() {
     },
   ]);
 
+  const getApi = () => {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/board/getboardcategory/모임_자유`) // 요청할 API의 주소를 입력해주세요.
+      .then((res) => {
+        console.log(res.data.posts);
+        if (res.data.posts.length > 0) {
+          // 배열의 길이가 0보다 큰지 확인
+          setPage([res.data.posts[0]]); // 첫 번째 항목을 선택
+        } else {
+          // 배열이 비어있는 경우에 대한 처리
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  };
+
+  useEffect(() => {
+    getApi();
+  }, []);
+
   const [newComment, setNewComment] = useState({
     writer: loggedInUserId,
     content: "",
@@ -193,11 +215,13 @@ export default function CommunityPage() {
                   key={post.pageNum}
                 >
                   <div className={styles.detail}>
-                    <div className={styles.Writer}>작성자 : {post.writer}</div>
+                    <div className={styles.Writer}>작성자 : {post.user_id}</div>
                     <div className={styles.Comment}>
                       댓글 : {post.commentNum}
                     </div>
-                    <div className={styles.Views}>조회수 : {post.views}</div>
+                    <div className={styles.Views}>
+                      조회수 : {post.viewcount}
+                    </div>
                   </div>
                   <div className={styles.Title}>{post.title}</div>
                 </div>
