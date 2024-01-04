@@ -13,7 +13,7 @@ import Board from './pages/5_board/Board';
 import Nav from './pages/Nav/Nav';
 
 import DmPage from './pages/10_dmpage/DmPage';
-import Dm from './pages/11_dm/Dm';
+import Dm from './pages/11_dm/dm';
 import DmTest from './pages/11_dm/DmTest';
 import CommunityBoard from './pages/14_communityboard/CommunityBoard';
 import MakeCommunity from './pages/15_makecommunity/MakeCommunity';
