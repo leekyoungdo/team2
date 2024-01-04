@@ -10,18 +10,31 @@ export default function Write() {
   } = useForm();
 
   const onValid = (data) => {
-    // 전송할 데이터 객체
-    const postData = {
-      category: data.category,
-      title: data.title,
-      content: data.content,
-      image: data.image[0], // 사진은 배열로 전달되므로 첫 번째 요소 사용
-    };
+    // 파일 인풋 요소에서 선택된 파일 가져오기
+    const fileInput = document.querySelector('#picture');
+    const file = fileInput.files[0];
 
-    console.log(postData, data);
+    // FormData 객체 생성
+    const formData = new FormData();
+
+    // 전송할 데이터 객체
+    formData.append('image', file);
+    formData.append('category', data.category);
+    formData.append('title', data.title);
+    formData.append('content', data.content);
+
+    // 전송할 데이터 객체
+    // const postData = {
+    //   category: data.category,
+    //   title: data.title,
+    //   content: data.content,
+    //   image: formData,
+    // };
+
+    // console.log(postData, data);
 
     axios
-      .post(`${process.env.REACT_APP_HOST}/board/boardsubmit`, postData, {
+      .post(`${process.env.REACT_APP_HOST}/board/boardsubmit`, formData, {
         withCredentials: true,
       })
       .then((res) => {
@@ -60,7 +73,7 @@ export default function Write() {
               {...register('title', {
                 required: '제목은 필수로 입력해야 합니다',
               })}
-            />
+            />{' '}
             {errors.title && (
               <small role="alert" className={styles.error}>
                 {errors.title.message}
@@ -76,7 +89,7 @@ export default function Write() {
               {...register('content', {
                 required: '내용은 필수로 입력해야 합니다',
               })}
-            ></textarea>
+            ></textarea>{' '}
             {errors.content && (
               <small role="alert" className={styles.error}>
                 {errors.content.message}
@@ -85,11 +98,7 @@ export default function Write() {
           </div>
           <br />
           <br />
-          <label
-            className={styles['upload-button']}
-            htmlFor="picture"
-            {...register('image')}
-          >
+          <label className={styles['upload-button']} htmlFor="picture">
             사진 업로드
             <input
               {...register('image')}
@@ -98,8 +107,8 @@ export default function Write() {
               className={styles['hidden']}
               accept="image/*"
               style={{ display: 'none' }}
-              // onChange={props.savePreViewFile}
-              // ref={props.imgRef}
+              // formData()로 파일을 업로드할 때 encType 속성을 아래와 같이 명시해주어야 한다
+              encType="multipart/form-data"
             />
           </label>{' '}
           <button type="submit" className={styles['submit-button']}>
