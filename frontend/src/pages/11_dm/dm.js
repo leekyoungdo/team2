@@ -1,29 +1,30 @@
+
 import { useState, useEffect } from 'react';
-import styles from './dm.module.scss'; // CSS 모듈 import
+import styles from './dm.module.scss';
 import io from 'socket.io-client';
 import Chat from './Chat';
 import Notice from './Notice';
 
-const socket = io.connect('http://localhost:8000/', { autoConnect: false });
+const socket = io.connect("http://localhost:8000/", { autoConnect: false });
 
 export default function Dm() {
   const [msgInput, setMsgInput] = useState('');
   const [userIdInput, setUserIdInput] = useState('');
   const [chatList, setChatList] = useState([
     {
-      user_id: 'sohee1234',
-      msg_content: '안녕 안녕',
-      send_time: '2024-01-02T08:39:56.000Z',
+      user_id: "sohee1234",
+      msg_content: "안녕 안녕",
+      send_time: "2024-01-02T08:39:56.000Z",
     },
     {
-      user_id: 'sohee123',
-      msg_content: '안녕123',
-      send_time: '2024-01-02T09:29:08.000Z',
+      user_id: "sohee123",
+      msg_content: "안녕123",
+      send_time: "2024-01-02T09:29:08.000Z",
     },
     {
-      user_id: 'sohee123',
-      msg_content: '뭐하는중이야',
-      send_time: '2024-01-02T09:29:19.000Z',
+      user_id: "sohee123",
+      msg_content: "뭐하는중이야",
+      send_time: "2024-01-02T09:29:19.000Z",
     },
     {
       type: 'notice', // 공지사항

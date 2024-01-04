@@ -35,16 +35,16 @@ export default function ShelterBoard() {
     setDogs(exampleDogs);
   }, []);
 
-  // useEffect(() => {
-  //   axios
-  //     .get("/api/dogs") // 백엔드에서 유기견 데이터를 받아오는 API endpoint를 입력
-  //     .then((res) => {
-  //       setDogs(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.error(err);
-  //     });
-  // }, []);
+  useEffect(() => {
+    axios
+      .get("/dog/getapi") // 요청할 API의 주소를 입력해주세요.
+      .then((res) => {
+        setDogs(res.data);
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+  }, []);
 
   const filterDogsByLocation = (dog) => {
     return dog.구조지역.includes(searchQuery);
@@ -81,17 +81,17 @@ export default function ShelterBoard() {
           <div className="Dog" key={index}>
             <img
               className="ShelterBoardDogPic"
-              src={dogpic}
+              src={dog.popfile || dogpic} // 강아지 사진이 없을 경우 기본 이미지를 사용합니다.
               alt="강아지"
               title="주인을 기다리고 있어요"
             />
             <div className="Profile">
-              견종: {dog.견종}
-              <br /> 성별: {dog.성별}
-              <br /> 발견일: {dog.발견일}
-              <br /> 구조지역: {dog.구조지역}
+              견종: {dog.kindCd}
+              <br /> 성별: {dog.sexCd}
+              <br /> 나이: {dog.age}
+              <br /> 구조지역: {dog.happenPlace}
               <br />
-              설명: {dog.설명}
+              설명: {dog.specialMark}
             </div>
           </div>
         ))}
