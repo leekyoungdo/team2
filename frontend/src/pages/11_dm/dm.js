@@ -44,7 +44,7 @@ export default function Dm() {
       alert(res.msg);
     });
 
-    // 유저 입장 (mount 시점에)
+    // 유저 입장 (mount 시점에)fff
     socket.on('entrySuccess', (res) => {
       setUserId(res.userId);
     });
