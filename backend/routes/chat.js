@@ -10,6 +10,8 @@ router.post("/entryroom", controller.entryChatRoom);
 router.delete("/exitroom", controller.exitChatRoom);
 // 채팅방 삭제
 router.delete("/deleteroom", controller.deleteChatRoom);
+// 채팅방 조회
+router.get("/getchatroom", controller.ChatRoomList);
 
 // 채팅메세지 생성
 router.post("/createmsg", controller.createMsg);
