@@ -81,12 +81,12 @@ export default function ShelterBoard() {
           <div className="Dog" key={index}>
             <img
               className="ShelterBoardDogPic"
-              src={dogpic}
+              src={dog.popfile || dogpic} // 강아지 사진이 없을 경우 기본 이미지를 사용합니다.
               alt="강아지"
               title="주인을 기다리고 있어요"
             />
             <div className="Profile">
-              견종: {dog.dog.kindCd}
+              견종: {dog.kindCd}
               <br /> 성별: {dog.sexCd}
               <br /> 나이: {dog.age}
               <br /> 구조지역: {dog.happenPlace}
