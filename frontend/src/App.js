@@ -5,9 +5,15 @@ import SignUp from './pages/6_signup/SignUp';
 import SignIn from './pages/7_signin/SignIn';
 import Write from './pages/8_write/Write';
 import Post from './pages/9_Post/Post';
+
+import Home from './pages/1_home/Home';
+import MyPage from './pages/3_mypage/MyPage'
+import UserProfile from './pages/4_userprofile/UserProfile';
+import Board from './pages/5_board/Board'
+import Nav from './pages/Nav/Nav';
+
 import DmPage from './pages/10_dmpage/DmPage';
 import Dm from './pages/11_dm/dm';
-import Home from './pages/home/Home';
 import CommunityBoard from './pages/14_communityboard/CommunityBoard';
 import MakeCommunity from './pages/15_makecommunity/MakeCommunity';
 import Community from './pages/16_community/Community';
@@ -35,9 +41,14 @@ function App() {
 
   return (
     <BrowserRouter>
+      <Nav />
       <main>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/mypage" element={<MyPage />} />
+          <Route path="/userprofile" element={<UserProfile />} />
+          <Route path="/board" element={<Board />} />
+
           <Route path="/user/signup" element={<SignUp />} />
           <Route path="/user/signin" element={<SignIn />} />
           <Route path="/board/write" element={<Write />} />

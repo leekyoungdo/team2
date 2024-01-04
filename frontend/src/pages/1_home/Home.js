@@ -1,4 +1,4 @@
-import "./Home.scss";
+import styles from "./Home.module.scss";
 import dogpic from "./mdog.jpg";
 import React, { useState, useRef, useEffect } from "react";
 
@@ -83,11 +83,11 @@ export default function Home() {
 
     return(
         <>
-        <div className="bgHome">
+        <div className={styles.bgHome} >
             <h1>멍멍투게더</h1>
-            <div className="signinBtn">로그인</div>
+            <div className={styles.signinBtn}>로그인</div>
 
-            <div className="nav">
+            <div className={styles.nav}>
                 <div>
                   <h2>게시판</h2>
                 </div>
@@ -102,16 +102,16 @@ export default function Home() {
                 </div>
             </div>
 
-            <div className="bannerShowDogs" ref={bannerDogsRef}>
-                <div className="bannerDoglist">
-                    <div className="bannerDog">
+            <div className={styles.bannerShowDogs} ref={bannerDogsRef}>
+                <div className={styles.bannerDoglist}>
+                    <div className={styles.bannerDog}>
                       <img
                         className="DogPic"
                         src={dogpic}
                         alt="강아지"
                         title="주인을 기다리고 있어요"
                       />
-                      <div className="Profile">
+                      <div className={styles.profile}>
                         견종: {dog.breed}
                         <br /> 성별: {dog.gender}
                         <br /> 발견일: {dog.discoveryDate}
@@ -122,13 +122,13 @@ export default function Home() {
                     </div>
                 </div>
                 <button
-                  className="button-left"
+                  className={styles.buttonLeft}
                 //   onClick={() => handleButtonClick("left")}
                 >
                   이전
                 </button>
                 <button
-                  className="button-right"
+                  className={styles.buttonRight}
                 //   onClick={() => handleButtonClick("right")}
                 >
                   다음
@@ -136,38 +136,38 @@ export default function Home() {
             </div>
 
             <h1>인기글</h1>
-            <div className="Box hotTopic">
+            <div className={`${styles.Box} ${styles.hotTopic}`}>
               {sampleData1.slice(0, 3).map((data, index) => (
-                <div className="bar" key={index}>
+                <div className={styles.bar} key={index}>
                   작성자: {data.author} 제목: {data.title}
                 </div>
               ))}
             </div>
 
             <h1>최신글</h1>
-            <div className="Box newTopic">
+            <div className={`${styles.Box} ${styles.hotTopic}`}>
               {sampleData1.slice(3, 6).map((data, index) => (
-                <div className="bar" key={index}>
+                <div className={styles.bar} key={index}>
                   작성자: {data.author} 제목: {data.title}
                 </div>
               ))}
             </div>
 
             <h1>우리 강아지</h1>
-            <div className="Box ourDogs">
+            <div className={`${styles.Box} ${styles.ourDogs}`}>
               {sampleData2
                 .sort((a, b) => new Date(b.date) - new Date(a.date)) // 날짜를 기준으로 내림차순 정렬
                 .slice(0, 4) // 최신 데이터 4개 선택
                 .map((data, index) => (
-                  <div className="picBar" key={index}>
+                  <div className={styles.picBar} key={index}>
                     <img
-                      className="DogPic"
+                      className={styles.DogPic}
                       src={dogpic}
                       alt="강아지"
                       title="멋진 우리 강아지!"
                     />
-                    <div className="title">제목: {data.title}</div>
-                    <div className="string">내용: {data.content}</div>
+                    <div className={styles.title}>제목: {data.title}</div>
+                    <div className={styles.string}>내용: {data.content}</div>
                   </div>
                 ))}
             </div>
