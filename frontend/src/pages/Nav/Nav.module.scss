@@ -1,0 +1,38 @@
+.navContainer {
+  width: 200px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+    width: 100px;
+    height: 100%;
+    overflow: auto;
+    position: fixed;
+  }
+  
+  .category {
+    text-decoration: none;
+    padding: 10px;
+    display: block;
+    color: #000;
+    font-weight: bold;
+  }
+  
+  li a:hover {
+    background: #F5BA3F;
+    color: #fff; 
+  }
+
+  li a:active {
+    background: #F5BA3F;
+    color: #fff;
+  }
+  
+  
+  li a.home {
+    background : #F5BA3F;
+    color: #fff;
+  }
+  
