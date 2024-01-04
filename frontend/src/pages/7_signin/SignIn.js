@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './signin.scss';
+import './signin.module.scss';
 
 export default function SignIn() {
   const {
@@ -15,10 +15,14 @@ export default function SignIn() {
   const onValid = (data) => {
     console.log(process.env.REACT_APP_HOST, data);
     axios
-      .post(`${process.env.REACT_APP_HOST}/user/signin`, {
-        user_id: data.user_id,
-        password: data.password,
-      })
+      .post(
+        `${process.env.REACT_APP_HOST}/user/signin`,
+        {
+          user_id: data.user_id,
+          password: data.password,
+        },
+        { withCredentials: true }
+      )
       .then((res) => {
         console.log(res.data);
 

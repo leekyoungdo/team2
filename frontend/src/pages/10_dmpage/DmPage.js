@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import './dmpage.scss';
+import './dmpage.module.scss';
 
 export default function DmPage() {
   return (

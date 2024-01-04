@@ -1,4 +1,4 @@
-import './write.scss';
+import './write.module.scss';
 import { useForm } from 'react-hook-form';
 
 export default function Write() {
