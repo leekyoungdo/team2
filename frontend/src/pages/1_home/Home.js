@@ -87,7 +87,7 @@ export default function Home() {
             <h1>멍멍투게더</h1>
             <div className={styles.signinBtn}>로그인</div>
 
-            <div className={styles.nav}>
+            {/* <div className={styles.nav}>
                 <div>
                   <h2>게시판</h2>
                 </div>
@@ -100,7 +100,7 @@ export default function Home() {
                 <div>
                   <h2>앨범</h2>
                 </div>
-            </div>
+            </div> */}
 
             <div className={styles.bannerShowDogs} ref={bannerDogsRef}>
                 <div className={styles.bannerDoglist}>

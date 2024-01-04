@@ -5,9 +5,9 @@ export default function Nav() {
 
     return(
         <>
-        <div className="{styles.navContainer}">
+        <div className={styles.navContainer}>
           <ul>
-            <div><a>멍멍투게더</a></div>
+            <a>멍멍투게더</a>
             <li><a className={styles.home} href="#">홈</a></li>
             <li><a className={styles.category} href="#">게시판</a></li>
             <li><a href="#">소모임</a></li>
