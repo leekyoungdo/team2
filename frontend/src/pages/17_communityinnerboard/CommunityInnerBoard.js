@@ -46,32 +46,34 @@ export default function CommunityInnerBoard() {
 
   return (
     <>
-      <div className={`${styles.container} ${styles.outerpage1}`}>
-        <h1>📬 소모임 게시판</h1>
-
+      <div className={styles.box1}>
         <div className={`${styles.container} ${styles.one}`}>
-          <table className={styles.boardTable}>
-            <thead>
-              <tr>
-                <th>작성자</th>
-                <th>글 제목</th>
-                <th>댓글 수</th>
-                <th>조회수</th>
-              </tr>
-            </thead>
-            <tbody>
-              {boardlist.map((post, index) => (
-                <tr className={styles.pagelist} key={index}>
-                  <td className={styles.cellWriter}>{post.writer}</td>
-                  <td className={styles.cellTitle}>{post.title}</td>
-                  <td className={styles.cellComment}>{post.commentNum}</td>
-                  <td className={styles.cellViews}>{post.views}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h1>📬 소모임 게시판</h1>
 
-          <button className={styles.button}>작성하기</button>
+          {/* <div className={`${styles.container} ${styles.two}`}>
+            <table className={styles.boardTable}>
+              <thead className={styles.thead}>
+                <tr>
+                  <th>작성자</th>
+                  <th>글 제목</th>
+                  <th>댓글 수</th>
+                  <th>조회수</th>
+                </tr>
+              </thead>
+              <tbody>
+                {boardlist.map((post, index) => (
+                  <tr className={styles.pagelist} key={index}>
+                    <td className={styles.cellWriter}>{post.writer}</td>
+                    <td className={styles.cellTitle}>{post.title}</td>
+                    <td className={styles.cellComment}>{post.commentNum}</td>
+                    <td className={styles.cellViews}>{post.views}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <button className={styles.button}>작성하기</button>
+            <div className={styles.box2}></div>
+          </div> */}
         </div>
       </div>
     </>

@@ -42,14 +42,14 @@ function App() {
 
   return (
     <BrowserRouter>
-    <div style={{ display: 'flex', maxHeight: '100vh' }}>
-      <Nav style={{ flex: '0 0 300px', minWidth: '300px'}} />
-      <main style={{ flex: 1, overflowY: 'auto'}}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/mypage" element={<MyPage />} />
-          <Route path="/userprofile" element={<UserProfile />} />
-          <Route path="/board" element={<Board />} />
+      <div style={{ display: "flex", maxHeight: "100vh" }}>
+        <Nav />
+        <main style={{ flexGrow: 1, overflowY: "auto" }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/mypage" element={<MyPage />} />
+            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/board" element={<Board />} />
             <Route path="/user/signup" element={<SignUp />} />
             <Route path="/user/signin" element={<SignIn />} />
             <Route path="/board/write" element={<Write />} />
