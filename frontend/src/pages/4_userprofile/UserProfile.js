@@ -1,11 +1,11 @@
-import "./UserProfile.scss";
+import "./UserProfile.module.scss";
 import React, { useState, useRef, useEffect } from "react";
 
 export default function UserProfile() {
 
     return(
         <>
-        <div className="">
+        <div>
             userprofile
         </div>
         </> 
