@@ -1,4 +1,4 @@
-import "./Board.scss";
+import styles from "./Board.module.scss";
 import React, { useState, useRef, useEffect } from "react";
 // import axios from 'axios';
 
@@ -86,27 +86,12 @@ export default function Board() {
 
     return(
         <>
-        <div className="bgBoard">
-          <div className="container">
-            <div className="signinBtn">로그인</div>
-            <div className="logo">멍멍투게더</div>
+          <div className={styles.bgHome}>
+            <div className={styles.container}>
+              <div className={styles.signinBtn}>로그인</div>
+              <div className={styles.logo}>멍멍투게더</div>
 
-            <div className="nav">
-                <div>
-                  <h2>게시판</h2>
-                </div>
-                <div>
-                  <h2>소모임</h2>
-                </div>
-                <div>
-                  <h2>유기견 공고</h2>
-                </div>
-                <div>
-                  <h2>앨범</h2>
-                </div>
-            </div>
-
-            <div className="category">
+              <div className={styles.category}>
                 <div>
                   <p>전체</p>
                 </div>
@@ -119,27 +104,27 @@ export default function Board() {
                 <div>
                   <p>실종/포착</p>
                 </div>
-            </div>
-
-            <div className="contents">
-              <div className="box">
-                {sampleData2.map((data, index) => (
-                  <div className="bar" key={index}>
-                    <p>{data.category}</p>
-                    <p>작성자: {data.user_id}</p>
-                    <p>제목: {data.title}</p>
-                    <p>내용: {data.content}</p>
-                    <p>{data.image}</p>
-                    <p>{data.makeboard}</p>
-                    <p>{data.viewcount}</p>
-                  </div>
-                ))}
               </div>
-            </div>
 
-            <div className="writeButton">글쓰기</div>
+              <div className={styles.contents}>
+                <div className={styles.box}>
+                  {sampleData2.map((data, index) => (
+                    <div className={styles.bar} key={index}>
+                      <p>{data.category}</p>
+                      <p>작성자: {data.user_id}</p>
+                      <p>제목: {data.title}</p>
+                      <p>내용: {data.content}</p>
+                      <p>{data.image}</p>
+                      <p>{data.makeboard}</p>
+                      <p>{data.viewcount}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+                  
+              <div className={styles.writeButton}>글쓰기</div>
+            </div>
           </div>
-        </div>
         </> 
     );
   }
