@@ -5,6 +5,8 @@ import SignUp from './pages/6_signup/SignUp';
 import SignIn from './pages/7_signin/SignIn';
 import Write from './pages/8_write/Write';
 import Post from './pages/9_Post/Post';
+import DmPage from './pages/10_dmpage/DmPage';
+import Dm from './pages/11_dm/dm';
 import Home from './pages/home/Home';
 import CommunityBoard from './pages/14_communityboard/CommunityBoard';
 import MakeCommunity from './pages/15_makecommunity/MakeCommunity';
@@ -12,7 +14,6 @@ import Community from './pages/16_community/Community';
 import CommunityInnerBoard from './pages/17_communityinnerboard/CommunityInnerBoard';
 import CommunityPage from './pages/17.1_communitypage/CommunityPage';
 import CommunityTalk from './pages/19_communitytalk/CommunityTalk';
-
 import NotFound from './pages/20_notfound/NotFound';
 
 function App() {
@@ -41,8 +42,8 @@ function App() {
           <Route path="/user/signin" element={<SignIn />} />
           <Route path="/board/write" element={<Write />} />
           <Route path="/board/post" element={<Post />} />
-          {/* <Route path="/dmpage" element={<DmPage />} />
-          <Route path="/dm" element={<Dm />} /> */}
+          <Route path="/dmpage" element={<DmPage />} />
+          <Route path="/dm" element={<Dm />} />
           <Route path="/shelterboard" element={<ShelterBoard />} />
           <Route path="/communityboard" element={<CommunityBoard />} />
           <Route
@@ -62,6 +63,7 @@ function App() {
             path="/communityboard/community/CommunityTalk"
             element={<CommunityTalk />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </BrowserRouter>
