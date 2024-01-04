@@ -1,6 +1,6 @@
 $breakpoints: (
-  'desktop': 1024px,
-  'mobile': 480px,
+  "desktop": 1024px,
+  "mobile": 480px,
 );
 
 @mixin respond($breakpoint) {
@@ -11,10 +11,10 @@ $breakpoints: (
 
 // 평상시 기본 데스크탑 스타일
 * {
-  background-color: #f8f8f8;
+  // background-color: #f8f8f8;
   // 모바일 레이아웃
-  @include respond('mobile') {
-    background-color: #f8f8f8;
+  @include respond("mobile") {
+    // background-color: #f8f8f8;
   }
 }
 
