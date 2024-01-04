@@ -4,7 +4,7 @@ import Shelter from "./pages/shelter/Shelter";
 import SignUp from "./pages/signup/SignUp";
 import SignIn from "./pages/signin/SignIn";
 import Home from "./pages/home/Home";
-import Board from "./components/pages/board/Board";
+import Board from "./pages/board/Board";
 
 function App() {
   return (

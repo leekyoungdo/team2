@@ -84,9 +84,11 @@ export default function Home() {
     return(
         <>
         <div className="bgHome">
-            <h1>멍멍투게더</h1>
-            <div className="signinBtn">로그인</div>
 
+          <div className="nav-main"> 
+            <h1 className="logo">멍멍투게더</h1>
+            <div className="signinBtn">로그인</div>
+    
             <div className="nav">
                 <div>
                   <h2>게시판</h2>
@@ -101,6 +103,8 @@ export default function Home() {
                   <h2>앨범</h2>
                 </div>
             </div>
+          </div>
+
 
             <div className="bannerShowDogs" ref={bannerDogsRef}>
                 <div className="bannerDoglist">

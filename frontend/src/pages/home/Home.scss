@@ -1,15 +1,26 @@
+body {
+  margin: 0;
+}
+
+
 .bgHome {
   background-color:beige;
 }
 
-.nav {
+.nav-main {
   width: 600px;
-  display: flex;
   padding: 10px;
   margin: 10px;
   background-color: pink;
-  justify-content: space-around;
 }
+
+.nav-main .logo {}
+
+
+
+
+
+
 
 .bannerShowDogs {
   width: 800px;
@@ -18,7 +29,7 @@
   padding: 10px;
   margin: 10px;
   overflow-x: hidden;
-  //   overflow: hidden;
+
   .bannerDog {
     width: 600px;
     height: 150px;

@@ -1,40 +1,95 @@
 import "./Board.scss";
 import React, { useState, useRef, useEffect } from "react";
+// import axios from 'axios';
 
 export default function Board() {
-      const sampleData1 = [
-        {
-          author: "건강하게살자",
-          title: "남산 반려견 산책로 추천 모음",
-        },
-        {
-          author: "시바다시바",
-          title: "참새뗴 발견!",
-        },
-        {
-          author: "lovmadog",
-          title: "강아지 사료 뭐가 좋나요?",
-        },
-        {
-          author: "happydog",
-          title: "강아지 훈련법 알려주세요!",
-        },
-        {
-          author: "올드독",
-          title: "늙은 강아지랑 노는 법 공유합니다",
-        },
-        {
-          author: "petworld",
-          title: "반려견과 함께하는 일상",
-        },
-      ];
+
+  // const onValid = (data) => {
+  //   console.log(data);
+  //   axios
+  //     .post('http://localhost:8000/board/getallboard', {
+  //       board_id: data.board_id,
+  //       user_id: data.user_id,
+  //       category: data.category,
+  //       title: data.title,
+  //       content: data.content,
+  //       image: data.image,
+  //       makeboard: data.makeboard,
+  //       viewcount: data.viewcount
+  //     })
+  // };
+
+  const sampleData2 = [
+    {
+      board_id: 2,
+      user_id: "flrudeh",
+      category: "일상",
+      title: "제목 수정중입니다.",
+      content: "수정 됬나요 ?!",
+      image: null,
+      makeboard: "2023-12-28",
+      viewcount: 0
+    },
+    {
+      board_id: 1,
+      user_id: "flrudeh",
+      category: "자유",
+      title: "첫글",
+      content: "안녕",
+      image: null,
+      makeboard: "2023-12-28",
+      viewcount: 3
+    },
+    {
+      board_id: 1,
+      user_id: "flrudeh",
+      category: "질문",
+      title: "첫글",
+      content: "안녕",
+      image: null,
+      makeboard: "2023-12-28",
+      viewcount: 3
+    },
+    {
+      board_id: 2,
+      user_id: "flrudeh",
+      category: "실종/포착",
+      title: "제목 수정중입니다.",
+      content: "수정 됬나요 ?!",
+      image: null,
+      makeboard: "2023-12-28",
+      viewcount: 0
+    },
+    {
+      board_id: 2,
+      user_id: "flrudeh",
+      category: "일상",
+      title: "제목 수정중입니다.",
+      content: "수정 됬나요 ?!",
+      image: null,
+      makeboard: "2023-12-28",
+      viewcount: 0
+    },
+    {
+      board_id: 1,
+      user_id: "flrudeh",
+      category: "자유",
+      title: "첫글",
+      content: "안녕",
+      image: null,
+      makeboard: "2023-12-28",
+      viewcount: 3
+    }
+
+  ];
 
 
     return(
         <>
         <div className="bgBoard">
-            <h1>멍멍투게더</h1>
+          <div className="container">
             <div className="signinBtn">로그인</div>
+            <div className="logo">멍멍투게더</div>
 
             <div className="nav">
                 <div>
@@ -66,15 +121,24 @@ export default function Board() {
                 </div>
             </div>
 
-            <div className="Box hotTopic">
-              {sampleData1.slice(0, 3).map((data, index) => (
-                <div className="bar" key={index}>
-                  작성자: {data.author} 제목: {data.title}
-                </div>
-              ))}
+            <div className="contents">
+              <div className="box">
+                {sampleData2.map((data, index) => (
+                  <div className="bar" key={index}>
+                    <p>{data.category}</p>
+                    <p>작성자: {data.user_id}</p>
+                    <p>제목: {data.title}</p>
+                    <p>내용: {data.content}</p>
+                    <p>{data.image}</p>
+                    <p>{data.makeboard}</p>
+                    <p>{data.viewcount}</p>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="writeButton">글쓰기</div>
+          </div>
         </div>
         </> 
     );
