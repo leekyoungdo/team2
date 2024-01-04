@@ -1,9 +1,11 @@
+
 import './App.css';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 // import { Provider } from 'react-redux';
 // import { configureStore } from '@reduxjs/toolkit';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './redux/reducer';
+
 
 import Home from './pages/1_home/Home';
 import MyPage from './pages/3_mypage/MyPage';
@@ -33,9 +35,11 @@ function App() {
   return (
     // <Provider store={store}>
     <BrowserRouter>
-      <div style={{ display: 'flex', maxHeight: '100vh' }}>
-        <Nav style={{ flex: '0 0 300px', minWidth: '300px' }} />
-        <main style={{ flex: 1, overflowY: 'auto' }}>
+
+      <div style={{ display: "flex", maxHeight: "100vh" }}>
+        <Nav />
+        <main style={{ flexGrow: 1, overflowY: "auto" }}>
+
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/mypage" element={<MyPage />} />

@@ -1,4 +1,4 @@
-import "./MyPage.scss";
+import "./MyPage.module.scss";
 import React, { useState, useRef, useEffect } from "react";
 
 export default function MyPage() {

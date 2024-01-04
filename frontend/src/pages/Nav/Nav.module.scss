@@ -1,21 +1,24 @@
 .navContainer {
-
   border: 1px solid blue;
-  width: 300px; 
+  width: 100%;
+  min-width: 180px;
+  max-width: 250px;
   max-height: 100vh;
-  color: black; 
-  padding: 20px; 
-  background-color: #EDF5ED;
-  
-  .logo {
-  }
 
+  color: black;
+  background-color: #edf5ed;
+
+  .logo {
+    margin-bottom: 50px;
+  }
 
   ul {
     list-style-type: none;
-    width: 300px;
-    overflow: auto;
+    // width: 300px;
+    overflow: visible;
     // border: 1px solid red;
+    padding: 0;
+    margin: 20px;
   }
 
   a {
@@ -25,34 +28,33 @@
 
   .category {
     text-decoration: none;
-    padding: 10px;
+    // padding: 10px;
     display: block;
     color: #000;
     font-weight: bold;
   }
 
-
   li {
-    background: #EDF5ED;
-    width: 200px;
+    background: #edf5ed;
+    min-width: 100px;
+    max-width: 150px;
+    margin: auto;
     text-align: center;
-    padding: 10px;
+    padding: 15px;
     margin-bottom: 50px;
+    border: 2px solid rgba(0, 0, 0, 0);
   }
-  
+
   li:hover {
-    background: #F5BA3F;
-    color: #fff; 
+    background: #f5ba3f;
+    color: #fff;
     border-radius: 35px;
     border: 2px solid #000000;
-
+    box-shadow: 1.5px 2px 0px #000000;
   }
 
   li a:active {
     background: #f5ba3f;
     color: #fff;
   }
-  
-
 }
-
