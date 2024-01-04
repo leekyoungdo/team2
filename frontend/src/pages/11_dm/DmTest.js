@@ -12,17 +12,17 @@ export default function DmTest() {
   const [chatList, setChatList] = useState([
     {
       user_id: 'sohee1234',
-      msg_content: '안녕 안녕',
+      msg_content: '하이하이',
       send_time: '2024-01-02T08:39:56.000Z',
     },
     {
-      user_id: 'sohee123',
+      user_id: '새싹',
       msg_content: '안녕123',
       send_time: '2024-01-02T09:29:08.000Z',
     },
     {
-      user_id: 'sohee123',
-      msg_content: '뭐하는중이야',
+      user_id: '김철수',
+      msg_content: '뭐하는중이야?',
       send_time: '2024-01-02T09:29:19.000Z',
     },
     {
@@ -52,9 +52,17 @@ export default function DmTest() {
           {chatList.map((chat, i) => {
             return (
               <>
-                <div key={i}>{chat.user_id}님 환영합니다</div>
-                <div key={i}>{chat.msg_content}</div>
-                <div key={i}>{chat.send_time}</div>
+                <div>
+                  <div key={i}>{chat.user_id}님 환영합니다</div>
+                </div>
+                <div>
+                  <div key={i}>{chat.msg_content}</div>
+                  <div key={i}>{chat.send_time}</div>
+                </div>
+                {/* <div>
+                  <div key={i}>{chat.msg_content}</div>
+                  <div key={i}>{chat.send_time}</div>
+                </div> */}
               </>
             );
           })}
