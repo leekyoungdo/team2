@@ -20,6 +20,9 @@ function Comment(Sequelize, DataTypes) {
         type: DataTypes.STRING(255),
         allowNull: false,
       },
+      makecomment: {
+        type: DataTypes.DATE,
+      },
     },
     {
       tableName: "Comment",

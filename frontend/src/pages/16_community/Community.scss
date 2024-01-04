@@ -1,0 +1,79 @@
+.button {
+  font-size: 10px;
+  height: 20px;
+  width: 100px;
+  background-color: orange;
+  text-align: center;
+  cursor: pointer;
+
+  &.button.board {
+    background-color: yellow;
+  }
+
+  &.button.opentalk {
+    background-color: dodgerblue;
+  }
+}
+
+.c_main_img {
+  position: relative;
+
+  .c_main {
+    left: 10px;
+    position: absolute;
+    color: beige;
+
+    &.groupName {
+      top: 200px;
+    }
+  }
+}
+
+.CommuPic {
+  height: 300px;
+  width: 100vmax;
+  object-fit: cover;
+}
+
+.caption {
+  font-size: 15px;
+}
+
+.modal {
+  position: fixed; /* 모달창이 스크롤과 독립적으로 고정되도록 설정 */
+  z-index: 1; /* 다른 요소들 위에 위치하도록 설정 */
+  left: 0;
+  top: 0;
+  width: 100%; /* 전체 너비에 걸쳐서 보이도록 설정 */
+  height: 100%; /* 전체 높이에 걸쳐서 보이도록 설정 */
+  overflow: auto; /* 내용이 많을 경우 스크롤 가능하도록 설정 */
+  background-color: rgb(
+    0,
+    0,
+    0
+  ); /* 배경을 어둡게 만들어서 모달창이 돌출되게 함 */
+  background-color: rgba(0, 0, 0, 0.4); /* 검은색 배경을 약간 투명하게 설정 */
+}
+
+.modal-content {
+  background-color: #fefefe;
+
+  margin: 15% auto; /* 15% 상단 마진과 가운데 정렬 */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* 모달창의 너비 설정 */
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}

@@ -6,7 +6,7 @@ const sequelize = new Sequelize(
   config.database,
   config.username,
   config.password,
-  config
+  { ...config, timezone: "Etc/GMT-9" }
 );
 
 db.sequelize = sequelize;
@@ -18,6 +18,7 @@ db.Comment = require("./Comment")(sequelize, Sequelize);
 db.Chat_Room = require("./Chat_Room")(sequelize, Sequelize);
 db.Chat_Member = require("./Chat_Member")(sequelize, Sequelize);
 db.Message = require("./Message")(sequelize, Sequelize);
+db.Community = require("./Community")(sequelize, Sequelize);
 
 // 게시판 관련 join
 db.User.hasMany(db.Board, {
@@ -27,6 +28,22 @@ db.Board.belongsTo(db.User, {
   ondelete: "cascade",
   foreignKey: "user_id",
 });
+
+// // 소모임 관련 join
+// db.User.hasMany(db.Community, {
+//   foreignKey: "user_id",
+// });
+// db.Community.belongsTo(db.User, {
+//   ondelete: "cascade",
+//   foreignKey: "user_id",
+// });
+// db.Board.hasMany(db.Community, {
+//   foreignKey: "board_id",
+// });
+// db.Community.belongsTo(db.Board, {
+//   ondelete: "cascade",
+//   foreignKey: "board_id",
+// });
 
 // 댓글 관련 join
 db.Board.hasMany(db.Comment, {

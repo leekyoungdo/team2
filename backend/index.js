@@ -1,9 +1,14 @@
+const http = require("http");
 const express = require("express");
 const session = require("express-session");
 const app = express();
+const server = http.createServer(app);
 const PORT = 8000;
 const cors = require("cors");
 app.use(cors()); //모든 접근 허용
+
+const connectSocket = require("./socket");
+connectSocket(server);
 
 app.use("/static", express.static("static"));
 app.use(express.urlencoded({ extended: true }));
@@ -26,6 +31,7 @@ app.use(
 //   console.log(res.locals.user);
 //   next();
 // });
+
 const userRouter = require("./routes/user");
 app.use("/user", userRouter);
 
@@ -35,6 +41,15 @@ app.use("/board", boardRouter);
 const commentRouter = require("./routes/comment");
 app.use("/comment", commentRouter);
 
-app.listen(PORT, function () {
+const chatRouter = require("./routes/chat");
+app.use("/chat", chatRouter);
+
+const communityRouter = require("./routes/community");
+app.use("/community", communityRouter);
+
+const dogRouter = require("./routes/dog");
+app.use("/dog", dogRouter);
+
+server.listen(PORT, function () {
   console.log(`Sever Open: ${PORT}`);
 });

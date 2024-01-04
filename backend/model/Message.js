@@ -22,7 +22,7 @@ function Message(Sequelize, DataTypes) {
       },
       send_time: {
         type: DataTypes.DATE,
-        defaultValue: Sequelize.NOW,
+        defaultValue: Sequelize.fn("NOW"),
       },
       msg_check: {
         type: DataTypes.STRING(10),

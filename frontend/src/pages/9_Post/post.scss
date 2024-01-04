@@ -1,0 +1,25 @@
+$breakpoints: (
+  'desktop': 1024px,
+  'mobile': 480px,
+);
+
+@mixin respond($breakpoint) {
+  @media (max-width: map-get($breakpoints, $breakpoint)) {
+    @content;
+  }
+}
+
+// 평상시 기본 데스크탑 스타일
+* {
+  background-color: #f8f8f8;
+  // 모바일 레이아웃
+  @include respond('mobile') {
+    background-color: #f8f8f8;
+  }
+}
+
+.division-line {
+  border-top: 2px solid black;
+  width: 1200px;
+  margin: 20px 0 20px 0;
+}

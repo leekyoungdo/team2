@@ -2,6 +2,68 @@ const { User } = require("../model");
 // const { Comment } = require("../model");
 const { Board } = require("../model");
 
+// 게시판 전체 조회
+exports.getAllBoard = async (req, res) => {
+  try {
+    const posts = await Board.findAll();
+    res.send({ result: true, posts: posts });
+  } catch (error) {
+    console.error("Error getting all posts:", error);
+    res.send({ error: "서버 에러" });
+  }
+};
+
+// 게시판 카테고리별 조회
+exports.getBoardCategory = async (req, res) => {
+  const category = req.params.category;
+
+  if (!category) {
+    return res.send({ error: "카테고리를 제공해주세요." });
+  }
+
+  try {
+    const posts = await Board.findAll({
+      where: {
+        category: category,
+      },
+    });
+    res.send({ result: true, posts: posts });
+  } catch (error) {
+    console.error("Error getting posts by category:", error);
+    res.send({ error: "서버 에러" });
+  }
+};
+
+// 게시판 하나만 조회
+exports.getBoardId = async (req, res) => {
+  const board_id = req.params.board_id;
+
+  if (!board_id) {
+    return res.status(400).send({ error: "게시글 ID를 제공해주세요." });
+  }
+
+  try {
+    const board = await Board.findOne({
+      where: {
+        board_id: board_id,
+      },
+    });
+
+    if (!board) {
+      return res.status(404).send({ error: "해당 ID의 게시글이 없습니다." });
+    }
+
+    // 조회수 증가
+    board.viewcount += 1;
+    await board.save();
+
+    res.send({ result: true, board: board });
+  } catch (error) {
+    console.error("Error getting board by ID:", error);
+    res.status(500).send({ error: "서버 에러" });
+  }
+};
+
 // 게시글 작성
 exports.boardSubmit = async (req, res) => {
   try {
