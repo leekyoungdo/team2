@@ -1,6 +1,6 @@
 $breakpoints: (
-  "desktop": 1024px,
-  "mobile": 480px,
+  'desktop': 1024px,
+  'mobile': 480px,
 );
 
 @mixin respond($breakpoint) {
@@ -13,7 +13,7 @@ $breakpoints: (
 * {
   // background-color: #f8f8f8;
   // 모바일 레이아웃
-  @include respond("mobile") {
+  @include respond('mobile') {
     // background-color: #f8f8f8;
   }
 }
@@ -33,6 +33,7 @@ $breakpoints: (
   .board-type-select {
     @include box;
     @include box-size;
+    cursor: pointer;
   }
 }
 
@@ -60,6 +61,7 @@ $breakpoints: (
   height: 30px;
   padding: 5px;
   font-size: 15px;
+  cursor: pointer;
 }
 
 .submit-button {
@@ -67,4 +69,5 @@ $breakpoints: (
   width: 90px;
   height: 30px;
   font-size: 15px;
+  cursor: pointer;
 }
