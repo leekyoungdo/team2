@@ -6,7 +6,7 @@ import Notice from './Notice';
 
 const socket = io.connect('http://localhost:8000/', { autoConnect: false });
 
-export default function Dm() {
+export default function DmTest() {
   const [msgInput, setMsgInput] = useState('');
   const [userIdInput, setUserIdInput] = useState('');
   const [chatList, setChatList] = useState([
@@ -36,36 +36,6 @@ export default function Dm() {
     if (!socket.connected) socket.connect(); // 연결이 안 되어 있을 때만 연결을 하겠다
   };
 
-  // 이름 중복 방지
-  useEffect(() => {
-    // initSocketConnect();
-
-    socket.on('error', (res) => {
-      alert(res.msg);
-    });
-
-    // 유저 입장 (mount 시점에)fff
-    socket.on('entrySuccess', (res) => {
-      setUserId(res.userId);
-    });
-  }, []);
-
-  // mount 시
-  useEffect(() => {
-    // mount 될 때 실행
-    const notice = (res) => {
-      console.log('notice');
-      // 공지사항을 추가하고, 메시지를 받아온다
-      const newChatList = [...chatList, { type: 'notice', content: res.msg }];
-
-      setChatList(newChatList);
-    };
-
-    socket.on('notice', notice);
-    return () => socket.off('notice', notice);
-    // 중복처리되므로 이벤트를 제거했다가 다시 켠다
-  }, [chatList]);
-
   const sendMsg = () => {};
 
   const entryChat = () => {
@@ -80,9 +50,13 @@ export default function Dm() {
       <>
         <div className={styles['chat-container']}>
           {chatList.map((chat, i) => {
-            <div>{chatList.user_id}님 환영합니다</div>;
-            if (chat.type === 'notice') return <Notice key={i} chat={chat} />;
-            else return <Chat key={i} chat={chat} />;
+            return (
+              <>
+                <div key={i}>{chat.user_id}님 환영합니다</div>
+                <div key={i}>{chat.msg_content}</div>
+                <div key={i}>{chat.send_time}</div>
+              </>
+            );
           })}
         </div>
         <div className={styles['input-container']}>
@@ -91,21 +65,11 @@ export default function Dm() {
             value={msgInput}
             onChange={(e) => setMsgInput(e.target.value)}
           />
-          <button onClick={sendMsg}>전송</button>
+          <button onClick={sendMsg} className={styles.button}>
+            전송
+          </button>
         </div>
       </>
-      {/* ) : (
-      <>
-        <div className={styles['input-container']}>
-          <input
-            type="text"
-            value={userIdInput}
-            onChange={(e) => setUserIdInput(e.target.value)}
-          />
-          <button onClick={entryChat}>입장</button>
-        </div>
-      </>
-      )} */}
     </>
   );
 }

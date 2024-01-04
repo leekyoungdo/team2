@@ -1,5 +1,5 @@
 const { User } = require("../model");
-// const { Comment } = require("../model");
+const { Comment } = require("../model");
 const { Board } = require("../model");
 
 // 게시판 전체 조회
@@ -67,7 +67,15 @@ exports.getBoardId = async (req, res) => {
 // 게시글 작성
 exports.boardSubmit = async (req, res) => {
   try {
-    const { user_id, title, category, content } = req.body;
+    const { title, category, content } = req.body;
+    const user_id = req.session.user;
+    const image = req.file ? req.file.filename : null;
+    if (!user_id) {
+      return res.send({
+        result: false,
+        message: "로그인이 필요한 서비스입니다.",
+      });
+    }
 
     // Board 모델을 사용하여 데이터베이스에 저장
     await Board.create({
@@ -75,6 +83,7 @@ exports.boardSubmit = async (req, res) => {
       title,
       category,
       content,
+      image,
       makeboard: Date.now(),
     });
 
@@ -84,43 +93,92 @@ exports.boardSubmit = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
 // 게시글 삭제
-exports.boardDelete = (req, res) => {
-  Board.destroy({
-    where: {
-      board_id: req.params.board_id,
-    },
-  }).then((result) => {
-    if (result === 0) {
-      res.send({
+exports.boardDelete = async (req, res) => {
+  try {
+    const board_id = req.params.board_id;
+    const user_id = req.session.user;
+    if (!user_id) {
+      return res.send({
         result: false,
-        message: "존재하지 않는 게시글이거나 이미 삭제되었습니다.",
+        message: "로그인이 필요한 서비스입니다.",
       });
-    } else {
-      res.send({ result: true, message: "게시글이 삭제되었습니다." });
     }
-  });
+
+    const board = await Board.findOne({ where: { board_id: board_id } });
+
+    if (!board) {
+      return res.send({
+        result: false,
+        message: "삭제하려는 게시글이 존재하지 않습니다.",
+      });
+    }
+
+    if (board.user_id !== user_id) {
+      return res.send({
+        result: false,
+        message: "본인이 작성한 게시글만 삭제할 수 있습니다.",
+      });
+    }
+    await Board.destroy({
+      where: {
+        board_id: board_id,
+      },
+    });
+
+    res.send({ result: true, message: "게시글이 삭제되었습니다." });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
 };
 
-//
+// 게시글 수정
 exports.boardUpdate = async (req, res) => {
   try {
-    const board_id = req.params.board_id; // 변경된 부분
+    const board_id = req.params.board_id;
     const { title, category, content } = req.body;
+    const user_id = req.session.user;
+    const image = req.file ? req.file.filename : null;
 
-    // Board 모델의 update 메소드를 사용하여 데이터베이스를 업데이트
-    await Board.update(
-      {
-        title,
-        category,
-        content,
+    if (!user_id) {
+      return res.send({
+        result: false,
+        message: "로그인이 필요한 서비스입니다.",
+      });
+    }
+
+    const board = await Board.findOne({ where: { board_id: board_id } });
+
+    if (!board) {
+      return res.send({
+        result: false,
+        message: "수정하려는 게시글이 존재하지 않습니다.",
+      });
+    }
+
+    if (board.user_id !== user_id) {
+      return res.send({
+        result: false,
+        message: "본인이 작성한 게시글만 수정할 수 있습니다.",
+      });
+    }
+    const updateData = {
+      title,
+      category,
+      content,
+    };
+
+    if (image) {
+      updateData.image = image;
+    }
+
+    await Board.update(updateData, {
+      where: {
+        board_id: board_id,
       },
-      {
-        where: {
-          board_id: board_id,
-        },
-      }
-    );
+    });
 
     res.send({ result: true, message: "게시글이 성공적으로 수정되었습니다." });
   } catch (error) {
