@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import './post.scss';
+import './post.module.scss';
 
 export default function Post() {
   const [post, setPost] = useState([]);

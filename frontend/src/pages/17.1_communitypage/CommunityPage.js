@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import "./CommunityPage.scss";
+import styles from "./CommunityPage.module.scss";
 import axios from "axios";
 import AxiosMockAdapter from "axios-mock-adapter";
 
@@ -183,33 +183,38 @@ export default function CommunityPage() {
 
   return (
     <>
-      <div className="media">
-        <div className="container main">
+      <div className={styles.media}>
+        <div className={`${styles.container} ${styles.main}`}>
           {page.map((post) => (
             <div key={post.pageNum}>
-              <div className="container page one" key={post.pageNum}>
-                <div className="detail">
-                  <div className="Writer">작성자 : {post.writer}</div>
-                  <div className="Comment">댓글 : {post.commentNum}</div>
-                  <div className="Views">조회수 : {post.views}</div>
+              <div
+                className={`${styles.container} ${styles.page} ${styles.one}`}
+                key={post.pageNum}
+              >
+                <div className={styles.detail}>
+                  <div className={styles.Writer}>작성자 : {post.writer}</div>
+                  <div className={styles.Comment}>댓글 : {post.commentNum}</div>
+                  <div className={styles.Views}>조회수 : {post.views}</div>
                 </div>
-                <div className="Title">{post.title}</div>
+                <div className={styles.Title}>{post.title}</div>
               </div>
 
-              <div className="container page two">
-                <div className="Content">{post.content}</div>
-                <div className="container comment">
-                  <table className="commentsTable">
+              <div
+                className={`${styles.container} ${styles.page} ${styles.two}`}
+              >
+                <div className={styles.Content}>{post.content}</div>
+                <div className={`${styles.container} ${styles.comment}`}>
+                  <table className={styles.commentsTable}>
                     <tbody>
                       {comments.map((post, index) => (
                         <tr key={index}>
-                          <td className="cWriter">{post.writer}</td>
-                          <td className="cContent">{post.content}</td>
+                          <td className={styles.cWriter}>{post.writer}</td>
+                          <td className={styles.cContent}>{post.content}</td>
                           {/* 로그인한 사용자와 댓글 작성자가 동일한 경우에만 삭제 버튼을 보여줌 */}
                           {post.writer === loggedInUserId && (
                             <td>
                               <button
-                                className="button delete"
+                                className={styles["button delete"]}
                                 onClick={() => handleDeleteComment(post.id)}
                               >
                                 삭제
@@ -221,7 +226,7 @@ export default function CommunityPage() {
                     </tbody>
                   </table>
                 </div>
-                <div className="container commentwrite">
+                <div className={`${styles.container} ${styles.commentwrite}`}>
                   <form onSubmit={handleFormSubmit}>
                     <label>
                       {/* 로그인한 사용자의 아이디를 보여주고, 수정할 수 없게 합니다 */}
@@ -244,7 +249,7 @@ export default function CommunityPage() {
                     <br />
                     <label>
                       <input
-                        className="cSection"
+                        className={styles.cSection}
                         placeholder="댓글을 입력해주세요"
                         type="text"
                         style={{
@@ -258,7 +263,10 @@ export default function CommunityPage() {
                         onChange={handleInputChange}
                       />
                     </label>
-                    <button className="button submit" type="submit">
+                    <button
+                      className={`${styles.button} ${styles.submit}`}
+                      type="submit"
+                    >
                       댓글 작성
                     </button>
                   </form>
@@ -267,14 +275,22 @@ export default function CommunityPage() {
             </div>
           ))}
 
-          <div className="tab">
-            <button className="button prev" onClick={handlePrevPage}>
+          <div className={styles.tab}>
+            <button
+              className={`${styles.button} ${styles.prev}`}
+              onClick={handlePrevPage}
+            >
               이전 페이지
             </button>
-            <button className="button next" onClick={handleNextPage}>
+            <button
+              className={`${styles.button} ${styles.next}`}
+              onClick={handleNextPage}
+            >
               다음 페이지
             </button>
-            <button className="button back">목록으로</button>
+            <button className={`${styles.button} ${styles.back}`}>
+              목록으로
+            </button>
           </div>
         </div>
       </div>

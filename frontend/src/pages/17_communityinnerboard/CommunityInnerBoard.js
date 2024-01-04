@@ -1,4 +1,4 @@
-import "./CommunityInnerBoard.scss";
+import styles from "./CommunityInnerBoard.module.scss";
 
 export default function CommunityInnerBoard() {
   const boardlist = [
@@ -46,30 +46,34 @@ export default function CommunityInnerBoard() {
 
   return (
     <>
-      <h1>📬 소모임 게시판 페이지</h1>
+      <div className={`${styles.container} ${styles.outerpage1}`}>
+        <h1>📬 소모임 게시판</h1>
 
-      <table className="boardTable">
-        <thead>
-          <tr>
-            <th>작성자</th>
-            <th>글 제목</th>
-            <th>댓글 수</th>
-            <th>조회수</th>
-          </tr>
-        </thead>
-        <tbody>
-          {boardlist.map((post, index) => (
-            <tr key={index}>
-              <td className="cellWriter">{post.writer}</td>
-              <td className="cellTitle">{post.title}</td>
-              <td className="cellComment">{post.commentNum}</td>
-              <td className="cellViews">{post.views}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+        <div className={`${styles.container} ${styles.one}`}>
+          <table className={styles.boardTable}>
+            <thead>
+              <tr>
+                <th>작성자</th>
+                <th>글 제목</th>
+                <th>댓글 수</th>
+                <th>조회수</th>
+              </tr>
+            </thead>
+            <tbody>
+              {boardlist.map((post, index) => (
+                <tr className={styles.pagelist} key={index}>
+                  <td className={styles.cellWriter}>{post.writer}</td>
+                  <td className={styles.cellTitle}>{post.title}</td>
+                  <td className={styles.cellComment}>{post.commentNum}</td>
+                  <td className={styles.cellViews}>{post.views}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
 
-      <button>작성하기</button>
+          <button className={styles.button}>작성하기</button>
+        </div>
+      </div>
     </>
   );
 }
