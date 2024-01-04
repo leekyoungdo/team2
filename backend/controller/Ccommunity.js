@@ -1,6 +1,7 @@
 const { User } = require("../model");
 const { Board } = require("../model");
 const { Community } = require("../model");
+const { Community_Member } = require("../model");
 
 // 게시판의 소모임 카테고리 불러오기
 exports.getCommunityBoard = async (req, res) => {
@@ -47,14 +48,88 @@ exports.searchLocal = async (req, res) => {
   }
 };
 
+// 소모임 하나 조회
+exports.getCommunity = async (req, res) => {
+  try {
+    const { community_id } = req.params;
+
+    const community = await Community.findOne({
+      where: { community_id: community_id },
+    });
+
+    if (!community) {
+      return res.send({
+        result: false,
+        message: "존재하지 않는 소모임입니다.",
+      });
+    }
+
+    res.send({ result: true, data: community });
+  } catch (error) {
+    console.error("Error getting community:", error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
+// 소모임 전체 조회
+exports.getCommunities = async (req, res) => {
+  try {
+    const communities = await Community.findAll();
+
+    res.send({ result: true, data: communities });
+  } catch (error) {
+    console.error("Error getting all communities:", error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
+// 소모임 참여자 목록 조회
+exports.getCommunityMembers = async (req, res) => {
+  try {
+    const { community_id } = req.params;
+
+    const communityMembers = await Community_Member.findAll({
+      where: { community_id: community_id },
+    });
+
+    if (!communityMembers) {
+      return res.send({
+        result: false,
+        message: "존재하지 않는 소모임이거나 참여자가 없습니다.",
+      });
+    }
+
+    const users = [];
+    for (let member of communityMembers) {
+      const user = await User.findOne({
+        where: { user_id: member.user_id },
+        attributes: ["nickname", "image"],
+      });
+      users.push(user);
+    }
+
+    res.send({ result: true, data: users });
+  } catch (error) {
+    console.error("Error getting community members:", error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
 // 소모임 생성
 exports.createCommunity = async (req, res) => {
   try {
     const { community_name, community_local, introduce } = req.body;
+
     const newCommunity = await Community.create({
       community_name: community_name,
       community_local: community_local,
       introduce: introduce,
+    });
+
+    await Community_Member.create({
+      user_id: req.session.user,
+      community_id: newCommunity.community_id,
+      manager: req.session.user,
     });
 
     res.send({ result: true, message: "소모임이 성공적으로 생성되었습니다." });
@@ -64,11 +139,61 @@ exports.createCommunity = async (req, res) => {
   }
 };
 
+// 소모임 참여
+exports.joinCommunity = async (req, res) => {
+  try {
+    const { community_id } = req.body;
+
+    const community = await Community.findOne({
+      where: { community_id: community_id },
+    });
+
+    if (!community) {
+      return res.send({
+        result: false,
+        message: "존재하지 않는 소모임입니다.",
+      });
+    }
+
+    // 사용자 세션 확인
+    if (!req.session || !req.session.user) {
+      return res.send({
+        result: false,
+        message: "세션 정보가 없습니다.",
+      });
+    }
+
+    await Community_Member.create({
+      user_id: req.session.user,
+      community_id: community.community_id,
+    });
+
+    res.send({ result: true, message: "소모임에 성공적으로 참여하였습니다." });
+  } catch (error) {
+    console.error("Error joining community:", error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
 // 소모임 수정
 exports.updateCommunity = async (req, res) => {
   try {
     const { community_name, community_local, introduce } = req.body;
     const community_id = req.params.community_id;
+
+    const communityMember = await Community_Member.findOne({
+      where: {
+        community_id: community_id,
+        manager: req.session.user,
+      },
+    });
+
+    if (!communityMember) {
+      return res.send({
+        result: false,
+        message: "소모임을 수정할 권한이 없습니다.",
+      });
+    }
 
     await Community.update(
       {
@@ -92,6 +217,20 @@ exports.updateCommunity = async (req, res) => {
 exports.deleteCommunity = async (req, res) => {
   try {
     const community_id = req.params.community_id;
+
+    const communityMember = await Community_Member.findOne({
+      where: {
+        community_id: community_id,
+        manager: req.session.user,
+      },
+    });
+
+    if (!communityMember) {
+      return res.send({
+        result: false,
+        message: "소모임을 삭제할 권한이 없습니다.",
+      });
+    }
 
     await Community.destroy({
       where: { community_id: community_id },

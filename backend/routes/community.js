@@ -6,8 +6,19 @@ const router = express.Router();
 router.get("/getcommunityboard", controller.getCommunityBoard);
 // 지역별 소모임 검색
 router.get("/searchlocal/:local", controller.searchLocal);
+// 소모임 하나만 조회
+router.get("/getcommunity/:community_id", controller.getCommunity);
+// 소모임 전체 조회
+router.get("/getcommunities", controller.getCommunities);
+// 소모임 참여자 목록 조회
+router.get(
+  "/getcommunitymembers/:community_id",
+  controller.getCommunityMembers
+);
 // 소모임 생성
 router.post("/createcommunity", controller.createCommunity);
+// 소모임 참여
+router.post("/joincommunity", controller.joinCommunity);
 // 소모임 수정
 router.patch("/updatecommunity/:community_id", controller.updateCommunity);
 // 소모임 삭제

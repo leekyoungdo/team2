@@ -5,7 +5,7 @@ const app = express();
 const server = http.createServer(app);
 const PORT = 8000;
 const cors = require("cors");
-app.use(cors()); //모든 접근 허용
+app.use(cors({ origin: true, credentials: true })); //모든 접근 허용
 
 const connectSocket = require("./socket");
 connectSocket(server);
