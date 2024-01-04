@@ -80,6 +80,29 @@ exports.deleteChatRoom = async (req, res) => {
   }
 };
 
+// 채팅방 조회
+exports.ChatRoomList = async (req, res) => {
+  try {
+    const userJoinChat = await Chat_Member.findAll({
+      where: { user_id: req.session.user },
+    });
+
+    let chatRoomId = [];
+    for (let chat of userJoinChat) {
+      chatRoomId.push(chat.chat_id);
+    }
+
+    const chatRoomList = await Chat_Room.findAll({
+      where: { chat_id: chatRoomId, chat_category: req.body.chat_category },
+    });
+
+    res.send(chatRoomList);
+  } catch (error) {
+    console.log(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
 // 채팅메세지 생성
 exports.createMsg = async (req, res) => {
   try {
