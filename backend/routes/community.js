@@ -19,6 +19,8 @@ router.get(
 router.post("/createcommunity", controller.createCommunity);
 // 소모임 참여
 router.post("/joincommunity", controller.joinCommunity);
+// 소모임 나가기
+router.delete("/leavecommunity/:community_id", controller.leaveCommunity);
 // 소모임 수정
 router.patch("/updatecommunity/:community_id", controller.updateCommunity);
 // 소모임 삭제

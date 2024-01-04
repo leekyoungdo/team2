@@ -175,6 +175,39 @@ exports.joinCommunity = async (req, res) => {
   }
 };
 
+// 소모임 나가기
+exports.leaveCommunity = async (req, res) => {
+  try {
+    const { community_id } = req.params;
+    const user_id = req.session.user;
+
+    if (!user_id) {
+      return res.send({
+        result: false,
+        message: "로그인이 필요한 서비스입니다.",
+      });
+    }
+
+    const membership = await Community_Member.findOne({
+      where: { community_id: community_id, user_id: user_id },
+    });
+
+    if (!membership) {
+      return res.send({
+        result: false,
+        message: "해당 소모임에 가입하지 않았습니다.",
+      });
+    }
+
+    await membership.destroy();
+
+    res.send({ result: true, message: "소모임에서 성공적으로 나갔습니다." });
+  } catch (error) {
+    console.error("Error leaving community:", error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
 // 소모임 수정
 exports.updateCommunity = async (req, res) => {
   try {
