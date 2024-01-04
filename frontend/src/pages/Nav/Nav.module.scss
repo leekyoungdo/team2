@@ -1,15 +1,18 @@
 .navContainer {
-  width: 200px;
-}
+  border: 1px solid red;
+  width: 300px; 
+  height: 100vh;
+  color: black; 
+  padding: 20px; 
 
-ul {
+  ul {
     list-style-type: none;
     padding: 0px;
     margin: 0px;
     width: 100px;
     height: 100%;
     overflow: auto;
-    position: fixed;
+    border: 1px solid red;
   }
   
   .category {
@@ -35,4 +38,4 @@ ul {
     background : #F5BA3F;
     color: #fff;
   }
-  
+}
