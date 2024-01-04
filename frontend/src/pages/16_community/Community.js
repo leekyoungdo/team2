@@ -1,4 +1,4 @@
-import "./Community.scss";
+import styles from "./Community.module.scss";
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // axios 라이브러리 import
 import commupic from "./commupic.png";
@@ -80,101 +80,107 @@ export default function Community() {
 
   return (
     <>
-      {exampleDogGroups.map((group, index) => (
-        <div key={index}>
-          <div className="c_main_img">
-            <h3 className="c_main region">{group.region}</h3>
-            <img
-              className="CommuPic"
-              src={commupic}
-              alt="모임사진"
-              title="모임 프로필"
-            />
-            {/* 모임 메인 이미지 */}
-            <h1 className="c_main groupName">👨‍👩‍👧‍👦 {group.groupName}</h1>
-          </div>
+      <div className={styles.container}>
+        {exampleDogGroups.map((group, index) => (
+          <div key={index}>
+            <div className={styles.c_main_img}>
+              <h3 className={styles.c_main_region}>{group.region}</h3>
+              <img
+                className={styles.CommuPic}
+                src={commupic}
+                alt="모임사진"
+                title="모임 프로필"
+              />
+              <h1 className={styles.c_main_groupName}>👨‍👩‍👧‍👦 {group.groupName}</h1>
+            </div>
 
-          {isJoined && <div className="button opentalk">오픈톡 버튼</div>}
+            {isJoined && (
+              <div className={styles.button_opentalk}>오픈톡 버튼</div>
+            )}
 
-          <h1 className="caption">소개</h1>
-          <div className="detail">{group.groupIntro}</div>
+            <h1 className={styles.caption}>소개</h1>
+            <div className={styles.detail}>{group.groupIntro}</div>
 
-          <h1 className="caption">멤버 목록</h1>
-          <div
-            className="button member"
-            onClick={() => setMemberModalOpen(true)}
-          >
-            멤버목록 더보기
-          </div>
-          {isMemberModalOpen && (
-            <div className="modal">
-              <div className="modal-content">
-                <h2>멤버 목록</h2>
-                {memberList.map((member, index) => (
-                  <div key={index} className="member">
-                    {member}
-                  </div>
-                ))}
-                <button
-                  className="close"
-                  onClick={() => setMemberModalOpen(false)}
-                >
-                  닫기
-                </button>
+            <h1 className={styles.caption}>멤버 목록</h1>
+            <div
+              className={styles.button_member}
+              onClick={() => setMemberModalOpen(true)}
+            >
+              멤버목록 더보기
+            </div>
+            {isMemberModalOpen && (
+              <div className={styles.modal}>
+                <div className={styles.modal_content}>
+                  <h2>멤버 목록</h2>
+                  {memberList.map((member, index) => (
+                    <div key={index} className={styles.member}>
+                      {member}
+                    </div>
+                  ))}
+                  <button
+                    className={styles.close}
+                    onClick={() => setMemberModalOpen(false)}
+                  >
+                    닫기
+                  </button>
+                </div>
               </div>
-            </div>
-          )}
+            )}
 
-          {memberList.slice(0, 3).map((member, index) => (
-            <div key={index} className="member">
-              {member}
-            </div>
-          ))}
-
-          <h1 className="caption">게시판</h1>
-
-          <div className="button board" onClick={() => setBoardModalOpen(true)}>
-            게시판 더보기
-          </div>
-          {isBoardModalOpen && (
-            <div className="modal">
-              <div className="modal-content">
-                <h2>게시판</h2>
-                {boardlist.map((board, index) => (
-                  <div key={index} className="board">
-                    <h3>{board.title}</h3>
-                    <p>{board.writer}</p>
-                  </div>
-                ))}
-                <button
-                  className="close"
-                  onClick={() => setBoardModalOpen(false)}
-                >
-                  닫기
-                </button>
+            {memberList.slice(0, 3).map((member, index) => (
+              <div key={index} className={styles.member}>
+                {member}
               </div>
-            </div>
-          )}
+            ))}
 
-          {boardlist.slice(0, 3).map((board, index) => (
-            <div key={index} className="board">
-              <h4>{board.title}</h4>
-              <p>{board.writer}</p>
-            </div>
-          ))}
+            <h1 className={styles.caption}>게시판</h1>
 
-          <div
-            className="button join"
-            onClick={isJoined ? LeaveCommunity : JoinCommunity}
-            style={{
-              color: isJoined ? "red" : "", // 가입 상태에 따라 글씨 색상 변경
-              fontSize: isJoined ? "10px" : "10px", // 가입 상태에 따라 글씨 크기 변경
-            }}
-          >
-            {isJoined ? "모임탈퇴 버튼" : "모임가입 버튼"}
+            <div
+              className={styles.button_board}
+              onClick={() => setBoardModalOpen(true)}
+            >
+              게시판 더보기
+            </div>
+            {isBoardModalOpen && (
+              <div className={styles.modal}>
+                <div className={styles.modal_content}>
+                  <h2>게시판</h2>
+                  {boardlist.map((board, index) => (
+                    <div key={index} className={styles.board}>
+                      <h3>{board.title}</h3>
+                      <p>{board.writer}</p>
+                    </div>
+                  ))}
+                  <button
+                    className={styles.close}
+                    onClick={() => setBoardModalOpen(false)}
+                  >
+                    닫기
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {boardlist.slice(0, 3).map((board, index) => (
+              <div key={index} className={styles.board}>
+                <h4>{board.title}</h4>
+                <p>{board.writer}</p>
+              </div>
+            ))}
+
+            <div
+              className={styles.button_join}
+              onClick={isJoined ? LeaveCommunity : JoinCommunity}
+              style={{
+                color: isJoined ? "red" : "", // 가입 상태에 따라 글씨 색상 변경
+                fontSize: isJoined ? "10px" : "10px", // 가입 상태에 따라 글씨 크기 변경
+              }}
+            >
+              {isJoined ? "모임탈퇴 버튼" : "모임가입 버튼"}
+            </div>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
     </>
   );
 }
