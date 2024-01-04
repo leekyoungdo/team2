@@ -1,5 +1,5 @@
 const { User } = require("../model");
-// const { Comment } = require("../model");
+const { Comment } = require("../model");
 const { Board } = require("../model");
 
 // 게시판 전체 조회
@@ -68,8 +68,8 @@ exports.getBoardId = async (req, res) => {
 exports.boardSubmit = async (req, res) => {
   try {
     const { title, category, content } = req.body;
-    const user_id = req.session.user; // 세션에서 사용자 ID 추출
-
+    const user_id = req.session.user;
+    const image = req.file ? req.file.filename : null;
     if (!user_id) {
       return res.send({
         result: false,
@@ -83,6 +83,7 @@ exports.boardSubmit = async (req, res) => {
       title,
       category,
       content,
+      image,
       makeboard: Date.now(),
     });
 
@@ -97,8 +98,7 @@ exports.boardSubmit = async (req, res) => {
 exports.boardDelete = async (req, res) => {
   try {
     const board_id = req.params.board_id;
-    const user_id = req.session.user; // 세션에서 사용자 ID 추출
-
+    const user_id = req.session.user;
     if (!user_id) {
       return res.send({
         result: false,
@@ -121,8 +121,6 @@ exports.boardDelete = async (req, res) => {
         message: "본인이 작성한 게시글만 삭제할 수 있습니다.",
       });
     }
-
-    // Board 모델의 destroy 메소드를 사용하여 데이터베이스에서 게시글 삭제
     await Board.destroy({
       where: {
         board_id: board_id,
@@ -142,6 +140,7 @@ exports.boardUpdate = async (req, res) => {
     const board_id = req.params.board_id;
     const { title, category, content } = req.body;
     const user_id = req.session.user;
+    const image = req.file ? req.file.filename : null;
 
     if (!user_id) {
       return res.send({
@@ -165,20 +164,21 @@ exports.boardUpdate = async (req, res) => {
         message: "본인이 작성한 게시글만 수정할 수 있습니다.",
       });
     }
+    const updateData = {
+      title,
+      category,
+      content,
+    };
 
-    // Board 모델의 update 메소드를 사용하여 데이터베이스를 업데이트
-    await Board.update(
-      {
-        title,
-        category,
-        content,
+    if (image) {
+      updateData.image = image;
+    }
+
+    await Board.update(updateData, {
+      where: {
+        board_id: board_id,
       },
-      {
-        where: {
-          board_id: board_id,
-        },
-      }
-    );
+    });
 
     res.send({ result: true, message: "게시글이 성공적으로 수정되었습니다." });
   } catch (error) {
