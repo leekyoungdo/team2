@@ -7,9 +7,9 @@ export default function Nav() {
         <>
         <div className={styles.navContainer}>
           <ul>
-            <a>멍멍투게더</a>
+            <div className={styles.logo} >멍멍투게더</div>
             <li><a className={styles.home} href="#">홈</a></li>
-            <li><a className={styles.category} href="#">게시판</a></li>
+            <li><a href="#">게시판</a></li>
             <li><a href="#">소모임</a></li>
             <li><a href="#">유기견 공고</a></li>
             <li><a href="#">로그인</a></li>
