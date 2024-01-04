@@ -53,14 +53,16 @@ exports.getComment = (req, res) => {
 
 // 댓글 작성
 exports.postComment = async (req, res) => {
-  if (!req.body.user_id) {
-    res.send({ error: "로그인 후 이용 가능합니다." });
+  const user_id = req.session.user; // 세션에서 사용자 ID 추출
+
+  if (!user_id) {
+    res.send({ result: false, message: "로그인 후 이용 가능합니다." });
     return;
   }
 
   const data = {
     board_id: req.body.board_id,
-    user_id: req.body.user_id,
+    user_id: user_id,
     comment_content: req.body.comment_content,
     makecomment: Date.now(),
   };
@@ -75,43 +77,94 @@ exports.postComment = async (req, res) => {
 };
 
 // 댓글 삭제
-exports.deleteComment = (req, res) => {
-  Comment.destroy({
-    where: {
-      comment_id: req.params.comment_id,
-    },
-  }).then((result) => {
-    if (result === 0) {
-      res.send({
+exports.deleteComment = async (req, res) => {
+  try {
+    const comment_id = req.params.comment_id;
+    const user_id = req.session.user;
+
+    if (!user_id) {
+      return res.send({
         result: false,
-        message: "존재하지 않는 댓글이거나 이미 삭제되었습니다.",
+        message: "로그인이 필요한 서비스입니다.",
       });
-    } else {
-      res.send({ result: true, message: "댓글이 삭제되었습니다." });
     }
-  });
+
+    const comment = await Comment.findOne({
+      where: { comment_id: comment_id },
+    });
+
+    if (!comment) {
+      return res.send({
+        result: false,
+        message: "삭제하려는 댓글이 존재하지 않습니다.",
+      });
+    }
+
+    if (comment.user_id !== user_id) {
+      return res.send({
+        result: false,
+        message: "본인이 작성한 댓글만 삭제할 수 있습니다.",
+      });
+    }
+
+    await Comment.destroy({
+      where: {
+        comment_id: comment_id,
+      },
+    });
+
+    res.send({ result: true, message: "댓글이 삭제되었습니다." });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
 };
 
 // 댓글 수정
-exports.editComment = (req, res) => {
-  const data = {
-    comment_content: req.body.comment_content,
-  };
+exports.editComment = async (req, res) => {
+  try {
+    const comment_id = req.body.comment_id;
+    const user_id = req.session.user;
+    const comment_content = req.body.comment_content;
 
-  Comment.update(data, {
-    where: {
-      comment_id: req.body.comment_id,
-    },
-  })
-    .then((result) => {
-      if (result[0] > 0) {
-        res.send({ result: true, message: "댓글이 수정되었습니다." });
-      } else {
-        res.send({ result: false, message: "댓글 수정에 실패했습니다." });
-      }
-    })
-    .catch((error) => {
-      console.error("Error updating comment:", error);
-      res.send({ error: "서버 에러" });
+    if (!user_id) {
+      return res.send({
+        result: false,
+        message: "로그인이 필요한 서비스입니다.",
+      });
+    }
+
+    const comment = await Comment.findOne({
+      where: { comment_id: comment_id },
     });
+
+    if (!comment) {
+      return res.send({
+        result: false,
+        message: "수정하려는 댓글이 존재하지 않습니다.",
+      });
+    }
+
+    if (comment.user_id !== user_id) {
+      return res.send({
+        result: false,
+        message: "본인이 작성한 댓글만 수정할 수 있습니다.",
+      });
+    }
+    await Comment.update(
+      {
+        comment_content,
+      },
+      {
+        where: {
+          comment_id: comment_id,
+        },
+      }
+    );
+
+    res.send({ result: true, message: "댓글이 성공적으로 수정되었습니다." });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
 };
