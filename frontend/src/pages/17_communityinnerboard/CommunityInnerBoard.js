@@ -50,10 +50,10 @@ export default function CommunityInnerBoard() {
         <div className={`${styles.container} ${styles.one}`}>
           <h1>📬 소모임 게시판</h1>
 
-          {/* <div className={`${styles.container} ${styles.two}`}>
+          <div className={`${styles.container} ${styles.two}`}>
             <table className={styles.boardTable}>
-              <thead className={styles.thead}>
-                <tr>
+              <thead>
+                <tr className={styles.thead}>
                   <th>작성자</th>
                   <th>글 제목</th>
                   <th>댓글 수</th>
@@ -61,6 +61,7 @@ export default function CommunityInnerBoard() {
                 </tr>
               </thead>
               <tbody>
+                <tr className={styles.tspace}></tr>
                 {boardlist.map((post, index) => (
                   <tr className={styles.pagelist} key={index}>
                     <td className={styles.cellWriter}>{post.writer}</td>
@@ -73,7 +74,7 @@ export default function CommunityInnerBoard() {
             </table>
             <button className={styles.button}>작성하기</button>
             <div className={styles.box2}></div>
-          </div> */}
+          </div>
         </div>
       </div>
     </>

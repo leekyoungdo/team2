@@ -1,6 +1,6 @@
 .container {
-  position: relative;
-  width: 950px;
+  max-width: 950px;
+  min-width: 500px;
 }
 
 .button {

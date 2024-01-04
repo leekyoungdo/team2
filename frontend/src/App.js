@@ -1,5 +1,6 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
 import ShelterBoard from "./pages/12_shelterboard/ShelterBoard";
 import SignUp from "./pages/6_signup/SignUp";
 import SignIn from "./pages/7_signin/SignIn";
