@@ -233,3 +233,20 @@ exports.logout = (req, res) => {
     res.send({ result: false, message: "로그아웃에 실패하였습니다." });
   }
 };
+
+// 사용자 정보 조회
+exports.userProfile = async (req, res) => {
+  try {
+    const profile = await User.findOne({
+      attributes: ["user_id", "nickname", "image", "dog_name", "dog_intro"],
+      where: { user_id: req.session.user },
+    });
+
+    if (!profile.image) profile.image = "/static/user-profile.png";
+
+    res.send(profile);
+  } catch (err) {
+    console.log(err);
+    res.send({ result: false, message: "서버 오류입니다." });
+  }
+};
