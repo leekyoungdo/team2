@@ -1,5 +1,6 @@
 const { User } = require("../model");
 const crypto = require("crypto");
+const path = require("path");
 
 // 회원가입
 exports.signUp = (req, res) => {
@@ -202,10 +203,8 @@ exports.updateDogInfo = (req, res) => {
 };
 
 exports.uploadImage = (req, res) => {
-  console.log("file:", req.file);
-
   const data = {
-    image: req.file.path,
+    image: path.join("/static/", req.file.filename),
   };
 
   User.update(data, {
@@ -242,7 +241,7 @@ exports.userProfile = async (req, res) => {
       where: { user_id: req.session.user },
     });
 
-    if (!profile.image) profile.image = "/static/user-profile.png";
+    if (!profile.image) profile.image = "/static/user-profile.jpg";
 
     res.send(profile);
   } catch (err) {
