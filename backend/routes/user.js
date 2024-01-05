@@ -39,6 +39,6 @@ router.post(
 // 로그아웃
 router.post("/logout", controller.logout);
 // 사용자 정보 조회
-router.get("/userProfile", controller.userProfile);
+router.get("/userprofile", controller.userProfile);
 
 module.exports = router;
