@@ -1,11 +1,51 @@
-$form-width: 600px;
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
+
+$form-width: 700px;
+$red: rgb(215, 56, 56);
+
+@mixin btn-style {
+  color: black;
+  font-size: 18px;
+  text-align: center;
+  font-weight: 700;
+  width: 120px;
+  height: 50px;
+  margin: 0 auto;
+  padding: 13px;
+
+  box-shadow: 1.5px 2px 0px #000000;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  border-radius: 35px;
+  background: #f1c40f;
+}
+@mixin btn-animation {
+  background: {
+    image: linear-gradient(45deg, #7eba94 50%, transparent 50%);
+    position: 100%;
+    size: 400%;
+  }
+  transition: background 300ms ease-in-out;
+  cursor: pointer;
+  display: flex;
+  &:hover,
+  &:focus {
+    color: white;
+    background-position: 0;
+  }
+}
 
 .container {
+  max-width: 900px;
   background-color: #f8f2e5;
   margin: 20px 0 0 20px;
   border-radius: 35px;
   border: 2px solid #000000;
-  height: 850px;
+  height: 100vh;
+  box-shadow: 3px 3px 0px #000000;
 
   p {
     text-align: center;
@@ -19,9 +59,16 @@ $form-width: 600px;
     text-align: left;
     font-weight: bold;
 
+    .essential {
+      font-size: 10px;
+      color: $red;
+      margin: 0;
+      text-align: right;
+    }
+
     .divisionLine {
       border-bottom: 2px solid black;
-      margin: 20px auto 50px auto;
+      margin: 5px auto 40px auto;
     }
 
     .formGroup {
@@ -30,10 +77,12 @@ $form-width: 600px;
 
       input,
       textarea {
-        // position: relative;
+        position: relative;
         float: right; // 오른쪽 정렬
-        margin-right: 40px;
+        right: 100px;
+        // margin-right: 40px;
         border-radius: 35px;
+        border: 2px solid black;
         width: 200px;
         height: 22px;
       }
@@ -41,58 +90,100 @@ $form-width: 600px;
       textarea {
         resize: none;
         width: 400px;
-        height: 300px;
+        height: 200px;
       }
 
       small {
         font-size: 10px;
         margin-left: 10px;
-        color: rgb(215, 56, 56);
+        color: $red;
+      }
+
+      .star {
+        color: $red;
+      }
+    }
+
+    .id {
+      display: flex;
+      align-items: center;
+
+      .inputContainer {
+        display: flex;
+        margin-left: auto;
+
+        .idInput {
+        }
+
+        .idButton {
+          @include btn-style;
+          margin-left: -92px;
+          margin-right: 23px;
+
+          color: black;
+          font-size: 10px;
+          text-align: center;
+          font-weight: 700;
+          width: 70px;
+          height: 12px;
+          padding: 11px;
+          box-shadow: 1.5px 1.7px 0px #000000;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .confirmPw {
+      margin-bottom: 60px;
+    }
+
+    .fileBox {
+      .uploadName {
+        background-color: white;
+        width: 400px;
+        height: 200px;
+        color: black;
+        font-size: 16px;
+        text-align: center;
+        // font-weight: 300;
+        margin: 0 0 0 200px;
+        // padding: 13px;
+
+        position: relative;
+        display: flex;
+        // justify-content: center;
+        flex-direction: column;
+        // align-items: center;
+        border: 2px solid black;
+        border-radius: 35px;
+      }
+
+      .aaa {
+        margin-top: 70px;
+        font-weight: 400;
+      }
+      label {
+        cursor: pointer;
+        align-items: center;
+        margin: 20px auto auto auto;
+        text-align: center;
+      }
+
+      input[type='file'] {
+        position: absolute;
+        width: 0;
+        height: 0;
+        padding: 0;
+        overflow: hidden;
+        border: 0;
       }
     }
 
     .btn {
-      width: 100px;
-      height: 40px;
-      position: relative;
-      top: 300px;
-      margin: auto;
-      padding: 13px;
-
-      border-radius: 35px;
-      cursor: pointer;
-      display: flex;
-
-      font-size: 15px;
-      font-weight: 400;
-      text-align: center;
-      font-weight: 700;
-
-      &:hover,
-      &:focus {
-        color: #fff;
-        outline: 0;
-      }
+      @include btn-style;
+      @include btn-animation;
+      top: 350px;
+      left: 200px;
     }
-
-    .btnStyle {
-      background: #f1c40f;
-      border: 2px solid black;
-      color: #000000;
-      background: {
-        image: linear-gradient(45deg, #7eba94 50%, transparent 50%);
-        position: 100%;
-        size: 400%;
-      }
-      transition: background 300ms ease-in-out;
-
-      &:hover {
-        background-position: 0;
-      }
-    }
-
-    // .id .nickname .email .pw .confirmPw .pic .intro {
-    //   margin-bottom: 100px;
-    // }
   }
 }

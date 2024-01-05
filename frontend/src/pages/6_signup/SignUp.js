@@ -48,37 +48,41 @@ export default function SignUp() {
           onSubmit={handleSubmit(onValid, onInvalid)}
           className={styles.form}
         >
+          <div className={styles.essential}>* 필수 입력 사항</div>
           <div className={styles.divisionLine}></div>
 
           <div className={`${styles.formGroup} ${styles.id}`}>
-            <label htmlFor="user_id">아이디</label>
-            <input
-              type="text"
-              id="user_id"
-              placeholder="아이디를 입력해주세요"
-              {...register('user_id', {
-                required: '아이디는 필수로 입력해야 합니다',
-              })}
-            />
+            <label htmlFor="user_id">
+              아이디 <span className={styles.star}>*</span>
+            </label>
             {errors.user_id && (
               <small role="alert" className={styles.error}>
                 {errors.user_id.message}
               </small>
             )}
+            <div className={styles.inputContainer}>
+              <input
+                type="text"
+                id="user_id"
+                placeholder="아이디를 입력해주세요"
+                {...register('user_id', {
+                  required: '아이디는 필수로 작성해야 합니다',
+                })}
+              />
+              <button className={styles.idButton}>중복확인</button>
+            </div>
           </div>
 
-          <button onClick={this.checkID} className={styles['submit-button']}>
-            중복확인
-          </button>
-
           <div className={`${styles.formGroup} ${styles.nickname}`}>
-            <label htmlFor="nickname">닉네임</label>
+            <label htmlFor="nickname">
+              닉네임 <span className={styles.star}>*</span>
+            </label>
             <input
               type="text"
               id="nickname"
               placeholder="닉네임"
               {...register('nickname', {
-                required: '닉네임은 필수로 입력해야 합니다',
+                required: '닉네임은 필수로 작성해야 합니다',
               })}
             />
             {errors.nickname && (
@@ -89,7 +93,9 @@ export default function SignUp() {
           </div>
 
           <div className={`${styles.formGroup} ${styles.email}`}>
-            <label htmlFor="email">이메일</label>
+            <label htmlFor="email">
+              이메일 <span className={styles.star}>*</span>
+            </label>
             <input
               type="text"
               id="email"
@@ -111,7 +117,9 @@ export default function SignUp() {
           </div>
 
           <div className={`${styles.formGroup} ${styles.pw}`}>
-            <label htmlFor="password">비밀번호</label>
+            <label htmlFor="password">
+              비밀번호 <span className={styles.star}>*</span>
+            </label>
             <input
               type="password"
               id="password"
@@ -132,7 +140,9 @@ export default function SignUp() {
           </div>
 
           <div className={`${styles.formGroup} ${styles.confirmPw}`}>
-            <label htmlFor="confirmPassword">비밀번호 확인</label>
+            <label htmlFor="confirmPassword">
+              비밀번호 확인 <span className={styles.star}>*</span>
+            </label>
             <input
               type="password"
               id="confirmPassword"
@@ -154,16 +164,22 @@ export default function SignUp() {
               </small>
             )}
           </div>
+          <div className={styles.divisionLine}></div>
 
-          <div className={`${styles.formGroup} ${styles.pic}`}>
-            <label htmlFor="picture">반려견 사진</label>
-            <input
-              {...register('image')}
-              id="picture"
-              type="file"
-              className={styles.hidden}
-              accept="image/*"
-            />
+          <div className={`${styles.formGroup} ${styles.fileBox}`}>
+            반려견 사진
+            <div className={styles.uploadName}>
+              <div className={styles.aaa}>
+                소개하고 싶은 반려견이 있다면 자랑해주세요
+              </div>
+              <label htmlFor="picture">파일 업로드 (클릭)</label>
+              <input
+                {...register('image')}
+                id="picture"
+                type="file"
+                accept="image/*"
+              />
+            </div>
           </div>
 
           <div className={`${styles.formGroup} ${styles.intro}`}>
@@ -175,10 +191,7 @@ export default function SignUp() {
             />
           </div>
 
-          <button
-            type="submit"
-            className={`${styles.formGroup} ${styles.btn} ${styles.btnStyle}`}
-          >
+          <button type="submit" className={`${styles.formGroup} ${styles.btn}`}>
             가입하기
           </button>
         </form>
