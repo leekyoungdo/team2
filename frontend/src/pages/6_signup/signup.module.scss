@@ -1,0 +1,98 @@
+$form-width: 600px;
+
+.container {
+  background-color: #f8f2e5;
+  margin: 20px 0 0 20px;
+  border-radius: 35px;
+  border: 2px solid #000000;
+  height: 850px;
+
+  p {
+    text-align: center;
+    font-size: 30px;
+    font-weight: 800;
+  }
+
+  .form {
+    width: $form-width;
+    margin: auto;
+    text-align: left;
+    font-weight: bold;
+
+    .divisionLine {
+      border-bottom: 2px solid black;
+      margin: 20px auto 50px auto;
+    }
+
+    .formGroup {
+      width: $form-width;
+      margin: 0 0 20px 20px;
+
+      input,
+      textarea {
+        // position: relative;
+        float: right; // 오른쪽 정렬
+        margin-right: 40px;
+        border-radius: 35px;
+        width: 200px;
+        height: 22px;
+      }
+
+      textarea {
+        resize: none;
+        width: 400px;
+        height: 300px;
+      }
+
+      small {
+        font-size: 10px;
+        margin-left: 10px;
+        color: rgb(215, 56, 56);
+      }
+    }
+
+    .btn {
+      width: 100px;
+      height: 40px;
+      position: relative;
+      top: 300px;
+      margin: auto;
+      padding: 13px;
+
+      border-radius: 35px;
+      cursor: pointer;
+      display: flex;
+
+      font-size: 15px;
+      font-weight: 400;
+      text-align: center;
+      font-weight: 700;
+
+      &:hover,
+      &:focus {
+        color: #fff;
+        outline: 0;
+      }
+    }
+
+    .btnStyle {
+      background: #f1c40f;
+      border: 2px solid black;
+      color: #000000;
+      background: {
+        image: linear-gradient(45deg, #7eba94 50%, transparent 50%);
+        position: 100%;
+        size: 400%;
+      }
+      transition: background 300ms ease-in-out;
+
+      &:hover {
+        background-position: 0;
+      }
+    }
+
+    // .id .nickname .email .pw .confirmPw .pic .intro {
+    //   margin-bottom: 100px;
+    // }
+  }
+}
