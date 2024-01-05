@@ -3,16 +3,15 @@ const path = require("path");
 const sanitizeFilename = require("sanitize-filename");
 
 // 업로드된 파일을 저장할 디렉터리 및 파일명 설정
+let imageNum = 1;
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "static"); // 파일을 저장할 디렉터리
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
-    const sanitizedFilename = sanitizeFilename(
-      path.basename(file.originalname, ext)
-    );
-    cb(null, sanitizedFilename + "__" + Date.now() + ext); // 파일명 설정
+    cb(null, "image__" + imageNum + ext); // 파일명 설정 ex) image_1.png
+    imageNum++;
   },
 });
 
