@@ -89,13 +89,13 @@ export default function Dm() {
     socket.emit('entry', {
       chat_name: chatId,
       chat_category: 'dm',
-      nickname: 'abc',
+      nickname: 'abc', // nickname : 접속한 사용자
     });
   };
 
   const addChatList = useCallback(
     (res) => {
-      // 서버에서 송신한 userId와 내 userId가 같다면 type의 값은 my, 다르면 other
+      // 서버에서 송신한 nickname와 내 nickname이 같다면 type의 값은 my, 다르면 other
       const type = res.nickname === 'abc' ? 'my' : 'other';
 
       const newChatList = [...chatList, { type: type, content: res.msg }];
