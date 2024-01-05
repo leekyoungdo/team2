@@ -242,7 +242,7 @@ exports.userProfile = async (req, res) => {
       where: { user_id: req.session.user },
     });
 
-    if (!profile.image) profile.image = "/static/user-profile.png";
+    if (!profile.image) profile.image = "/static/user-profile.jpg";
 
     res.send(profile);
   } catch (err) {
