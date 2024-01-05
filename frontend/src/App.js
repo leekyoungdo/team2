@@ -17,7 +17,6 @@ import Write from './pages/8_write/Write';
 import Post from './pages/9_Post/Post';
 import DmPage from './pages/10_dmpage/DmPage';
 import Dm from './pages/11_dm/dm';
-import DmTest from './pages/11_dm/DmTest';
 
 import ShelterBoard from './pages/12_shelterboard/ShelterBoard';
 import CommunityBoard from './pages/14_communityboard/CommunityBoard';
@@ -47,7 +46,6 @@ function App() {
             <Route path="/board/post" element={<Post />} />
             <Route path="/dmpage" element={<DmPage />} />
             <Route path="/dm" element={<Dm />} />
-            <Route path="/dmtest" element={<DmTest />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />
             <Route path="/communityboard" element={<CommunityBoard />} />
             <Route

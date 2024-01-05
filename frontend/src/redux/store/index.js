@@ -1,5 +1,4 @@
 // 닉네임
-
 import { configureStore } from '@reduxjs/toolkit';
 import { nicknameReducer } from './reducers/nicknameReducer';
 

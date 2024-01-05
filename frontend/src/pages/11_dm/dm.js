@@ -113,6 +113,7 @@ export default function Dm() {
   return (
     <>
       <h2>채팅창</h2>
+
       {chatId ? (
         <>
           <div className={styles['chat-container']}>
