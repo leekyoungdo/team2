@@ -7,10 +7,10 @@ router.get("/getallcomment/:board_id", controller.getAllComment);
 // 댓글 하나 조회
 router.get("/getcomment/:comment_id", controller.getComment);
 // 댓글 작성
-router.post("/postcomment", controller.postComment);
+router.post("/postcomment/:board_id", controller.postComment);
 // 댓글 삭제
 router.delete("/deletecomment/:comment_id", controller.deleteComment);
 // 댓글 수정
-router.patch("/editcomment", controller.editComment);
+router.patch("/editcomment/:comment_id", controller.editComment);
 
 module.exports = router;
