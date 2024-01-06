@@ -5,7 +5,7 @@ const { Board } = require("../model");
 // 게시판 전체 조회
 exports.getAllBoard = async (req, res) => {
   try {
-    const posts = await Board.findAll();
+    const posts = await Board.findAll({ order: [["board_id", "DESC"]] });
     res.send({ result: true, posts: posts });
   } catch (error) {
     console.error("Error getting all posts:", error);
