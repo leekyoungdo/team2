@@ -51,7 +51,7 @@ exports.signIn = async (req, res) => {
     req.session.user = user.user_id; // 세션에 사용자 아이디 저장
     req.session.isAuthenticated = true; // 로그인 상태를 true로 설정
     console.log("로그인성공");
-    res.send({ result: true });
+    res.send({ result: true, user_id: user.user_id, nickname: user.nickname });
   } else {
     console.log("로그인실패");
     res.send({ result: false, message: "비밀번호가 일치하지 않습니다." });
