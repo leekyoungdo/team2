@@ -20,6 +20,7 @@ async function apiAnimal() {
           happenPlace: item.happenPlace,
           popfile: item.popfile,
           specialMark: item.specialMark,
+          careNm: item.careNm,
         };
       });
     data.push(...parsedData);
