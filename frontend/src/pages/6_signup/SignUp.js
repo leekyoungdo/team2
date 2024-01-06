@@ -15,12 +15,14 @@ export default function SignUp() {
 
   const onValid = (data) => {
     console.log(data);
+
     axios
       .post(`${process.env.REACT_APP_HOST}/user/signup`, {
         user_id: data.user_id,
         password: data.password,
         nickname: data.nickname,
         email: data.email,
+        dog_name: data.dog_name,
       })
       .then((res) => {
         console.log(res.data);
@@ -64,7 +66,7 @@ export default function SignUp() {
               <input
                 type="text"
                 id="user_id"
-                placeholder="아이디를 입력해주세요"
+                // placeholder="아이디를 입력해주세요"
                 {...register('user_id', {
                   required: '아이디는 필수로 작성해야 합니다',
                 })}
@@ -77,19 +79,22 @@ export default function SignUp() {
             <label htmlFor="nickname">
               닉네임 <span className={styles.star}>*</span>
             </label>
-            <input
-              type="text"
-              id="nickname"
-              placeholder="닉네임"
-              {...register('nickname', {
-                required: '닉네임은 필수로 작성해야 합니다',
-              })}
-            />
             {errors.nickname && (
               <small role="alert" className={styles.error}>
                 {errors.nickname.message}
               </small>
             )}
+            <div className={styles.inputContainer}>
+              <input
+                type="text"
+                id="nickname"
+                // placeholder="닉네임을 입력해 주세요"
+                {...register('nickname', {
+                  required: '닉네임은 필수로 작성해야 합니다',
+                })}
+              />
+              <button className={styles.idButton}>중복확인</button>
+            </div>
           </div>
 
           <div className={`${styles.formGroup} ${styles.email}`}>
@@ -99,7 +104,7 @@ export default function SignUp() {
             <input
               type="text"
               id="email"
-              placeholder="이메일을 입력해주세요"
+              // placeholder="이메일을 입력해주세요"
               {...register('email', {
                 required: '이메일은 필수로 작성해야 합니다',
                 pattern: {
@@ -123,6 +128,7 @@ export default function SignUp() {
             <input
               type="password"
               id="password"
+              // placeholder="비밀번호를 입력해주세요"
               {...register('password', {
                 required: '비밀번호는 필수로 작성해야 합니다',
                 pattern: {
@@ -146,7 +152,7 @@ export default function SignUp() {
             <input
               type="password"
               id="confirmPassword"
-              placeholder="비밀번호를 한 번 더 입력해주세요"
+              // placeholder="비밀번호를 한 번 더 입력해주세요"
               {...register('confirmPassword', {
                 required: '비밀번호 확인은 필수로 작성해야 합니다',
                 validate: {
@@ -164,13 +170,12 @@ export default function SignUp() {
               </small>
             )}
           </div>
-          <div className={styles.divisionLine}></div>
 
           <div className={`${styles.formGroup} ${styles.fileBox}`}>
-            반려견 사진
+            프로필 사진
             <div className={styles.uploadName}>
               <div className={styles.aaa}>
-                소개하고 싶은 반려견이 있다면 자랑해주세요
+                당신의 프로필을 사진으로 꾸며보세요
               </div>
               <label htmlFor="picture">파일 업로드 (클릭)</label>
               <input
@@ -178,14 +183,26 @@ export default function SignUp() {
                 id="picture"
                 type="file"
                 accept="image/*"
+                encType="multipart/form-data"
               />
             </div>
+          </div>
+
+          <div className={`${styles.formGroup} ${styles.dogName}`}>
+            <label htmlFor="dog_name">반려견 이름</label>
+            <input
+              type="text"
+              id="dog_name"
+              // placeholder="반려견 이름을 입력해주세요"
+              {...register('dog_name')}
+            />
           </div>
 
           <div className={`${styles.formGroup} ${styles.intro}`}>
             <label htmlFor="introduction">반려견 소개</label>
             <textarea
               id="introduction"
+              className={styles.introText}
               placeholder="당신의 반려견을 소개해 주세요"
               {...register('introduction')}
             />
