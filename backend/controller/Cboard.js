@@ -186,3 +186,18 @@ exports.boardUpdate = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 회원별 게시판 조회
+exports.userBoardList = async (req, res) => {
+  try {
+    const boardList = await Board.findAll({
+      where: { user_id: req.session.user },
+      order: [["board_id", "DESC"]],
+    });
+
+    res.send(boardList);
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
