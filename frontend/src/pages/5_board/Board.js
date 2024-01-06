@@ -1,6 +1,7 @@
 import styles from "./Board.module.scss";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Board() {
   const [allboardList, setAllBoardList] = useState([]);
@@ -18,6 +19,8 @@ export default function Board() {
   useEffect(() => {
     getBoard();
   }, []);
+
+  const detailBoard = () => {};
 
   const sampleData2 = [
     {
@@ -106,7 +109,7 @@ export default function Board() {
 
           <div className={styles.contents}>
             <div className={styles.box}>
-              {sampleData2.map((data, index) => (
+              {/* {sampleData2.map((data, index) => (
                 <div className={styles.bar} key={index}>
                   <p>{data.category}</p>
                   <p>작성자: {data.user_id}</p>
@@ -116,24 +119,26 @@ export default function Board() {
                   <p>{data.makeboard}</p>
                   <p>{data.viewcount}</p>
                 </div>
-              ))}
-              {/* {allboardList.map((value) => (
-                <div className={styles.bar} key={value.board_id}>
-                  <p>{value.category}</p>
-                  <p>작성자: {value.user_id}</p>
-                  <p>제목: {value.title}</p>
-                  <p>내용: {value.content}</p>
-                  <p>{value.image}</p>
-                  <p>{value.makeboard}</p>
-                  <p>{value.viewcount}</p>
-                </div>
               ))} */}
+              {allboardList.map((value) => (
+                <Link to={`/board/${value.board_id}`}>
+                  <div className={styles.bar} key={value.board_id}>
+                    <p>{value.category}</p>
+                    <p>작성자: {value.user_id}</p>
+                    <p>제목: {value.title}</p>
+                    <p>내용: {value.content}</p>
+                    <p>{value.image}</p>
+                    <p>{value.makeboard}</p>
+                    <p>{value.viewcount}</p>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
 
-          <a href="/board/write">
+          <Link to={`/board/write`}>
             <div className={styles.writeButton}>글쓰기</div>
-          </a>
+          </Link>
         </div>
       </div>
     </>
