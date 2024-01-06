@@ -54,14 +54,14 @@ exports.getComment = (req, res) => {
 // 댓글 작성
 exports.postComment = async (req, res) => {
   const user_id = req.session.user; // 세션에서 사용자 ID 추출
-
+  const board_id = req.params.board_id;
   if (!user_id) {
     res.send({ result: false, message: "로그인 후 이용 가능합니다." });
     return;
   }
 
   const data = {
-    board_id: req.body.board_id,
+    board_id: board_id,
     user_id: user_id,
     comment_content: req.body.comment_content,
     makecomment: Date.now(),
@@ -123,7 +123,7 @@ exports.deleteComment = async (req, res) => {
 // 댓글 수정
 exports.editComment = async (req, res) => {
   try {
-    const comment_id = req.body.comment_id;
+    const comment_id = req.params.comment_id;
     const user_id = req.session.user;
     const comment_content = req.body.comment_content;
 
