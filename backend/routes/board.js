@@ -1,27 +1,29 @@
-const express = require('express');
-const controller = require('../controller/Cboard');
+const express = require("express");
+const controller = require("../controller/Cboard");
 const router = express.Router();
-const { boardupload } = require('../multer/multerConfig');
+const { boardupload } = require("../multer/multerConfig");
 
 // 게시판 전체 조회
-router.get('/getallboard', controller.getAllBoard);
+router.get("/getallboard", controller.getAllBoard);
 // 게시판 카테고리 별 조회
-router.get('/getboardcategory/:category', controller.getBoardCategory);
+router.get("/getboardcategory/:category", controller.getBoardCategory);
 // 게시판 하나만 조회
-router.get('/getboardid/:board_id', controller.getBoardId);
+router.get("/getboardid/:board_id", controller.getBoardId);
 // 게시판 작성
 router.post(
-  '/boardsubmit',
-  boardupload.single('image'),
+  "/boardsubmit",
+  boardupload.single("image"),
   controller.boardSubmit
 );
 // 게시판 삭제
-router.delete('/boarddelete/:board_id', controller.boardDelete);
+router.delete("/boarddelete/:board_id", controller.boardDelete);
 // 게시판 수정
 router.patch(
-  '/boardupdate/:board_id',
-  boardupload.single('image'),
+  "/boardupdate/:board_id",
+  boardupload.single("image"),
   controller.boardUpdate
 );
+// 회원별 게시판 조회
+router.get("/userboardlist", controller.userBoardList);
 
 module.exports = router;
