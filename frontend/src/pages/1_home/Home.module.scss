@@ -1,61 +1,109 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+
+
 .bgHome {
-  background-color: beige;
+  font-family: "Pretendard";
+  align-items: center;
+  position: relative;
+  margin: 50px 20px 20px 20px;
 }
 
-.bannerShowDogs {
-  width: 930px;
-  background-color: plum;
-  height: 180px;
-  margin: 10px;
-  overflow-x: hidden;
-  //   overflow: hidden;
-  .bannerDog {
-    width: 600px;
-    height: 150px;
-    padding: 10px;
-    margin: 10px;
-    display: flex;
-    height: 100%;
-    align-content: center;
-    align-items: center;
-    background-color: skyblue;
-
-    .DogPic {
-      width: 120px; // 원하는 크기로 조절해주세요
-      height: 120px; // 원하는 크기로 조절해주세요
-      object-fit: cover;
-    }
-  }
+.findDog {
+  height: 250px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
 }
+
+
+.polygonPic1 {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  width: 30px;
+  transform: scaleX(-1);
+}
+
+.polygonPic2 {
+  position: absolute;
+  top: 40%;
+  right: 0;
+  width: 30px;
+}
+
+
 
 .picBar {
-  width: 150px;
-  height: 200px;
-  background-color: rgb(177, 235, 135);
-  padding: 10px;
+  width: 230px;
+  height: 220px;
+  
+  background-color: #fff;
+  border-radius: 35px;
+  border: 2px solid #000000;
   margin: 10px;
+  box-shadow: 1.5px 2px 0px #000000;
+  overflow: hidden;
+
   .DogPic {
-    width: 110px; // 원하는 크기로 조절해주세요
-    height: 110px; // 원하는 크기로 조절해주세요
-    object-fit: cover;
+    width: 230px; 
+    height: 140px;
   }
   .title {
-    font-size: 9px;
+    margin: 10px;
+    font-size: 16px;
+    font-weight: 900;
   }
-  .string {
-    font-size: 7px;
+  .author {
+    margin: 10px;
+    font-size: 12px;
   }
 }
 
-.Box {
-  width: 600px;
-  height: 150px;
-  padding: 10px;
+
+
+.hotTopic {
+  width: 800px;
+  height: 220px;
+  padding: 20px;
   margin: 10px;
-  background-color: skyblue;
+  background-color: #F8F2E5;
+  border-radius: 35px;
+  border: 2px solid #000000;
+  box-shadow: 1.5px 2px 0px #000000;
+  overflow: hidden;
+  margin-left: 30px;
 }
 
-.ourDogs {
-  height: 250px;
+
+.bar {
+  margin: 10px 25px 20px 25px;
+  font-size: 18px;
+  font-weight: 900;
+}
+
+
+
+.writeButton {
+  font-size: 18px;
+  font-weight: 900;
+  color:#fff;
+  width: 110px;
+  height: 45px;
+  border-radius: 35px;
+  border: 2px solid #000000;
+  background-color: #7EBA94;
+  margin-top: 50px;
+  box-shadow: 1.5px 2px 0px #000000;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  right: 0;
+}
+
+.plusPic {
+  width: 18px;
+  margin-right: 8px;
 }

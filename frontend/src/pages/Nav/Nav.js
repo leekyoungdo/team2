@@ -12,9 +12,10 @@ export default function Nav() {
             <li><a href="/board">게시판</a></li>
             <li><a href="/communityboard">소모임</a></li>
             <li><a href="/shelterboard">유기견 공고</a></li>
-            <li><a href="/user/signin">로그인</a></li>
+            <li className={styles.signin} ><a href="/user/signin">로그인</a></li>
           </ul>
         </div>
+        <div className={styles.navShadow} />
         </> 
     );
   }
