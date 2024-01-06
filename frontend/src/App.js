@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import { Provider } from 'react-redux';
-// import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from 'react-redux';
+import { configureStore } from '@reduxjs/toolkit';
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './redux/reducer';
 
