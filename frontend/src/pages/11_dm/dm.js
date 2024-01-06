@@ -1,39 +1,39 @@
-import { useState, useEffect, useCallback } from 'react';
-import { Provider } from 'react-redux';
-import styles from './dm.module.scss';
-import io from 'socket.io-client';
-import Chat from './Chat';
-import Notice from './Notice';
+import { useState, useEffect, useCallback } from "react";
+import { Provider } from "react-redux";
+import styles from "./dm.module.scss";
+import io from "socket.io-client";
+import Chat from "./Chat";
+import Notice from "./Notice";
 
-const socket = io.connect('http://localhost:8000/', { autoConnect: false });
+const socket = io.connect("http://localhost:8000/", { autoConnect: false });
 
 export default function Dm() {
-  const [msgInput, setMsgInput] = useState('');
-  const [userIdInput, setUserIdInput] = useState('');
+  const [msgInput, setMsgInput] = useState("");
+  const [userIdInput, setUserIdInput] = useState("");
   const [chatList, setChatList] = useState([
     {
-      chatId: '파이리',
-      msg_content: '하위하위',
-      send_time: '2024-01-02T08:39:56.000Z',
+      chatId: "파이리",
+      msg_content: "하위하위",
+      send_time: "2024-01-02T08:39:56.000Z",
     },
     {
-      chatId: '피카츄',
-      msg_content: '잘지내??',
-      send_time: '2024-01-02T09:29:08.000Z',
+      chatId: "피카츄",
+      msg_content: "잘지내??",
+      send_time: "2024-01-02T09:29:08.000Z",
     },
     {
-      chatId: '꼬부기',
-      msg_content: '뭐하는중이야',
-      send_time: '2024-01-02T09:29:19.000Z',
+      chatId: "꼬부기",
+      msg_content: "뭐하는중이야",
+      send_time: "2024-01-02T09:29:19.000Z",
     },
     {
-      type: 'notice', // 공지사항
-      content: '~~~님이 입장하였습니다',
+      type: "notice", // 공지사항
+      content: "~~~님이 입장하였습니다",
     },
   ]);
   const [chatId, setChatId] = useState(null);
   const initSocketConnect = () => {
-    console.log('connected', socket.connected);
+    console.log("connected", socket.connected);
     if (!socket.connected) socket.connect(); // 연결이 안 되어 있을 때만 연결을 하겠다
   };
 
@@ -41,7 +41,7 @@ export default function Dm() {
   useEffect(() => {
     // initSocketConnect();
 
-    socket.on('error', (res) => {
+    socket.on("error", (res) => {
       alert(res.msg);
     });
 
@@ -55,22 +55,22 @@ export default function Dm() {
   useEffect(() => {
     // mount 될 때 실행
     const notice = (res) => {
-      console.log('notice');
+      console.log("notice");
       // 공지사항을 추가하고, 메시지를 받아온다
-      const newChatList = [...chatList, { type: 'notice', content: res.msg }];
+      const newChatList = [...chatList, { type: "notice", content: res.msg }];
 
       setChatList(newChatList);
     };
 
-    socket.on('notice', notice);
-    return () => socket.off('notice', notice);
+    socket.on("notice", notice);
+    return () => socket.off("notice", notice);
     // 중복처리되므로 이벤트를 제거했다가 다시 켠다
   }, [chatList]);
 
   const sendMsg = () => {
-    if (msgInput !== '') {
-      socket.emit('sendMsg', { msg: msgInput });
-      setMsgInput('');
+    if (msgInput !== "") {
+      socket.emit("sendMsg", { msg: msgInput });
+      setMsgInput("");
     }
   };
 
@@ -86,17 +86,17 @@ export default function Dm() {
 
   const entryChat = () => {
     initSocketConnect();
-    socket.emit('entry', {
+    socket.emit("entry", {
       chat_name: chatId,
-      chat_category: 'dm',
-      nickname: 'abc', // nickname : 접속한 사용자
+      chat_category: "dm",
+      nickname: "abc", // nickname : 접속한 사용자
     });
   };
 
   const addChatList = useCallback(
     (res) => {
       // 서버에서 송신한 nickname와 내 nickname이 같다면 type의 값은 my, 다르면 other
-      const type = res.nickname === 'abc' ? 'my' : 'other';
+      const type = res.nickname === "abc" ? "my" : "other";
 
       const newChatList = [...chatList, { type: type, content: res.msg }];
       setChatList(newChatList);
@@ -106,8 +106,8 @@ export default function Dm() {
   );
 
   useEffect(() => {
-    socket.on('chat', addChatList);
-    return () => socket.off('chat', addChatList);
+    socket.on("chat", addChatList);
+    return () => socket.off("chat", addChatList);
   }, [addChatList]);
 
   return (
@@ -116,14 +116,14 @@ export default function Dm() {
 
       {chatId ? (
         <>
-          <div className={styles['chat-container']}>
+          <div className={styles["chat-container"]}>
             {chatList.map((chat, i) => {
               <div>{chatList.chatId}님 환영합니다</div>;
-              if (chat.type === 'notice') return <Notice key={i} chat={chat} />;
+              if (chat.type === "notice") return <Notice key={i} chat={chat} />;
               else return <Chat key={i} chat={chat} />;
             })}
           </div>
-          <div className={styles['input-container']}>
+          <div className={styles["input-container"]}>
             <input
               type="text"
               value={msgInput}

@@ -58,7 +58,7 @@ function App() {
               element={<CommunityInnerBoard />}
             />
             <Route
-              path="/communityboard/community/communityinnerboard/communitypage"
+              path="/communityboard/community/communityinnerboard/communitypage/:pageNum"
               element={<CommunityPage />}
             />
             <Route
