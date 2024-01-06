@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import './signin.module.scss';
+import styles from './signin.module.scss';
 
 export default function SignIn() {
   const {
@@ -27,7 +27,7 @@ export default function SignIn() {
         console.log(res.data);
 
         if (res.data.result) {
-          alert('로그인 성공ㅎ');
+          alert('로그인에 성공했습니다.');
           navigator('/'); // home으로 이동
         } else {
           alert('로그인에 실패하였습니다.');
@@ -45,34 +45,60 @@ export default function SignIn() {
 
   return (
     <>
-      <h2>로그인</h2>
-      <hr />
+      <div className={styles.container}>
+        <p>로그인</p>
 
-      <form onSubmit={handleSubmit(onValid, onInvalid)}>
-        <input
-          type="text"
-          placeholder="아이디를 입력해주세요"
-          {...register('user_id', {
-            required: '아이디는 필수로 입력해야 합니다',
-          })}
-        />
-        <br />
-        <br />
-        <input
-          type="password"
-          placeholder="비밀번호를 입력해주세요"
-          {...register('password', {
-            required: '비밀번호는 필수로 입력해야 합니다',
-          })}
-        />
-        {errors.password && <span>비밀번호를 입력해주세요.</span>}
-        <br />
-        <br />
-        <button type="submit">로그인</button>
-      </form>
-      <br />
-      <br />
-      <button onClick={() => navigator('/user/signup')}>회원가입</button>
+        <form
+          onSubmit={handleSubmit(onValid, onInvalid)}
+          className={styles.form}
+        >
+          <div className={`${styles.divisionLine}`}></div>
+          <div className={`${styles.formGroup} ${styles.id}`}>
+            <input
+              type="text"
+              id="user_id"
+              placeholder="아이디를 입력해주세요"
+              {...register('user_id', {
+                required: '아이디를 입력해 주세요',
+              })}
+            />
+            {errors.user_id && (
+              <small role="alert" className={styles.error}>
+                {errors.user_id.message}
+              </small>
+            )}
+          </div>
+
+          <div className={`${styles.formGroup} ${styles.pw}`}>
+            <input
+              type="password"
+              placeholder="비밀번호를 입력해주세요"
+              {...register('password', {
+                required: '비밀번호를 입력해 주세요',
+              })}
+            />
+            {errors.password && (
+              <small role="alert" className={styles.error}>
+                {errors.password.message}
+              </small>
+            )}
+          </div>
+
+          <button
+            type="submit"
+            className={`${styles.formGroup} ${styles.btn} ${styles.btnSignin}`}
+          >
+            로그인
+          </button>
+
+          <button
+            onClick={() => navigator('/user/signup')}
+            className={`${styles.formGroup} ${styles.btn} ${styles.btnSignup}`}
+          >
+            회원가입
+          </button>
+        </form>
+      </div>
     </>
   );
 }

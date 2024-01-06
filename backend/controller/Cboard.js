@@ -5,7 +5,7 @@ const { Board } = require("../model");
 // 게시판 전체 조회
 exports.getAllBoard = async (req, res) => {
   try {
-    const posts = await Board.findAll();
+    const posts = await Board.findAll({ order: [["board_id", "DESC"]] });
     res.send({ result: true, posts: posts });
   } catch (error) {
     console.error("Error getting all posts:", error);
@@ -181,6 +181,21 @@ exports.boardUpdate = async (req, res) => {
     });
 
     res.send({ result: true, message: "게시글이 성공적으로 수정되었습니다." });
+  } catch (error) {
+    console.error(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
+// 회원별 게시판 조회
+exports.userBoardList = async (req, res) => {
+  try {
+    const boardList = await Board.findAll({
+      where: { user_id: req.session.user },
+      order: [["board_id", "DESC"]],
+    });
+
+    res.send(boardList);
   } catch (error) {
     console.error(error);
     res.send({ result: false, message: "서버 오류 발생" });

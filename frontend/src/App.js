@@ -43,7 +43,7 @@ function App() {
             <Route path="/user/signup" element={<SignUp />} />
             <Route path="/user/signin" element={<SignIn />} />
             <Route path="/board/write" element={<Write />} />
-            <Route path="/board/post" element={<Post />} />
+            <Route path="/board/:id" element={<Post />} />
             <Route path="/dmpage" element={<DmPage />} />
             <Route path="/dm" element={<Dm />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />
