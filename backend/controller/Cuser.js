@@ -17,6 +17,9 @@ exports.signUp = (req, res) => {
     salt: salt,
     nickname: req.body.nickname,
     email: req.body.email,
+    image: req.file ? path.join("/static/", req.file.filename) : null,
+    dog_name: req.body.dog_name || null,
+    dog_intro: req.body.dog_intro || null,
   };
   User.create(data)
     .then((result) => {
