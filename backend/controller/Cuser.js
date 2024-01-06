@@ -4,6 +4,7 @@ const path = require("path");
 
 // 회원가입
 exports.signUp = (req, res) => {
+  const image = req.file ? path.join("/static/", req.file.filename) : null;
   const salt = crypto.randomBytes(16).toString("base64");
   const iterations = 100;
   const keylen = 64;
@@ -17,7 +18,7 @@ exports.signUp = (req, res) => {
     salt: salt,
     nickname: req.body.nickname,
     email: req.body.email,
-    image: req.file ? path.join("/static/", req.file.filename) : null,
+    image: image,
     dog_name: req.body.dog_name || null,
     dog_intro: req.body.dog_intro || null,
   };
