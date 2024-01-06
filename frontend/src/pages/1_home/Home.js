@@ -1,5 +1,7 @@
 import styles from "./Home.module.scss";
 import dogpic from "./mdog.jpg";
+import plus from "./플러스.png";
+import polygon from "./Polygon 1.png";
 import React, { useState, useRef, useEffect } from "react";
 
 export default function Home() {
@@ -33,27 +35,27 @@ export default function Home() {
 
       const sampleData1 = [
         {
-          author: "건강하게살자",
+          board: "자유",
           title: "남산 반려견 산책로 추천 모음",
         },
         {
-          author: "시바다시바",
+          board: "자유",
           title: "참새뗴 발견!",
         },
         {
-          author: "lovmadog",
+          board: "일상",
           title: "강아지 사료 뭐가 좋나요?",
         },
         {
-          author: "happydog",
+          board: "일상",
           title: "강아지 훈련법 알려주세요!",
         },
         {
-          author: "올드독",
+          board: "자유",
           title: "늙은 강아지랑 노는 법 공유합니다",
         },
         {
-          author: "petworld",
+          board: "일상",
           title: "반려견과 함께하는 일상",
         },
       ];
@@ -70,7 +72,7 @@ export default function Home() {
         },
         {
           author: "루돌프",
-          title: "강아지와 함께하는 겨울 액티비티",
+          title: "강아지와 함께하는 겨울",
           content: "겨울에 강아지와 함께하는 재미있는 액티비티를 소개합니다.",
         },
         {
@@ -84,97 +86,48 @@ export default function Home() {
     return(
         <>
         <div className={styles.bgHome} >
-            <h1>멍멍투게더</h1>
-            <div className={styles.signinBtn}>로그인</div>
 
-            {/* <div className={styles.nav}>
-                <div>
-                  <h2>게시판</h2>
-                </div>
-                <div>
-                  <h2>소모임</h2>
-                </div>
-                <div>
-                  <h2>유기견 공고</h2>
-                </div>
-                <div>
-                  <h2>앨범</h2>
-                </div>
-            </div> */}
-
-            <div className={styles.bannerShowDogs} ref={bannerDogsRef}>
-                <div className={styles.bannerDoglist}>
-                    <div className={styles.bannerDog}>
+            <h2>가족을 찾아요</h2>
+            <div className={styles.findDog}>
+            <img src={polygon} className={styles.polygonPic1}/>  
+                {sampleData2
+                  .sort((a, b) => new Date(b.date) - new Date(a.date)) // 날짜를 기준으로 내림차순 정렬
+                  .slice(0, 3) // 최신 데이터 4개 선택
+                  .map((data, index) => (
+                    <div className={styles.picBar} key={index}>
                       <img
-                        className="DogPic"
+                        className={styles.DogPic}
                         src={dogpic}
                         alt="강아지"
-                        title="주인을 기다리고 있어요"
+                        title="멋진 우리 강아지!"
                       />
-                      <div className={styles.profile}>
-                        견종: {dog.breed}
-                        <br /> 성별: {dog.gender}
-                        <br /> 발견일: {dog.discoveryDate}
-                        <br /> 구조지역: {dog.location}
-                        <br />
-                        설명: {dog.description}
-                      </div>
+                      <div className={styles.title}> {data.title}</div>
+                      <div className={styles.author}> {data.author}</div>
                     </div>
-                </div>
-                <button
-                  className={styles.buttonLeft}
-                //   onClick={() => handleButtonClick("left")}
-                >
-                  이전
-                </button>
-                <button
-                  className={styles.buttonRight}
-                //   onClick={() => handleButtonClick("right")}
-                >
-                  다음
-                </button>
-            </div>
+                  ))}
+            <img src={polygon} className={styles.polygonPic2}/>        
+            </div>         
 
-            <h1>인기글</h1>
+
+
+
+            <h2>최신글</h2>
             <div className={`${styles.Box} ${styles.hotTopic}`}>
-              {sampleData1.slice(0, 3).map((data, index) => (
+              {sampleData1.slice(1, 6).map((data, index) => (
                 <div className={styles.bar} key={index}>
-                  작성자: {data.author} 제목: {data.title}
+                  {data.board}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {data.title}
                 </div>
               ))}
             </div>
 
-            <h1>최신글</h1>
-            <div className={`${styles.Box} ${styles.hotTopic}`}>
-              {sampleData1.slice(3, 6).map((data, index) => (
-                <div className={styles.bar} key={index}>
-                  작성자: {data.author} 제목: {data.title}
-                </div>
-              ))}
+            <div className={styles.writeButton}> 
+              <img src={plus} className={styles.plusPic}/>  
+              글쓰기
             </div>
 
-            <h1>우리 강아지</h1>
-            <div className={`${styles.Box} ${styles.ourDogs}`}>
-              {sampleData2
-                .sort((a, b) => new Date(b.date) - new Date(a.date)) // 날짜를 기준으로 내림차순 정렬
-                .slice(0, 4) // 최신 데이터 4개 선택
-                .map((data, index) => (
-                  <div className={styles.picBar} key={index}>
-                    <img
-                      className={styles.DogPic}
-                      src={dogpic}
-                      alt="강아지"
-                      title="멋진 우리 강아지!"
-                    />
-                    <div className={styles.title}>제목: {data.title}</div>
-                    <div className={styles.string}>내용: {data.content}</div>
-                  </div>
-                ))}
-            </div>
-
-
-            <div className="writeButton">글쓰기</div>
-        </div>
+          </div>
         </> 
     );
   }
