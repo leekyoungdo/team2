@@ -4,7 +4,7 @@ const router = express.Router();
 const { upload } = require("../multer/multerConfig");
 
 // 회원가입
-router.post("/signup", controller.signUp);
+router.post("/signup", upload.single("image"), controller.signUp);
 // 로그인
 router.post("/signin", controller.signIn);
 // 아이디 중복확인

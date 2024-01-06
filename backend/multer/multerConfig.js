@@ -10,7 +10,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
-    cb(null, "image__" + imageNum + ext); // 파일명 설정 ex) image_1.png
+    cb(null, "user_image__" + imageNum + ext); // 파일명 설정 ex) user_image_1.png
     imageNum++;
   },
 });
