@@ -23,6 +23,7 @@ import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
 import MakeCommunity from "./pages/15_makecommunity/MakeCommunity";
 import Community from "./pages/16_community/Community";
 import CommunityInnerBoard from "./pages/17_communityinnerboard/CommunityInnerBoard";
+import CommunityWrite from "./pages/18_communitywrite/CommunityWrite";
 import CommunityPage from "./pages/17.1_communitypage/CommunityPage";
 import CommunityTalk from "./pages/19_communitytalk/CommunityTalk";
 import NotFound from "./pages/20_notfound/NotFound";
@@ -56,6 +57,10 @@ function App() {
             <Route
               path="/communityboard/community/communityinnerboard"
               element={<CommunityInnerBoard />}
+            />
+            <Route
+              path="/communityboard/community/communityinnerboard/CommunityWrite"
+              element={<CommunityWrite />}
             />
             <Route
               path="/communityboard/community/communityinnerboard/communitypage/:pageNum"

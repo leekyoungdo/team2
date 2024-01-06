@@ -2,18 +2,24 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "./CommunityBoard.scss";
 import commupic from "./commupic.png";
+import { useNavigate } from "react-router-dom";
 
 export default function CommunityBoard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [hotGroups, setHotGroups] = useState([]);
   const [Group, setGroup] = useState([]);
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    navigate("/communityboard/makecommunity"); // '소모임 만들기' 버튼을 클릭하면 '/createcommunity' 경로로 이동합니다.
+  };
 
   useEffect(() => {
     setFilteredGroups(
-      exampleDogGroups.filter((group) => group.region.includes(searchQuery))
+      Group.filter((group) => group.community_local.includes(searchQuery))
     );
-  }, [searchQuery]);
+  }, [searchQuery, Group]);
 
   useEffect(() => {
     const sortedGroups = [...Group].sort((a, b) => b.groupNum - a.groupNum);
@@ -27,9 +33,11 @@ export default function CommunityBoard() {
     setSearchQuery(query);
 
     axios
-      .get(`your-api-endpoint?region=${query}`)
+      .get(
+        `${process.env.REACT_APP_HOST}/community/getcommunities?region=${query}`
+      )
       .then((response) => {
-        setFilteredGroups(response.data); // API 응답에 따라 적절히 수정해야 합니다.
+        setFilteredGroups(response.data.data); // API 응답에 따라 적절히 수정해야 합니다.
       })
       .catch((error) => {
         console.error("There was an error!", error);
@@ -80,7 +88,16 @@ export default function CommunityBoard() {
   ];
 
   useEffect(() => {
-    setGroup(exampleDogGroups);
+    axios
+      .get(`${process.env.REACT_APP_HOST}/community/getcommunities`)
+      .then((response) => {
+        console.log(response.data.data);
+        setGroup(response.data.data); // API 응답에 따라 적절히 수정해야 합니다.
+        setHotGroups(response.data.data.slice(0, 3));
+      })
+      .catch((error) => {
+        console.error("There was an error!", error);
+      });
   }, []);
 
   return (
@@ -123,11 +140,9 @@ export default function CommunityBoard() {
                 title="모임 프로필"
               />
               <div className="Profile">
-                {" "}
-                지역: {group.region} <br />
-                모임명: {group.groupName} <br />
-                소개: {group.groupIntro} <br />
-                참여인원: {group.groupNum}
+                지역: {group.community_local} <br />
+                모임명: {group.community_name} <br />
+                소개: {group.introduce} <br />
               </div>
             </div>
           ))}
@@ -144,19 +159,18 @@ export default function CommunityBoard() {
           />
           <div className="Profile">
             {" "}
-            지역: {group.region} <br />
-            모임명: {group.groupName} <br />
-            소개: {group.groupIntro} <br />
+            지역: {group.community_local} <br />
+            모임명: {group.community_name} <br />
+            소개: {group.introduce} <br />
             참여인원: {group.groupNum}
           </div>
         </div>
       ))}
 
       {/* <h4>소모임 만들기 버튼</h4> */}
-      <div className="MakeGroup">+</div>
-      <div>
-        <h3>네비게이션 바 위치</h3>
-      </div>
+      <button onClick={handleClick} className="MakeGroup">
+        +
+      </button>
     </>
   );
 }
