@@ -4,7 +4,7 @@ $form-width: 700px;
 $red: rgb(215, 56, 56);
 
 @mixin btn-style {
-  color: black;
+  color: white;
   font-size: 18px;
   text-align: center;
   font-weight: 700;
@@ -20,11 +20,11 @@ $red: rgb(215, 56, 56);
   align-items: center;
   border: 2px solid black;
   border-radius: 35px;
-  background: #f1c40f;
+  background: #7eba94;
 }
 @mixin btn-animation {
   background: {
-    image: linear-gradient(45deg, #7eba94 50%, transparent 50%);
+    image: linear-gradient(45deg, #f1c40f, 50%, transparent 50%);
     position: 100%;
     size: 400%;
   }
@@ -33,7 +33,7 @@ $red: rgb(215, 56, 56);
   display: flex;
   &:hover,
   &:focus {
-    color: white;
+    color: black;
     background-position: 0;
   }
 }
@@ -122,14 +122,14 @@ $red: rgb(215, 56, 56);
         .idButton {
           @include btn-style;
           margin: 0 23px 0px -92px;
-          color: black;
-          font-size: 12px;
+          color: #000000;
+          font-size: 13px;
           text-align: center;
           font-weight: 700;
           width: 70px;
-          height: 29px;
+          height: 30px;
           padding: 0px;
-          box-shadow: 1.5px 1.7px 0px #000000;
+          box-shadow: 1px 1px 0px #000000;
           cursor: pointer;
         }
       }
