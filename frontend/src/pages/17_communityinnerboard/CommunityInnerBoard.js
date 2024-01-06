@@ -68,6 +68,12 @@ export default function CommunityInnerBoard() {
   useEffect(() => {
     getApi();
   }, []);
+
+  const handlePostClick = (pageNumber) => {
+    navigator(
+      `/communityboard/community/communityinnerboard/communityPage/${pageNumber}`
+    );
+  };
   return (
     <>
       <div className={styles.box1}>
@@ -78,20 +84,32 @@ export default function CommunityInnerBoard() {
             <table className={styles.boardTable}>
               <thead>
                 <tr className={styles.thead}>
-                  <th>작성자</th>
-                  <th>글 제목</th>
-                  <th>댓글 수</th>
-                  <th>조회수</th>
+                  <th className={`${styles.th}`}>작성자</th>
+                  <th className={`${styles.th}`}>글 제목</th>
+                  <th className={`${styles.th}`}>댓글 수</th>
+                  <th className={`${styles.th}`}>조회수</th>
                 </tr>
               </thead>
               <tbody>
                 <tr className={styles.tspace}></tr>
                 {page.map((post, index) => (
-                  <tr className={styles.pagelist} key={index}>
-                    <td className={styles.cellWriter}>{post.user_id}</td>
-                    <td className={styles.cellTitle}>{post.title}</td>
-                    <td className={styles.cellComment}>{post.commentNum}</td>
-                    <td className={styles.cellViews}>{post.viewcount}</td>
+                  <tr
+                    className={styles.pagelist}
+                    key={index}
+                    onClick={() => handlePostClick(index + 1)}
+                  >
+                    <td className={`${styles.td} ${styles.cellWriter}`}>
+                      {post.user_id}
+                    </td>
+                    <td className={`${styles.td} ${styles.cellTitle}`}>
+                      {post.title}
+                    </td>
+                    <td className={`${styles.td} ${styles.cellComment}`}>
+                      {post.commentNum}
+                    </td>
+                    <td className={`${styles.td} ${styles.cellViews}`}>
+                      {post.viewcount}
+                    </td>
                   </tr>
                 ))}
               </tbody>

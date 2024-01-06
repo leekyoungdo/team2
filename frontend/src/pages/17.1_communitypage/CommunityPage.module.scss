@@ -2,10 +2,11 @@
 
 .media {
   max-width: 900px;
+  min-width: 300px;
 }
 
 .bg {
-  display: flex;
+  display: block;
   justify-content: center;
   align-items: center;
   height: 100vh;
@@ -76,12 +77,14 @@ hr {
 .container {
   border-radius: 35px;
   border: 2px solid #000000;
-  padding: 20px;
-  margin: 20px;
+  padding: 0px;
+  margin: 5px;
   background-color: #ffffff;
   box-shadow: 4px 4px 0px #000000;
 
   &.main {
+    height: 82vh;
+    margin: 20px;
     margin-top: 80px;
     background-color: #7eba94;
   }
@@ -121,6 +124,7 @@ hr {
       margin: 0px 30px 0px 30px;
       border-radius: 0px 0px 35px 35px;
       margin-top: -2px;
+      height: 60vh;
     }
 
     .Title {
