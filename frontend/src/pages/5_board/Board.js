@@ -6,19 +6,19 @@ import { Link } from "react-router-dom";
 export default function Board() {
   const [allboardList, setAllBoardList] = useState([]);
 
-  const getBoard = () => {
-    axios
-      .get(`${process.env.REACT_APP_HOST}/board/getallboard`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setAllBoardList(res.data.posts);
-      });
-  };
+  // const getBoard = () => {
+  //   axios
+  //     .get(`${process.env.REACT_APP_HOST}/board/getallboard`, {
+  //       withCredentials: true,
+  //     })
+  //     .then((res) => {
+  //       setAllBoardList(res.data.posts);
+  //     });
+  // };
 
-  useEffect(() => {
-    getBoard();
-  }, []);
+  // useEffect(() => {
+  //   getBoard();
+  // }, []);
 
   const detailBoard = () => {};
 
@@ -87,10 +87,8 @@ export default function Board() {
 
   return (
     <>
-      <div className={styles.bgHome}>
+      <div className={styles.bg}>
         <div className={styles.container}>
-          <div className={styles.signinBtn}>로그인</div>
-          <div className={styles.logo}>멍멍투게더</div>
 
           <div className={styles.category}>
             <div>
@@ -108,20 +106,23 @@ export default function Board() {
           </div>
 
           <div className={styles.contents}>
+            {sampleData2.map((data, index) => (
             <div className={styles.box}>
-              {/* {sampleData2.map((data, index) => (
-                <div className={styles.bar} key={index}>
-                  <p>{data.category}</p>
-                  <p>작성자: {data.user_id}</p>
-                  <p>제목: {data.title}</p>
-                  <p>내용: {data.content}</p>
-                  <p>{data.image}</p>
-                  <p>{data.makeboard}</p>
-                  <p>{data.viewcount}</p>
-                </div>
-              ))} */}
-              {allboardList.map((value) => (
-                <Link to={`/board/${value.board_id}`}>
+              <div className={styles.bar} key={index}>
+                <p className={styles.category_contents} >{data.category}</p>
+                <p className={styles.title} >{data.title}</p>
+                <p className={styles.content} >{data.content}</p>
+                <p className={styles.user_id} >{data.user_id}</p>
+                <p className={styles.image} >{data.image}</p>
+                <p className={styles.makeboard} >{data.makeboard}</p>
+                <p className={styles.viewcount} >{data.viewcount}</p>
+              </div>
+            </div>
+            ))}
+
+            {/* {allboardList.map((value) => (
+              <Link to={`/board/${value.board_id}`}>
+                <div className={styles.box}>
                   <div className={styles.bar} key={value.board_id}>
                     <p>{value.category}</p>
                     <p>작성자: {value.user_id}</p>
@@ -131,16 +132,18 @@ export default function Board() {
                     <p>{value.makeboard}</p>
                     <p>{value.viewcount}</p>
                   </div>
-                </Link>
-              ))}
-            </div>
+                </div>
+              </Link>
+            ))} */}
           </div>
 
           <Link to={`/board/write`}>
             <div className={styles.writeButton}>글쓰기</div>
           </Link>
+          
         </div>
       </div>
+
     </>
   );
 }
