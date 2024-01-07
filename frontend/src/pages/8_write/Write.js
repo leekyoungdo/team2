@@ -2,14 +2,16 @@ import styles from "./write.module.scss";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useState } from "react";
 
 export default function Write() {
   const {
     register,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const [boardType, setBoardType] = useState("일상");
   const navigator = useNavigate();
 
   const onValid = (data) => {
@@ -53,14 +55,18 @@ export default function Write() {
           <form onSubmit={handleSubmit(onValid)}>
             <div className={styles.innerContainer}>
               <div className={styles.innerContainerText}>게시판</div>
-              <div
-                className={styles.boardTypeContainer}
-                {...register("category")}
-              >
-                <select className={styles.boardTypeSelect}>
-                  <option>자유게시판</option>
-                  <option>일상게시판</option>
-                  <option>질문게시판</option>
+              <div className={styles.boardTypeContainer}>
+                <select
+                  className={styles.boardTypeSelect}
+                  value={boardType}
+                  onChange={(e) => {
+                    setBoardType(e.target.value);
+                    setValue("category", e.target.value);
+                  }}
+                >
+                  <option value="일상">일상 게시판</option>
+                  <option value="질문">질문 게시판</option>
+                  <option value="실종/포착">실종/포착 게시판</option>
                 </select>
               </div>
               <div className={styles.innerContainerText}>제목</div>
