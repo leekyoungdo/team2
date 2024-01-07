@@ -1,7 +1,7 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
+import { Provider } from "react-redux";
+import { configureStore } from "@reduxjs/toolkit";
 // import { composeWithDevTools } from 'redux-devtools-extension';
 // import rootReducer from './redux/reducer';
 
@@ -44,7 +44,7 @@ function App() {
             <Route path="/user/signup" element={<SignUp />} />
             <Route path="/user/signin" element={<SignIn />} />
             <Route path="/board/write" element={<Write />} />
-            <Route path="/board/:id" element={<Post />} />
+            <Route path="/board/:board_id" element={<Post />} />
             <Route path="/dmpage" element={<DmPage />} />
             <Route path="/dm" element={<Dm />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />

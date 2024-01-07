@@ -1,57 +1,46 @@
-import { useState, useEffect } from 'react';
-import './post.module.scss';
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import "./post.module.scss";
+import axios from "axios";
 
 export default function Post() {
-  const [post, setPost] = useState([]);
+  const [post, setPost] = useState({});
+  const { board_id } = useParams();
 
-  const dummyData = [
-    {
-      result: true,
-      board: {
-        board_id: 1,
-        user_id: 'flrudeh',
-        category: '자유',
-        title: '우리 강아지 보고 가세요~',
-        content: '안녕',
-        image: null,
-        makeboard: '2023-12-28',
-        viewcount: 3,
-      },
-    },
-  ];
+  const getBoard = () => {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/board/getboardid/${board_id}`)
+      .then((res) => {
+        setPost(res.data.board);
+      });
+  };
 
   useEffect(() => {
-    setPost(dummyData);
+    getBoard();
   }, []);
 
   return (
     <>
-      {/* 기능 구현하면 아래 주석처리된 코드 삭제하기 */}
-      {/* {post.map((item) => (
-        <div key={item.board.board_id} className="post">
-          <p>{item.board.category}게시판</p>
-          <p>{item.board.title}</p>
-          <p>작성자: {item.board.user_id}</p>
-          <p>작성 날짜: {item.board.makeboard}</p>
-          <p>조회수: {item.board.viewcount}</p>
-          <p>{item.board.image}</p>
-          <p>{item.board.content}</p>
-        </div>
-      ))} */}
-
-      {post.map((item) => (
+      {post && (
         <>
-          <div className="category">{item.board.category}게시판</div>
-          <div className="title">{item.board.title}</div>
-          <div className="user">{item.board.user_id}</div>
-          <div className="makeboard">{item.board.makeboard}</div>
+          <div className="category">{post.category}게시판</div>
+          <div className="title">{post.title}</div>
+          <div className="user">{post.user_id}</div>
+          <div className="makeboard">{post.makeboard}</div>
 
           <div className="division-line"></div>
 
-          <div className="image">{item.board.image}</div>
-          <div className="content">{item.board.content}</div>
+          <div className="image">
+            {post.image && (
+              <img
+                src={`${process.env.REACT_APP_HOST}${post.image}`}
+                alt="게시물 사진"
+              />
+            )}
+          </div>
+          <div className="content">{post.content}</div>
         </>
-      ))}
+      )}
     </>
   );
 }
