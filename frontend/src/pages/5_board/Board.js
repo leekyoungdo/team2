@@ -1,149 +1,100 @@
 import styles from "./Board.module.scss";
 import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function Board() {
   const [allboardList, setAllBoardList] = useState([]);
+  const [filteredBoardList, setFilteredBoardList] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("전체");
+  const navigate = useNavigate();
 
-  // const getBoard = () => {
-  //   axios
-  //     .get(`${process.env.REACT_APP_HOST}/board/getallboard`, {
-  //       withCredentials: true,
-  //     })
-  //     .then((res) => {
-  //       setAllBoardList(res.data.posts);
-  //     });
-  // };
+  const getBoard = () => {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/board/getallboard`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log(res);
+        setAllBoardList(res.data.posts);
+        setFilteredBoardList(res.data.posts); // 처음에는 모든 게시물을 보여줌
+      });
+  };
 
-  // useEffect(() => {
-  //   getBoard();
-  // }, []);
+  useEffect(() => {
+    getBoard();
+  }, []);
 
-  const detailBoard = () => {};
+  const handleCategoryClick = (category) => {
+    // 카테고리를 클릭했을 때 호출되는 함수
+    setSelectedCategory(category);
 
-  const sampleData2 = [
-    {
-      board_id: 2,
-      user_id: "flrudeh",
-      category: "일상",
-      title: "제목 수정중입니다.",
-      content: "수정 됬나요 ?!",
-      image: null,
-      makeboard: "2023-12-28",
-      viewcount: 0,
-    },
-    {
-      board_id: 1,
-      user_id: "flrudeh",
-      category: "자유",
-      title: "첫글",
-      content: "안녕",
-      image: null,
-      makeboard: "2023-12-28",
-      viewcount: 3,
-    },
-    {
-      board_id: 1,
-      user_id: "flrudeh",
-      category: "질문",
-      title: "첫글",
-      content: "안녕",
-      image: null,
-      makeboard: "2023-12-28",
-      viewcount: 3,
-    },
-    {
-      board_id: 2,
-      user_id: "flrudeh",
-      category: "실종/포착",
-      title: "제목 수정중입니다.",
-      content: "수정 됬나요 ?!",
-      image: null,
-      makeboard: "2023-12-28",
-      viewcount: 0,
-    },
-    {
-      board_id: 2,
-      user_id: "flrudeh",
-      category: "일상",
-      title: "제목 수정중입니다.",
-      content: "수정 됬나요 ?!",
-      image: null,
-      makeboard: "2023-12-28",
-      viewcount: 0,
-    },
-    {
-      board_id: 1,
-      user_id: "flrudeh",
-      category: "자유",
-      title: "첫글",
-      content: "안녕",
-      image: null,
-      makeboard: "2023-12-28",
-      viewcount: 3,
-    },
-  ];
+    if (category === "전체") {
+      setFilteredBoardList(allboardList); // '전체' 카테고리 선택 시 전체 게시물 표시
+    } else {
+      // 선택된 카테고리에 해당하는 게시물만 필터링
+      const filteredList = allboardList.filter(
+        (item) => item.category === category
+      );
+      setFilteredBoardList(filteredList);
+    }
+  };
 
   return (
     <>
       <div className={styles.bg}>
         <div className={styles.container}>
-
           <div className={styles.category}>
-            <div>
+            <div onClick={() => handleCategoryClick("전체")}>
               <p>전체</p>
             </div>
-            <div>
+            <div onClick={() => handleCategoryClick("일상")}>
               <p>일상</p>
             </div>
-            <div>
+            <div onClick={() => handleCategoryClick("질문")}>
               <p>질문</p>
             </div>
-            <div>
+            <div onClick={() => handleCategoryClick("실종/포착")}>
               <p>실종/포착</p>
             </div>
           </div>
 
           <div className={styles.contents}>
-            {sampleData2.map((data, index) => (
-            <div className={styles.box}>
-              <div className={styles.bar} key={index}>
-                <p className={styles.category_contents} >{data.category}</p>
-                <p className={styles.title} >{data.title}</p>
-                <p className={styles.content} >{data.content}</p>
-                <p className={styles.user_id} >{data.user_id}</p>
-                <p className={styles.image} >{data.image}</p>
-                <p className={styles.makeboard} >{data.makeboard}</p>
-                <p className={styles.viewcount} >{data.viewcount}</p>
-              </div>
-            </div>
-            ))}
-
-            {/* {allboardList.map((value) => (
-              <Link to={`/board/${value.board_id}`}>
-                <div className={styles.box}>
-                  <div className={styles.bar} key={value.board_id}>
-                    <p>{value.category}</p>
-                    <p>작성자: {value.user_id}</p>
-                    <p>제목: {value.title}</p>
-                    <p>내용: {value.content}</p>
-                    <p>{value.image}</p>
-                    <p>{value.makeboard}</p>
-                    <p>{value.viewcount}</p>
+            {filteredBoardList.length > 0 &&
+              filteredBoardList.map((value) => (
+                <div
+                  className={styles.box}
+                  key={value.board_id}
+                  onClick={() => navigate(`/board/${value.board_id}`)}
+                >
+                  <div className={styles.bar}>
+                    <p className={styles.category_contents}>{value.category}</p>
+                    <p className={styles.title}>{value.title}</p>
+                    <p className={styles.content}>{value.content}</p>
+                    <p className={styles.user_id}>{value.user_id}</p>
+                    <p className={styles.image}>
+                      {value.image && (
+                        <img
+                          src={`${process.env.REACT_APP_HOST}${value.image}`}
+                          alt="게시물 사진"
+                        />
+                      )}
+                    </p>
+                    <p className={styles.makeboard}>{value.makeboard}</p>
+                    <p className={styles.viewcount}>{value.viewcount}</p>
                   </div>
                 </div>
-              </Link>
-            ))} */}
+              ))}
           </div>
 
-          <Link to={`/board/write`}>
-            <div className={styles.writeButton}>글쓰기</div>
-          </Link>
-          
+          <div
+            className={styles.writeButton}
+            onClick={() => navigate(`/board/write`)}
+          >
+            글쓰기
+          </div>
         </div>
       </div>
-
     </>
   );
 }

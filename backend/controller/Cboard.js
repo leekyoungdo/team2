@@ -1,6 +1,7 @@
 const { User } = require("../model");
 const { Comment } = require("../model");
 const { Board } = require("../model");
+const path = require("path");
 
 // 게시판 전체 조회
 exports.getAllBoard = async (req, res) => {
@@ -69,7 +70,7 @@ exports.boardSubmit = async (req, res) => {
   try {
     const { title, category, content } = req.body;
     const user_id = req.session.user;
-    const image = req.file ? req.file.filename : null;
+    const image = req.file ? path.join("/static/", req.file.filename) : null;
     if (!user_id) {
       return res.send({
         result: false,

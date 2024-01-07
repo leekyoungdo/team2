@@ -1,5 +1,4 @@
 .bg {
-
   display: block;
   justify-content: center;
   align-items: center;
@@ -44,7 +43,7 @@
   border: 2px solid black;
   width: 600px;
   display: flex;
-  justify-content:space-around;
+  justify-content: space-around;
   border-radius: 35px;
   background-color: #fa8b8b;
   font-size: 20px;
@@ -52,7 +51,6 @@
   margin: 20px auto;
   box-shadow: 1.5px 2px 0px #000000;
 }
-
 
 .contents {
   margin: auto;
@@ -65,13 +63,13 @@
 }
 
 .box {
-  width: calc(50% - 10px); 
+  width: calc(50% - 10px);
   height: auto;
   padding: 10px;
-  background-color: #F8F2E5;
+  background-color: #f8f2e5;
   border: 2px solid black;
   border-radius: 20px;
-  box-sizing: border-box; 
+  box-sizing: border-box;
 }
 
 .bar {
@@ -83,7 +81,6 @@
   margin: 8px 0;
   font-size: 16px;
 }
-
 
 .category_contents {
 }
@@ -107,8 +104,9 @@
   color: #555;
 }
 
-
-
+.image img {
+  width: 200px;
+}
 
 .writeButton {
   font-size: 20px;
