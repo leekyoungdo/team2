@@ -110,19 +110,20 @@ export default function Home() {
 
         <h2>최신글</h2>
         <div className={`${styles.Box} ${styles.hotTopic}`}>
-          {allboardList.slice(1, 6).map((value) => (
-            <Link
-              to={`/board/${value.board_id}`}
-              key={value.board_id}
-              style={{ color: "inherit", textDecoration: "none" }}
-            >
-              <div className={styles.bar} key={value.board_id}>
-                {value.category}
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {value.title}
-              </div>
-            </Link>
-          ))}
+          {allboardList.length > 0 &&
+            allboardList.slice(1, 6).map((value) => (
+              <Link
+                to={`/board/${value.board_id}`}
+                key={value.board_id}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                <div className={styles.bar} key={value.board_id}>
+                  {value.category}
+                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                  {value.title}
+                </div>
+              </Link>
+            ))}
         </div>
 
         <Link to={`/board/write`}>

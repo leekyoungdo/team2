@@ -1,6 +1,5 @@
 const multer = require("multer");
 const path = require("path");
-const sanitizeFilename = require("sanitize-filename");
 
 // 업로드된 파일을 저장할 디렉터리 및 파일명 설정
 let imageNum = 1;
@@ -16,16 +15,15 @@ const storage = multer.diskStorage({
 });
 
 // 업로드된 파일을 저장할 디렉터리 및 파일명 설정
+let boardImageNum = 1;
 const storageEditor = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "static"); // 파일을 저장할 디렉터리
   },
   filename: function (req, file, cb) {
     const ext = path.extname(file.originalname);
-    const sanitizedFilename = sanitizeFilename(
-      path.basename(file.originalname, ext)
-    );
-    cb(null, sanitizedFilename + "__" + Date.now() + ext); // 파일명 설정 (유니크한 이름)
+    cb(null, "board_image__" + boardImageNum + ext); // 파일명 설정 ex) user_image_1.png
+    boardImageNum++;
   },
 });
 

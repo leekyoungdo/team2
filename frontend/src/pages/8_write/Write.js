@@ -9,19 +9,21 @@ export default function Write() {
     formState: { errors },
   } = useForm();
 
+  const navigator = useNavigate();
+
   const onValid = (data) => {
     // 파일 인풋 요소에서 선택된 파일 가져오기
-    const fileInput = document.querySelector('#picture');
+    const fileInput = document.querySelector("#picture");
     const file = fileInput.files[0];
 
     // FormData 객체 생성
     const formData = new FormData();
 
     // 전송할 데이터 객체
-    formData.append('image', file);
-    formData.append('category', data.category);
-    formData.append('title', data.title);
-    formData.append('content', data.content);
+    formData.append("image", file);
+    formData.append("category", data.category);
+    formData.append("title", data.title);
+    formData.append("content", data.content);
 
     // 전송할 데이터 객체
     // const postData = {
@@ -39,6 +41,12 @@ export default function Write() {
       })
       .then((res) => {
         console.log(res.data);
+        if (res.data.result) {
+          alert("게시물이 등록되었습니다.");
+          navigator("/board");
+        } else {
+          alert("게시물이 등록되지 않았습니다.");
+        }
       })
       .catch((error) => {
         console.error(error);
