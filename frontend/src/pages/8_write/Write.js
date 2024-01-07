@@ -1,4 +1,4 @@
-import styles from './write.module.scss'; // CSS 모듈 파일을 import합니다.
+import styles from './write.module.scss';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 
@@ -47,75 +47,83 @@ export default function Write() {
 
   return (
     <>
-      <h2>글작성</h2>
-      <br />
-      <form onSubmit={handleSubmit(onValid)}>
-        <div>
-          게시판
-          <div
-            className={styles['board-type-container']}
-            {...register('category')}
-          >
-            <select className={styles['board-type-select']}>
-              <option>자유게시판</option>
-              <option>일상게시판</option>
-              <option>질문게시판</option>
-            </select>
-          </div>
-          <br />
-          제목
-          <div className={styles['title-container']}>
-            <br />
-            <input
-              type="text"
-              className={styles['title-text']}
-              placeholder="  제목을 입력해주세요"
-              {...register('title', {
-                required: '제목은 필수로 입력해야 합니다',
-              })}
-            />{' '}
-            {errors.title && (
-              <small role="alert" className={styles.error}>
-                {errors.title.message}
-              </small>
-            )}
-          </div>
-          <br />
-          <div className={styles['contents']}>
-            내용
-            <br />
-            <textarea
-              className={styles['contents-text']}
-              {...register('content', {
-                required: '내용은 필수로 입력해야 합니다',
-              })}
-            ></textarea>{' '}
-            {errors.content && (
-              <small role="alert" className={styles.error}>
-                {errors.content.message}
-              </small>
-            )}
-          </div>
-          <br />
-          <br />
-          <label className={styles['upload-button']} htmlFor="picture">
-            사진 업로드
-            <input
-              {...register('image')}
-              id="picture"
-              type="file"
-              className={styles['hidden']}
-              accept="image/*"
-              style={{ display: 'none' }}
-              // formData()로 파일을 업로드할 때 encType 속성을 아래와 같이 명시해주어야 한다
-              encType="multipart/form-data"
-            />
-          </label>{' '}
-          <button type="submit" className={styles['submit-button']}>
-            등록
-          </button>
+      <div className={styles.bg}>
+        <div className={styles.container}>
+          <h2>글작성</h2>
+          <form onSubmit={handleSubmit(onValid)}>
+            <div className={styles.innerContainer}>
+              <div className={styles.innerContainerText}>게시판</div>
+              <div
+                className={styles.boardTypeContainer}
+                {...register('category')}
+              >
+                <select className={styles.boardTypeSelect}>
+                  <option>자유게시판</option>
+                  <option>일상게시판</option>
+                  <option>질문게시판</option>
+                </select>
+              </div>
+              <div className={styles.innerContainerText}>제목</div>
+              <div className={styles.titleContainer}>
+                <input
+                  type="text"
+                  className={styles.titleText}
+                  placeholder="제목을 입력해주세요"
+                  {...register('title', {
+                    required: '제목은 필수로 입력해야 합니다',
+                  })}
+                />
+                <br />
+                {errors.title && (
+                  <small role="alert" className={styles.error}>
+                    {errors.title.message}
+                  </small>
+                )}
+              </div>
+              <div className={styles.contents}>
+                <div className={styles.innerContainerText}>내용</div>
+                <textarea
+                  className={styles.contentsText}
+                  placeholder="내용을 입력해주세요"
+                  {...register('content', {
+                    required: '내용은 필수로 입력해야 합니다',
+                  })}
+                ></textarea>
+                <br />
+                {errors.content && (
+                  <small role="alert" className={styles.error}>
+                    {errors.content.message}
+                  </small>
+                )}
+              </div>
+              <div className={styles.btnContainer}>
+                <label
+                  className={`${styles.btn} ${styles.uploadBtn}`}
+                  htmlFor="picture"
+                >
+                  사진 업로드
+                  <input
+                    {...register('image')}
+                    id="picture"
+                    type="file"
+                    className={styles.hidden}
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    // formData()로 파일을 업로드할 때 encType 속성을 아래와 같이 명시해주어야 한다
+                    encType="multipart/form-data"
+                  />
+                </label>{' '}
+                <button
+                  type="submit"
+                  className={`${styles.btn} ${styles.submitBtn}`}
+                >
+                  등록
+                </button>
+              </div>
+            </div>
+          </form>
         </div>
-      </form>
+      </div>
     </>
   );
 }
