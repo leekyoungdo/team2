@@ -40,23 +40,26 @@ export default function Board() {
     }
   };
 
+
   return (
     <>
       <div className={styles.bg}>
         <div className={styles.container}>
           <div className={styles.category}>
-            <div onClick={() => handleCategoryClick("전체")}>
-              <p>전체</p>
-            </div>
-            <div onClick={() => handleCategoryClick("일상")}>
-              <p>일상</p>
-            </div>
-            <div onClick={() => handleCategoryClick("질문")}>
-              <p>질문</p>
-            </div>
-            <div onClick={() => handleCategoryClick("실종/포착")}>
-              <p>실종/포착</p>
-            </div>
+            <ul>
+              <li>
+                <a onClick={() => handleCategoryClick("전체")}>전체</a>
+              </li>
+              <li>
+                <a onClick={() => handleCategoryClick("일상")}>일상</a>
+              </li>
+              <li>
+                <a onClick={() => handleCategoryClick("질문")}>질문</a>
+              </li>
+              <li>
+                <a onClick={() => handleCategoryClick("실종/포착")}>실종/포착</a>
+              </li>
+            </ul>
           </div>
 
           <div className={styles.contents}>
@@ -69,9 +72,12 @@ export default function Board() {
                 >
                   <div className={styles.bar}>
                     <p className={styles.category_contents}>{value.category}</p>
-                    <p className={styles.title}>{value.title}</p>
-                    <p className={styles.content}>{value.content}</p>
-                    <p className={styles.user_id}>{value.user_id}</p>
+                    <p className={styles.title}>
+                      {value.title.length > 30 ? `${value.title.substring(0, 30)}...` : value.title}
+                    </p>
+                    <p className={styles.content}>
+                      {value.content.length > 30 ? `${value.content.substring(0, 30)}...` : value.content}
+                    </p>
                     <p className={styles.image}>
                       {value.image && (
                         <img
@@ -80,8 +86,9 @@ export default function Board() {
                         />
                       )}
                     </p>
-                    <p className={styles.makeboard}>{value.makeboard}</p>
+                    <p className={styles.user_id}>{value.user_id}</p>
                     <p className={styles.viewcount}>{value.viewcount}</p>
+                    <p className={styles.makeboard}>{value.makeboard}</p>
                   </div>
                 </div>
               ))}
