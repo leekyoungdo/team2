@@ -17,13 +17,21 @@ export default function CommunityPage() {
   });
 
   const { pageNum } = useParams();
+  const { community_id } = useParams();
   const [currentPageNum, setCurrentPageNum] = useState(Number(pageNum));
   const [loggedInUserId, setLoggedInUserId] = useState("");
   const [page, setPage] = useState([]);
+  const [board_id, setBoard_id] = useState(null);
 
   useEffect(() => {
     setCurrentPageNum(Number(pageNum));
   }, [pageNum]);
+
+  useEffect(() => {
+    if (board_id) {
+      fetchComments(board_id);
+    }
+  }, [board_id]);
 
   useEffect(() => {
     // 로그인 상태
@@ -42,17 +50,18 @@ export default function CommunityPage() {
     const params = { pageNum: currentPageNum - 1 };
 
     axios
-      .get(`${process.env.REACT_APP_HOST}/board/getboardcategory/모임_자유`, {
-        params: params,
-      })
+      .get(
+        `${process.env.REACT_APP_HOST}/board/getboardcategory/모임_${community_id}_자유`,
+        {
+          params: params,
+        }
+      )
       .then((response) => {
-        console.log("현재 페이지 번호:", currentPageNum);
-        console.log("조회한 페이지 :", response.data.posts[currentPageNum - 1]);
-
         if (response.data.posts.length > 0) {
-          console.log("들어온 자료값:", response.data.posts);
-          console.log("params 값:", params);
           setPage(response.data.posts);
+          // 현재 페이지의 게시물 데이터를 저장합니다.
+          setBoard_id(response.data.posts[currentPageNum - 1].board_id);
+
           setPostsPerPage(response.data.posts.length); // 페이지당 게시글 수를 저장합니다.
         } else {
           console.log("posts 배열이 비어있거나 없음");
@@ -61,8 +70,40 @@ export default function CommunityPage() {
       .catch((err) => console.error("API 요청 및 페이지 조회 오류", err));
   };
 
+  // 댓글 데이터를 불러오는 함수
+  const fetchComments = (board_id) => {
+    if (!board_id) return;
+    console.log("fetchComments 함수에서의 board_id:", board_id);
+
+    axios
+      .get(`${process.env.REACT_APP_HOST}/comment/getComment/${board_id}`) // URL 변경
+      .then((response) => {
+        console.log("서버로부터 받아온 응답:", response);
+        console.log("살려주세요 res.data.comment : ", response.data.comment);
+
+        setComments(Object.values(response.data.comment)); // comments 데이터 저장 방식 변경
+
+        if (response.data.result) {
+          const fetchedComments = response.data.comments.map((comment) => ({
+            id: comment.comment_id,
+            writer: comment.User.nickname,
+            content: comment.comment_content,
+          }));
+          setComments(fetchedComments);
+        } else {
+          console.log("댓글을 불러오는 데 실패했습니다.");
+        }
+      })
+      .catch((error) => console.error("댓글 불러오기 에러:", error));
+  };
+
   useEffect(() => {
-    getApi();
+    const fetchData = async () => {
+      await getApi();
+      fetchComments(page.board_id);
+    };
+
+    fetchData();
   }, [currentPageNum]);
   // [currentPageNum]이 바뀔때마다 새로 일어나라는 뜻
 
@@ -95,46 +136,40 @@ export default function CommunityPage() {
   ]);
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    setComments([
-      ...comments,
-      {
-        id: comments.length + 1,
-        writer: loggedInUserId, // writer 값을 loggedInUserId로 설정합니다.
-        content: newComment.content,
-      },
-    ]);
-    // 페이지의 댓글 수 업데이트
-    setPage((prevPage) =>
-      prevPage.map((post) => {
-        if (post.pageNum === 1) {
-          // 현재 페이지 번호가 1인 경우만 처리
-          return {
-            ...post,
-            commentNum: post.commentNum + 1,
-          };
+
+    axios
+      .post(
+        `${process.env.REACT_APP_HOST}/comment/postcomment/${page.board_id}`,
+        {
+          comment_content: newComment.content,
         }
-        return post;
+      )
+      .then((response) => {
+        if (response.data.result) {
+          console.log("댓글 작성 성공");
+          fetchComments(page.board_id); // 댓글 작성 후 다시 댓글을 불러옵니다.
+        } else {
+          console.log("댓글 작성 실패");
+        }
       })
-    );
+      .catch((error) => console.error("댓글 작성 에러:", error));
+
     setNewComment({ writer: "", content: "" });
   };
 
   const handleDeleteComment = (id) => {
-    setComments(comments.filter((comment) => comment.id !== id));
-
-    // 페이지의 댓글 수 업데이트
-    setPage((prevPage) =>
-      prevPage.map((post) => {
-        if (post.pageNum === 1) {
-          // 현재 페이지 번호가 1인 경우만 처리
-          return {
-            ...post,
-            commentNum: post.commentNum - 1,
-          };
+    // 백엔드에 댓글 삭제 요청
+    axios
+      .delete(`${process.env.REACT_APP_HOST}/comment/delete/${id}`)
+      .then((response) => {
+        if (response.data.result) {
+          console.log("댓글 삭제 성공");
+          fetchComments(page.board_id); // 댓글 삭제 후 다시 댓글을 불러옵니다.
+        } else {
+          console.log("댓글 삭제 실패");
         }
-        return post;
       })
-    );
+      .catch((error) => console.error("댓글 삭제 에러:", error));
   };
 
   const navigator = useNavigate();
@@ -149,7 +184,7 @@ export default function CommunityPage() {
 
       // 주소창에 페이지 번호를 반영합니다.
       navigator(
-        `/communityboard/community/communityinnerboard/CommunityPage/${nextPageNum}`
+        `/communityboard/community/${community_id}/communityinnerboard/CommunityPage/${nextPageNum}`
       );
     }
   };
@@ -164,7 +199,7 @@ export default function CommunityPage() {
 
       // 주소창에 페이지 번호를 반영합니다.
       navigator(
-        `/communityboard/community/communityinnerboard/CommunityPage/${prevPageNum}`
+        `/communityboard/community/${community_id}/communityinnerboard/CommunityPage/${prevPageNum}`
       );
     }
   };

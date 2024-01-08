@@ -49,21 +49,24 @@ function App() {
               path="/communityboard/makecommunity"
               element={<MakeCommunity />}
             />
-            <Route path="/communityboard/community" element={<Community />} />
             <Route
-              path="/communityboard/community/communityinnerboard"
+              path="/communityboard/community/:community_id"
+              element={<Community />}
+            />
+            <Route
+              path="/communityboard/community/:community_id/communityinnerboard"
               element={<CommunityInnerBoard />}
             />
             <Route
-              path="/communityboard/community/communityinnerboard/CommunityWrite"
+              path="/communityboard/community/:community_id/communityinnerboard/CommunityWrite"
               element={<CommunityWrite />}
             />
             <Route
-              path="/communityboard/community/communityinnerboard"
+              path="/communityboard/community/:community_id/communityinnerboard/communitypage/:pageNum"
               element={<CommunityPage />}
             />
             <Route
-              path="/communityboard/community/CommunityTalk"
+              path="/communityboard/community/:community_id/CommunityTalk"
               element={<CommunityTalk />}
             />
             <Route path="*" element={<NotFound />} />

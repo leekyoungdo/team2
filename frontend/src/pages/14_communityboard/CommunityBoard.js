@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { Link } from "react-router-dom";
 
 const imageFiles = [
   "c_pic (1).png",
@@ -143,16 +144,17 @@ export default function CommunityBoard() {
             >
               {searchQuery === "" &&
                 hotGroups.map((group, index) => {
-                  // 랜덤 인덱스를 생성합니다.
                   const randomIndex = Math.floor(Math.random() * images.length);
-
                   return (
-                    <div key={index}>
+                    <Link
+                      to={`/communityboard/community/${group.community_id}`}
+                      key={index}
+                    >
                       <div className={styles.Hotbar_2}>
                         <div className={styles.Hotbar_3}>
                           <img
                             className={styles.CommuPic}
-                            src={images[randomIndex]} // 랜덤 이미지를 사용합니다.
+                            src={images[randomIndex]}
                             alt="모임사진"
                             title="모임 프로필"
                           />
@@ -163,7 +165,7 @@ export default function CommunityBoard() {
                           </div>
                         </div>
                       </div>
-                    </div>
+                    </Link>
                   );
                 })}
             </Slider>
@@ -188,22 +190,26 @@ export default function CommunityBoard() {
             ) => {
               // 랜덤 인덱스를 생성합니다.
               const randomIndex = Math.floor(Math.random() * images.length);
-
               return (
-                <div className={styles.Groupbar} key={index}>
-                  <img
-                    className={styles.CommuPic}
-                    src={images[randomIndex]} // 랜덤 이미지를 사용합니다.
-                    alt="모임사진"
-                    title="모임 프로필"
-                  />
-                  <div className={styles.Profile}>
-                    지역: {group.community_local} <br />
-                    모임명: {group.community_name} <br />
-                    소개: {group.introduce} <br />
-                    참여인원: {group.groupNum}
+                <Link
+                  to={`/communityboard/community/${group.community_id}`}
+                  key={index}
+                >
+                  <div className={styles.Groupbar}>
+                    <img
+                      className={styles.CommuPic}
+                      src={images[randomIndex]}
+                      alt="모임사진"
+                      title="모임 프로필"
+                    />
+                    <div className={styles.Profile}>
+                      지역: {group.community_local} <br />
+                      모임명: {group.community_name} <br />
+                      소개: {group.introduce} <br />
+                      참여인원: {group.groupNum}
+                    </div>
                   </div>
-                </div>
+                </Link>
               );
             }
           )}
