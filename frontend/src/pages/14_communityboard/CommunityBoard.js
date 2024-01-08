@@ -3,13 +3,45 @@ import axios from "axios";
 import styles from "./CommunityBoard.module.scss";
 import commupic from "./commupic.png";
 import { useNavigate } from "react-router-dom";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
+const imageFiles = [
+  "c_pic (1).png",
+  "c_pic (2).png",
+  "c_pic (3).png",
+  "c_pic (4).png",
+  "c_pic (5).png",
+  "c_pic (6).png",
+  "c_pic (7).png",
+  "c_pic (8).png",
+];
 export default function CommunityBoard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [hotGroups, setHotGroups] = useState([]);
   const [Group, setGroup] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [groupsPerPage] = useState(4); // 페이지당 표시할 그룹의 개수를 5개로 설정
+  const totalPages = Math.ceil(filteredGroups.length / groupsPerPage);
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    // 이미지 파일을 동적으로 import 합니다.
+    Promise.all(imageFiles.map((file) => import(`./c_pic_f/${file}`))).then(
+      (images) => setImages(images.map((image) => image.default))
+    );
+  }, []);
+
   const navigate = useNavigate();
+
+  const indexOfLastGroup = currentPage * groupsPerPage;
+  const indexOfFirstGroup = indexOfLastGroup - groupsPerPage;
+  const currentGroups = filteredGroups.slice(
+    indexOfFirstGroup,
+    indexOfLastGroup
+  ); // 현재 페이지에 표시할 그룹들
 
   const handleClick = () => {
     navigate("/communityboard/makecommunity"); // '소모임 만들기' 버튼을 클릭하면 '/createcommunity' 경로로 이동합니다.
@@ -20,6 +52,21 @@ export default function CommunityBoard() {
       Group.filter((group) => group.community_local.includes(searchQuery))
     );
   }, [searchQuery, Group]);
+
+  // 기존의 코드에서 변경
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      // 총 페이지 수보다 작을 때만 다음 페이지로 이동
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      // 1페이지보다 클 때만 이전 페이지로 이동
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   useEffect(() => {
     const sortedGroups = [...Group].sort((a, b) => b.groupNum - a.groupNum);
@@ -44,49 +91,6 @@ export default function CommunityBoard() {
       });
   };
 
-  const exampleDogGroups = [
-    {
-      region: "부산 해운대구",
-      groupName: "부산 플레이데이트",
-      groupIntro:
-        "푸들 사랑하는 해운대구의 강아지 친구들을 모아요. 우리 같이 놀아봐요!",
-      groupNum: 57,
-    },
-    {
-      region: "대전 중구",
-      groupName: "포실포실 대전",
-      groupIntro: "코기를 사랑하는 대전 중구 주민들, 코기의 매력에 빠져보세요!",
-      groupNum: 20,
-    },
-    {
-      region: "서울 강남구",
-      groupName: "스파니얼 러버스",
-      groupIntro:
-        "강남에서 스파니얼을 가진 가족들의 친목을 도모하는 모임입니다.",
-      groupNum: 12,
-    },
-    {
-      region: "인천 남동구",
-      groupName: "썰매개",
-      groupIntro:
-        "인천 남동구의 시베리안 허스키를 사랑하는 모임, 같이 산책하고 경험을 공유해요!",
-      groupNum: 14,
-    },
-    {
-      region: "광주 북구",
-      groupName: "동그란맘",
-      groupIntro:
-        "광주 북구에서 먹보 강쥐를 키우는 주인들의 친목을 위한 모임입니다.",
-      groupNum: 37,
-    },
-    {
-      region: "서울 성동구",
-      groupName: "쪼꼬미 서울숲",
-      groupIntro: "주말 점심 소형견주 산책 모아라!",
-      groupNum: 86,
-    },
-  ];
-
   useEffect(() => {
     axios
       .get(`${process.env.REACT_APP_HOST}/community/getcommunities`)
@@ -103,70 +107,107 @@ export default function CommunityBoard() {
   return (
     <>
       <div className={styles.bg}>
-        <h3>홈버튼</h3>
-        <h1>👨‍👩‍👧‍👦 소모임 리스트</h1>
+        <div className={styles.S_1}>
+          <div className={styles.CommunityBoardHead}>
+            👨‍👩‍👧‍👦 소모임 리스트
+            <form
+              name="searchGroups"
+              action=""
+              method="post"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSearchQuery(e.target.where.value);
+              }}
+            >
+              <input
+                type="text"
+                name="where"
+                placeholder="지역명을 입력해주세요."
+              ></input>
+              <button type="submit">검색</button>
+            </form>
+          </div>
+          <div className={styles.Hotbar_1}>
+            <h4 className={styles.Hotbar_1_t}>
+              인기 모임탭(참여율(인원) 높은 소모임)
+            </h4>
+            <Slider
+              dots={true}
+              infinite={true}
+              speed={500}
+              slidesToShow={1}
+              slidesToScroll={1}
+              className={styles.hotzone}
+              autoplay={true}
+              autoplaySpeed={4000}
+            >
+              {searchQuery === "" &&
+                hotGroups.map((group, index) => {
+                  // 랜덤 인덱스를 생성합니다.
+                  const randomIndex = Math.floor(Math.random() * images.length);
 
-        <div className={styles.CommunityBoardHead}>
-          <h3>🔍</h3>
-          <form
-            name="searchGroups"
-            action=""
-            method="post"
-            onSubmit={(e) => {
-              e.preventDefault();
-              setSearchQuery(e.target.where.value);
-            }}
-          >
-            <input
-              type="text"
-              name="where"
-              placeholder="지역명을 입력해주세요."
-            ></input>
-            <button type="submit">검색</button>
-          </form>
+                  return (
+                    <div key={index}>
+                      <div className={styles.Hotbar_2}>
+                        <div className={styles.Hotbar_3}>
+                          <img
+                            className={styles.CommuPic}
+                            src={images[randomIndex]} // 랜덤 이미지를 사용합니다.
+                            alt="모임사진"
+                            title="모임 프로필"
+                          />
+                          <div className={styles.Profile}>
+                            지역: {group.community_local} <br />
+                            모임명: {group.community_name} <br />
+                            소개: {group.introduce} <br />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  );
+                })}
+            </Slider>
+          </div>
         </div>
 
-        <h4>인기 모임탭(참여율(인원) 높은 소모임)</h4>
-        {searchQuery === "" && (
-          <div className={styles.Hotzone}>
-            {hotGroups.map((group, index) => (
-              <div className={styles.Hotbar} key={index}>
-                <img
-                  className={styles.CommuPic}
-                  src={commupic}
-                  alt="모임사진"
-                  title="모임 프로필"
-                />
-                <div className={styles.Profile}>
-                  지역: {group.community_local} <br />
-                  모임명: {group.community_name} <br />
-                  소개: {group.introduce} <br />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {filteredGroups.map((group, index) => (
-          <div className={styles.Groupbar} key={index}>
-            <img
-              className={styles.CommuPic}
-              src={commupic}
-              alt="모임사진"
-              title="모임 프로필"
-            />
-            <div className={styles.Profile}>
-              지역: {group.community_local} <br />
-              모임명: {group.community_name} <br />
-              소개: {group.introduce} <br />
-              참여인원: {group.groupNum}
+        <div className={styles.S_2}>
+          <div className={styles.c_buttons}>
+            <div className={styles.pagination}>
+              <button onClick={prevPage}>이전</button>
+              <span>{currentPage}</span>
+              <button onClick={nextPage}>다음</button>
             </div>
+            <button onClick={handleClick} className={styles.MakeGroup}>
+              새 모임 만들기 +
+            </button>
           </div>
-        ))}
+          {currentGroups.map(
+            (
+              group,
+              index // currentGroups를 사용하여 렌더링
+            ) => {
+              // 랜덤 인덱스를 생성합니다.
+              const randomIndex = Math.floor(Math.random() * images.length);
 
-        <button onClick={handleClick} className={styles.MakeGroup}>
-          +
-        </button>
+              return (
+                <div className={styles.Groupbar} key={index}>
+                  <img
+                    className={styles.CommuPic}
+                    src={images[randomIndex]} // 랜덤 이미지를 사용합니다.
+                    alt="모임사진"
+                    title="모임 프로필"
+                  />
+                  <div className={styles.Profile}>
+                    지역: {group.community_local} <br />
+                    모임명: {group.community_name} <br />
+                    소개: {group.introduce} <br />
+                    참여인원: {group.groupNum}
+                  </div>
+                </div>
+              );
+            }
+          )}
+        </div>
       </div>
     </>
   );
