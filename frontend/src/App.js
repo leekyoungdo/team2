@@ -1,9 +1,5 @@
 import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Provider } from "react-redux";
-import { configureStore } from "@reduxjs/toolkit";
-// import { composeWithDevTools } from 'redux-devtools-extension';
-// import rootReducer from './redux/reducer';
 
 import Home from "./pages/1_home/Home";
 import MyPage from "./pages/3_mypage/MyPage";
@@ -28,10 +24,8 @@ import CommunityPage from "./pages/17.1_communitypage/CommunityPage";
 import CommunityTalk from "./pages/19_communitytalk/CommunityTalk";
 import NotFound from "./pages/20_notfound/NotFound";
 
-// const store = configureStore({ reducer: rootReducer }, composeWithDevTools());
 function App() {
   return (
-    // <Provider store={store}>
     <BrowserRouter>
       <div style={{ display: "flex", maxHeight: "100vh" }}>
         <Nav />
@@ -75,7 +69,6 @@ function App() {
         </main>
       </div>
     </BrowserRouter>
-    // </Provider>
   );
 }
 
