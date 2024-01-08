@@ -1,15 +1,18 @@
 import styles from "./CommunityInnerBoard.module.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function CommunityInnerBoard() {
   const navigator = useNavigate();
   const [page, setPage] = useState([]);
+  const { community_id } = useParams();
 
   const getApi = () => {
     axios
-      .get(`${process.env.REACT_APP_HOST}/board/getboardcategory/모임_자유`)
+      .get(
+        `${process.env.REACT_APP_HOST}/board/getboardcategory/모임_${community_id}_자유`
+      )
       .then((res) => {
         if (res.data.posts.length > 0) {
           setPage(res.data.posts); // 모든 게시글을 설정
@@ -28,11 +31,13 @@ export default function CommunityInnerBoard() {
 
   const handlePostClick = (pageNumber) => {
     navigator(
-      `/communityboard/community/communityinnerboard/communityPage/${pageNumber}`
+      `/communityboard/community/${community_id}/communityinnerboard/communityPage/${pageNumber}`
     );
   };
   const writeClick = () => {
-    navigator(`/communityboard/community/communityinnerboard/CommunityWrite`);
+    navigator(
+      `/communityboard/community/${community_id}/communityinnerboard/CommunityWrite`
+    );
   };
   return (
     <>
