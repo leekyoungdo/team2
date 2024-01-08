@@ -7,6 +7,8 @@
   font-family: "Pretendard";
   font-weight: 600;
   background-color: #f8f8f8;
+  max-width: 1200px;
+  min-width: 850px;
 }
 
 .container {
@@ -32,8 +34,6 @@
 
 .nav {
   width: 00px;
-  // padding: 10px;
-  // margin: 10px;
   background-color: pink;
   display: flex;
   justify-content: space-around;
@@ -41,15 +41,32 @@
 
 .category {
   border: 2px solid black;
-  width: 600px;
+  width: 450px;
+  height: 50px;
   display: flex;
   justify-content: space-around;
+  align-items: center;
   border-radius: 35px;
   background-color: #fa8b8b;
   font-size: 20px;
   font-weight: 900;
   margin: 20px auto;
   box-shadow: 1.5px 2px 0px #000000;
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+
+    li {
+      margin-right: 50px; 
+
+      &:last-child {
+        margin-right: 0; /* 마지막 항목의 간격을 없애기 위해 */
+      }
+    }
+  }
 }
 
 .contents {
@@ -60,52 +77,71 @@
   gap: 20px;
   max-width: 1200px;
   margin: 20px;
-}
 
-.box {
-  width: calc(50% - 10px);
-  height: auto;
-  padding: 10px;
-  background-color: #f8f2e5;
-  border: 2px solid black;
-  border-radius: 20px;
-  box-sizing: border-box;
-}
+  .box {
+    display: flex;
+    width: calc(50% - 10px);
+    height: auto;
+    padding: 10px;
+    background-color: #f8f2e5;
+    border: 2px solid black;
+    border-radius: 20px;
+    box-sizing: border-box;
 
-.bar {
-  padding: 10px;
-  border-radius: 15px;
-}
+    .bar {
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-radius: 15px;
 
-.bar p {
-  margin: 8px 0;
-  font-size: 16px;
-}
+      p {
+        margin: 8px 0;
+        font-size: 16px;
+        align-self: flex-start;
+        color: #555;
 
-.category_contents {
-}
+        &:last-child {
+          align-self: flex-end;
+        }
+      }
 
-.title {
-  font-size: 20px;
-  font-weight: 800;
-  margin-bottom: 10px;
-}
+      .image {
+        margin-left: auto;
+        align-self: flex-end;
+      
+        img {
+          width: 200px;
+        }
+      }
+    }
 
-.content {
-  font-size: 16px;
-  margin-bottom: 10px;
-}
+    .title {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
 
-.user_id,
-.image,
-.makeboard,
-.viewcount {
-  font-size: 14px;
-  color: #555;
-}
+    .content {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
 
-.image img {
-  width: 200px;
+    .category_contents,
+    .user_id,
+    .viewcount {
+      font-size: 14px;
+      color: #555;
+      align-self: flex-start;
+    }
+
+    .makeboard {
+      margin-left: auto;
+    }
+
+    .image {
+      margin-left: auto;
+    }
+  }
 }
 
 .writeButton {
