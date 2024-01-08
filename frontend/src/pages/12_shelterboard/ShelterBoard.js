@@ -11,6 +11,7 @@ export default function ShelterBoard() {
   const indexOfLastDog = currentPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const currentDogs = dogs.slice(indexOfFirstDog, indexOfLastDog);
+  const [loading, setLoading] = useState(false);
 
   const filteredDogs = dogs.filter(
     (dog) => dog.happenPlace && dog.happenPlace.includes(searchQuery)
@@ -23,6 +24,7 @@ export default function ShelterBoard() {
   }, [searchQuery]);
 
   const getApi = () => {
+    setLoading(true); // API 호출 시작 시 로딩 상태를 true로 설정
     axios
       .get(`${process.env.REACT_APP_HOST}/dog/getapi`) // 요청할 API의 주소를 입력해주세요.
       .then((res) => {
@@ -31,6 +33,9 @@ export default function ShelterBoard() {
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setLoading(false); // API 호출이 끝나면 로딩 상태를 false로 설정
       });
   };
 
@@ -93,24 +98,30 @@ export default function ShelterBoard() {
         </div>
 
         <div className={styles.showDogs}>
-          {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
-            <div className={styles.Dog} key={index}>
-              <img
-                className={styles.ShelterBoardDogPic}
-                src={dog.popfile || dogpic}
-                alt="강아지"
-                title="주인을 기다리고 있어요"
-              />
-              <div className={styles.Profile}>
-                견종: {dog.kindCd}
-                <br /> 성별: {dog.sexCd}
-                <br /> 나이: {dog.age}
-                <br /> 구조지역: {dog.happenPlace}
-                <br />
-                설명: {dog.specialMark}
-              </div>
-            </div>
-          ))}
+          {loading ? (
+            <div>로딩 중...</div>
+          ) : (
+            <>
+              {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
+                <div className={styles.Dog} key={index}>
+                  <img
+                    className={styles.ShelterBoardDogPic}
+                    src={dog.popfile || dogpic}
+                    alt="강아지"
+                    title="주인을 기다리고 있어요"
+                  />
+                  <div className={styles.Profile}>
+                    견종: {dog.kindCd}
+                    <br /> 성별: {dog.sexCd}
+                    <br /> 나이: {dog.age}
+                    <br /> 구조지역: {dog.happenPlace}
+                    <br />
+                    설명: {dog.specialMark}
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
         </div>
       </div>
     </>
