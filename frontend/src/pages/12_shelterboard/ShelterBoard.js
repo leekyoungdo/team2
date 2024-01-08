@@ -1,5 +1,5 @@
 import dogpic from "./mdog.jpg";
-import "./ShelterBoard.scss";
+import styles from "./ShelterBoard.module.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -7,40 +7,24 @@ export default function ShelterBoard() {
   const [searchQuery, setSearchQuery] = useState("");
   const [dogs, setDogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [dogsPerPage] = useState(10);
+  const [dogsPerPage] = useState(8);
   const indexOfLastDog = currentPage * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const currentDogs = dogs.slice(indexOfFirstDog, indexOfLastDog);
+  const [loading, setLoading] = useState(false);
 
-  const exampleDogs = [
-    {
-      견종: "골든 리트리버",
-      성별: "수컷",
-      발견일: "2023-12-25",
-      구조지역: "서울특별시 강남구",
-      설명: "친절한 골든 리트리버입니다.",
-    },
-    {
-      견종: "시베리안 허스키",
-      성별: "암컷",
-      발견일: "2023-12-26",
-      구조지역: "부산광역시 해운대구",
-      설명: "활발한 시베리안 허스키입니다.",
-    },
-    {
-      견종: "비글",
-      성별: "암컷",
-      발견일: "2023-12-27",
-      구조지역: "대구광역시 서구",
-      설명: "사람을 잘 따르는 비글입니다.",
-    },
-  ];
+  const filteredDogs = dogs.filter(
+    (dog) => dog.happenPlace && dog.happenPlace.includes(searchQuery)
+  ); // 검색된 개 리스트
+  const totalPages = Math.ceil(filteredDogs.length / dogsPerPage); // 검색된 개에 대한 총 페이지 수
 
-  // useEffect(() => {
-  //   setDogs(exampleDogs);
-  // }, []);
+  // 검색 쿼리가 변경될 때마다 페이지를 1로 초기화
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchQuery]);
 
   const getApi = () => {
+    setLoading(true); // API 호출 시작 시 로딩 상태를 true로 설정
     axios
       .get(`${process.env.REACT_APP_HOST}/dog/getapi`) // 요청할 API의 주소를 입력해주세요.
       .then((res) => {
@@ -49,6 +33,9 @@ export default function ShelterBoard() {
       })
       .catch((err) => {
         console.error(err);
+      })
+      .finally(() => {
+        setLoading(false); // API 호출이 끝나면 로딩 상태를 false로 설정
       });
   };
 
@@ -57,6 +44,21 @@ export default function ShelterBoard() {
   }, []);
 
   // 계속 불러오지 않고 한번만 자료 받아서 반영해야함.
+
+  // 기존의 코드에서 변경
+  const nextPage = () => {
+    if (currentPage < totalPages) {
+      // 총 페이지 수보다 작을 때만 다음 페이지로 이동
+      setCurrentPage(currentPage + 1);
+    }
+  };
+
+  const prevPage = () => {
+    if (currentPage > 1) {
+      // 1페이지보다 클 때만 이전 페이지로 이동
+      setCurrentPage(currentPage - 1);
+    }
+  };
 
   const filterDogsByLocation = (dog) => {
     if (!dog.happenPlace) {
@@ -67,62 +69,60 @@ export default function ShelterBoard() {
 
   return (
     <>
-      <h3>홈버튼</h3>
-      <h1>🐶유기견 공고</h1>
-
-      <div className="ShelterBoardHead">
-        <h3>🔍</h3>
-        <form
-          name="searchDogs"
-          action=""
-          method="post"
-          onSubmit={(e) => {
-            e.preventDefault();
-            // 검색 버튼을 클릭하거나 엔터키를 눌렀을 때 검색 쿼리를 업데이트하고 결과를 필터링합니다.
-            setSearchQuery(e.target.where.value);
-          }}
-        >
-          <input
-            type="text"
-            name="where"
-            placeholder="지역명을 입력해주세요."
-          ></input>
-          <button type="submit">검색</button>
-        </form>
-      </div>
-      <div className="pagination">
-        {Array(Math.ceil(dogs.length / dogsPerPage))
-          .fill()
-          .map((_, index) => (
-            <button key={index} onClick={() => setCurrentPage(index + 1)}>
-              {index + 1}
-            </button>
-          ))}
-      </div>
-
-      <div className="showDogs">
-        {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
-          <div className="Dog" key={index}>
-            <img
-              className="ShelterBoardDogPic"
-              src={dog.popfile || dogpic} // 강아지 사진이 없을 경우 기본 이미지를 사용합니다.
-              alt="강아지"
-              title="주인을 기다리고 있어요"
-            />
-            <div className="Profile">
-              견종: {dog.kindCd}
-              <br /> 성별: {dog.sexCd}
-              <br /> 나이: {dog.age}
-              <br /> 구조지역: {dog.happenPlace}
-              <br />
-              설명: {dog.specialMark}
-            </div>
+      <div className={styles.bg}>
+        <div className={styles.shelterHead}>
+          🐶 유기견 공고
+          <div className={styles.Serch}>
+            <form
+              name="searchDogs"
+              action=""
+              method="post"
+              onSubmit={(e) => {
+                e.preventDefault();
+                setSearchQuery(e.target.where.value);
+              }}
+            >
+              <input
+                type="text"
+                name="where"
+                placeholder="지역명을 입력해주세요."
+              ></input>
+              <button type="submit">검색</button>
+            </form>
           </div>
-        ))}
-      </div>
+          <div className={styles.pagination}>
+            <button onClick={prevPage}>이전</button>
+            <span>{currentPage}</span>
+            <button onClick={nextPage}>다음</button>
+          </div>
+        </div>
 
-      <div>
-        <h3>네비게이션 바 위치</h3>
+        <div className={styles.showDogs}>
+          {loading ? (
+            <div>로딩 중...</div>
+          ) : (
+            <>
+              {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
+                <div className={styles.Dog} key={index}>
+                  <img
+                    className={styles.ShelterBoardDogPic}
+                    src={dog.popfile || dogpic}
+                    alt="강아지"
+                    title="주인을 기다리고 있어요"
+                  />
+                  <div className={styles.Profile}>
+                    견종: {dog.kindCd}
+                    <br /> 성별: {dog.sexCd}
+                    <br /> 나이: {dog.age}
+                    <br /> 구조지역: {dog.happenPlace}
+                    <br />
+                    설명: {dog.specialMark}
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </div>
       </div>
     </>
   );

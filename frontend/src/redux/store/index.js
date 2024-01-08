@@ -1,9 +1,18 @@
 // 닉네임
-import { configureStore } from '@reduxjs/toolkit';
-import { nicknameReducer } from './reducers/nicknameReducer';
+import { configureStore } from "@reduxjs/toolkit";
+import persistedUserReducer from "../reducer/nicknameReducer";
+import { persistStore } from "redux-persist";
 
-export const store = configureStore({
+const store = configureStore({
   reducer: {
-    nickname: nicknameReducer,
+    user: persistedUserReducer,
   },
+  middleware: (DefaultMiddleware) =>
+    DefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
+
+const persistor = persistStore(store);
+
+export { store, persistor };

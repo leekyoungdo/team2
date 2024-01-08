@@ -1,10 +1,40 @@
-import styles from './_Nav.module.scss';
-import React, { useState, useRef, useEffect } from 'react';
-import axios from 'axios';
-// import { useSelector } from 'react-redux';
+import styles from "./_Nav.module.scss";
+import React, { useState, useRef, useEffect } from "react";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../../redux/action/nicknameAction";
+import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
-  // const isLoggedIn = useSelector(state => state.nicknameReducer !== '');
+  const dispatch = useDispatch();
+  const navigator = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.user);
+
+  const handleLogout = () => {
+    if (window.confirm("로그아웃 하시겠습니까?")) {
+      axios
+        .post(
+          `${process.env.REACT_APP_HOST}/user/logout`,
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          console.log(res);
+          if (res.data.result) {
+            dispatch(logout());
+            navigator("/");
+          } else {
+            alert("로그아웃에 실패하였습니다.");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("error!");
+        });
+    }
+  };
 
   return (
     <>
@@ -28,16 +58,18 @@ export default function Nav() {
             <li>
               <a href="/shelterboard">유기견 공고</a>
             </li>
-            {/* 
-              {isLoggedIn ? (
-                <li className={styles.signin}>
-                  <a href="/user/logout">로그아웃</a>
-                </li>
-              ) : (
-                <li className={styles.signin}>
-                  <a href="/user/signin">로그인</a>
-                </li>
-              )} */}
+
+            {isLoggedIn ? (
+              <li className={styles.signin}>
+                <button className="logoutButton" onClick={handleLogout}>
+                  로그아웃
+                </button>
+              </li>
+            ) : (
+              <li className={styles.signin}>
+                <a href="/user/signin">로그인</a>
+              </li>
+            )}
           </ul>
         </div>
         <div className={styles.navShadow} />

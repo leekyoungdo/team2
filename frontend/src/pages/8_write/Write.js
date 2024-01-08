@@ -24,7 +24,7 @@ export default function Write() {
 
     // 전송할 데이터 객체
     formData.append("image", file);
-    formData.append("category", data.category);
+    formData.append("category", data.category || "일상");
     formData.append("title", data.title);
     formData.append("content", data.content);
 

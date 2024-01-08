@@ -1,9 +1,7 @@
-import './App.css';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import { Provider } from 'react-redux';
-import { configureStore } from '@reduxjs/toolkit';
-// import { composeWithDevTools } from 'redux-devtools-extension';
-// import rootReducer from './redux/reducer';
+
+import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
 
 import Home from './pages/1_home/Home';
 import MyPage from './pages/3_mypage/MyPage';
@@ -28,10 +26,8 @@ import CommunityPage from './pages/17.1_communitypage/CommunityPage';
 import CommunityTalk from './pages/19_communitytalk/CommunityTalk';
 import NotFound from './pages/20_notfound/NotFound';
 
-// const store = configureStore({ reducer: rootReducer }, composeWithDevTools());
 function App() {
   return (
-    // <Provider store={store}>
     <BrowserRouter>
       <div style={{ display: 'flex', maxHeight: '100vh' }}>
         <Nav />
@@ -39,14 +35,14 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/mypage" element={<MyPage />} />
-            <Route path="/userprofile" element={<UserProfile />} />
+            <Route path="/userprofile/:nickname" element={<UserProfile />} />
             <Route path="/board" element={<Board />} />
             <Route path="/user/signup" element={<SignUp />} />
             <Route path="/user/signin" element={<SignIn />} />
             <Route path="/board/write" element={<Write />} />
             <Route path="/board/:board_id" element={<Post />} />
             <Route path="/dmpage" element={<DmPage />} />
-            <Route path="/dm" element={<Dm />} />
+            <Route path="/dm/:nickname" element={<Dm />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />
             <Route path="/communityboard" element={<CommunityBoard />} />
             <Route
@@ -75,7 +71,6 @@ function App() {
         </main>
       </div>
     </BrowserRouter>
-    // </Provider>
   );
 }
 
