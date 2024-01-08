@@ -242,7 +242,7 @@ exports.userProfile = async (req, res) => {
   try {
     const profile = await User.findOne({
       attributes: ["user_id", "nickname", "image", "dog_name", "dog_intro"],
-      where: { user_id: req.session.user },
+      where: { nickname: req.params.nickname },
     });
 
     if (!profile.image) profile.image = "/static/user-profile.jpg";
