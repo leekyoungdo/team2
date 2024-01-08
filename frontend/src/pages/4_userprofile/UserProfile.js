@@ -6,13 +6,13 @@ import axios from "axios";
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useState({});
-  const { nickname } = useParams();
+  const { username } = useParams();
   const navigator = useNavigate();
-  const { isLoggedIn } = useSelector((state) => state.user);
+  const { isLoggedIn, nickname } = useSelector((state) => state.user);
 
   const getUserProfile = () => {
     axios
-      .get(`${process.env.REACT_APP_HOST}/user/userprofile/${nickname}`)
+      .get(`${process.env.REACT_APP_HOST}/user/userprofile/${username}`)
       .then((res) => {
         setUserInfo(res.data);
       });
@@ -23,8 +23,21 @@ export default function UserProfile() {
   }, []);
 
   const handleDmClick = () => {
-    if (isLoggedIn) navigator(`/dm/${nickname}`);
-    else {
+    if (isLoggedIn) {
+      axios
+        .post(
+          `${process.env.REACT_APP_HOST}/chat/createroom`,
+          {
+            chat_name: `${username}&${nickname}`,
+            chat_category: "dm",
+            user_id: userInfo.user_id,
+          },
+          { withCredentials: true }
+        )
+        .then((res) => {
+          navigator(`/dm/${res.data.chat_name}`);
+        });
+    } else {
       alert("로그인이 필요한 서비스입니다.");
       navigator("/user/signin");
     }

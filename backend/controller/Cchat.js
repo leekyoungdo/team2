@@ -3,19 +3,54 @@ const { User, Chat_Room, Chat_Member, Message } = require("../model");
 // 채팅방 생성
 exports.createChatRoom = async (req, res) => {
   try {
-    const { chat_name, chat_category } = req.body;
+    const { chat_name, chat_category, user_id } = req.body;
 
-    const createdChatRoom = await Chat_Room.create({
-      chat_name: chat_name,
-      chat_category: chat_category,
+    // 채팅방 이름 중복확인
+    let existingRoom = await Chat_Room.findOne({
+      where: { chat_name: chat_name },
     });
 
-    await Chat_Member.create({
-      user_id: req.session.user,
-      chat_id: createdChatRoom.chat_id,
-    });
+    if (!existingRoom) {
+      // 존재하지 않을 때만 정렬된 이름으로 다시 확인
+      const sortedChatName = chat_name.split("&").sort().join("&");
 
-    res.send({ result: true, message: "채팅방이 성공적으로 생성되었습니다." });
+      existingRoom = await Chat_Room.findOne({
+        where: { chat_name: sortedChatName },
+      });
+    }
+
+    if (existingRoom) {
+      return res.send({
+        result: false,
+        msg: "이미 존재하는 방이다.",
+        chat_name: existingRoom.chat_name,
+        chat_id: existingRoom.chat_id,
+      });
+    } else {
+      const createdChatRoom = await Chat_Room.create({
+        chat_name: chat_name,
+        chat_category: chat_category,
+      });
+
+      // 로그인 한 유저
+      await Chat_Member.create({
+        user_id: req.session.user,
+        chat_id: createdChatRoom.chat_id,
+      });
+
+      // 상대(쪽지 보내는 유저)
+      await Chat_Member.create({
+        user_id: req.body.user_id,
+        chat_id: createdChatRoom.chat_id,
+      });
+
+      res.send({
+        result: true,
+        message: "채팅방이 성공적으로 생성되었습니다.",
+        chat_name: createdChatRoom.chat_name,
+        chat_id: createdChatRoom.chat_id,
+      });
+    }
   } catch (error) {
     console.error(error);
     res.send({ result: false, message: "서버 오류 발생" });
