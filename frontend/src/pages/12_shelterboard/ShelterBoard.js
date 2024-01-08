@@ -1,5 +1,5 @@
 import dogpic from "./mdog.jpg";
-import "./ShelterBoard.scss";
+import styles from "./ShelterBoard.module.scss";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
@@ -67,62 +67,58 @@ export default function ShelterBoard() {
 
   return (
     <>
-      <h3>홈버튼</h3>
-      <h1>🐶유기견 공고</h1>
+      <div className={styles.bg}>
+        <h1>🐶유기견 공고</h1>
 
-      <div className="ShelterBoardHead">
-        <h3>🔍</h3>
-        <form
-          name="searchDogs"
-          action=""
-          method="post"
-          onSubmit={(e) => {
-            e.preventDefault();
-            // 검색 버튼을 클릭하거나 엔터키를 눌렀을 때 검색 쿼리를 업데이트하고 결과를 필터링합니다.
-            setSearchQuery(e.target.where.value);
-          }}
-        >
-          <input
-            type="text"
-            name="where"
-            placeholder="지역명을 입력해주세요."
-          ></input>
-          <button type="submit">검색</button>
-        </form>
-      </div>
-      <div className="pagination">
-        {Array(Math.ceil(dogs.length / dogsPerPage))
-          .fill()
-          .map((_, index) => (
-            <button key={index} onClick={() => setCurrentPage(index + 1)}>
-              {index + 1}
-            </button>
-          ))}
-      </div>
+        <div className={styles.ShelterBoardHead}>
+          <h3>🔍</h3>
+          <form
+            name="searchDogs"
+            action=""
+            method="post"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchQuery(e.target.where.value);
+            }}
+          >
+            <input
+              type="text"
+              name="where"
+              placeholder="지역명을 입력해주세요."
+            ></input>
+            <button type="submit">검색</button>
+          </form>
+        </div>
+        <div className={styles.pagination}>
+          {Array(Math.ceil(dogs.length / dogsPerPage))
+            .fill()
+            .map((_, index) => (
+              <button key={index} onClick={() => setCurrentPage(index + 1)}>
+                {index + 1}
+              </button>
+            ))}
+        </div>
 
-      <div className="showDogs">
-        {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
-          <div className="Dog" key={index}>
-            <img
-              className="ShelterBoardDogPic"
-              src={dog.popfile || dogpic} // 강아지 사진이 없을 경우 기본 이미지를 사용합니다.
-              alt="강아지"
-              title="주인을 기다리고 있어요"
-            />
-            <div className="Profile">
-              견종: {dog.kindCd}
-              <br /> 성별: {dog.sexCd}
-              <br /> 나이: {dog.age}
-              <br /> 구조지역: {dog.happenPlace}
-              <br />
-              설명: {dog.specialMark}
+        <div className={styles.showDogs}>
+          {currentDogs.filter(filterDogsByLocation).map((dog, index) => (
+            <div className={styles.Dog} key={index}>
+              <img
+                className={styles.ShelterBoardDogPic}
+                src={dog.popfile || dogpic}
+                alt="강아지"
+                title="주인을 기다리고 있어요"
+              />
+              <div className={styles.Profile}>
+                견종: {dog.kindCd}
+                <br /> 성별: {dog.sexCd}
+                <br /> 나이: {dog.age}
+                <br /> 구조지역: {dog.happenPlace}
+                <br />
+                설명: {dog.specialMark}
+              </div>
             </div>
-          </div>
-        ))}
-      </div>
-
-      <div>
-        <h3>네비게이션 바 위치</h3>
+          ))}
+        </div>
       </div>
     </>
   );

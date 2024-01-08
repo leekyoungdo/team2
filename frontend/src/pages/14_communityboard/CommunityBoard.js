@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./CommunityBoard.scss";
+import styles from "./CommunityBoard.module.scss";
 import commupic from "./commupic.png";
 import { useNavigate } from "react-router-dom";
 
@@ -105,8 +105,7 @@ export default function CommunityBoard() {
       <h3>홈버튼</h3>
       <h1>👨‍👩‍👧‍👦 소모임 리스트</h1>
 
-      {/* <h4>지역 검색탭</h4> */}
-      <div className="CommunityBoardHead">
+      <div className={styles.CommunityBoardHead}>
         <h3>🔍</h3>
         <form
           name="searchGroups"
@@ -114,7 +113,6 @@ export default function CommunityBoard() {
           method="post"
           onSubmit={(e) => {
             e.preventDefault();
-            // 검색 버튼을 클릭하거나 엔터키를 눌렀을 때 검색 쿼리를 업데이트하고 결과를 필터링합니다.
             setSearchQuery(e.target.where.value);
           }}
         >
@@ -128,18 +126,17 @@ export default function CommunityBoard() {
       </div>
 
       <h4>인기 모임탭(참여율(인원) 높은 소모임)</h4>
-      {/* <h4>소모임 개시글 버튼 : 모임사진, 모임제목, 모임소개 줄줄이 내려옴</h4> */}
       {searchQuery === "" && (
-        <div className="Hotzone">
+        <div className={styles.Hotzone}>
           {hotGroups.map((group, index) => (
-            <div className="Hotbar" key={index}>
+            <div className={styles.Hotbar} key={index}>
               <img
-                className="CommuPic"
+                className={styles.CommuPic}
                 src={commupic}
                 alt="모임사진"
                 title="모임 프로필"
               />
-              <div className="Profile">
+              <div className={styles.Profile}>
                 지역: {group.community_local} <br />
                 모임명: {group.community_name} <br />
                 소개: {group.introduce} <br />
@@ -150,15 +147,14 @@ export default function CommunityBoard() {
       )}
 
       {filteredGroups.map((group, index) => (
-        <div className="Groupbar" key={index}>
+        <div className={styles.Groupbar} key={index}>
           <img
-            className="CommuPic"
+            className={styles.CommuPic}
             src={commupic}
             alt="모임사진"
             title="모임 프로필"
           />
-          <div className="Profile">
-            {" "}
+          <div className={styles.Profile}>
             지역: {group.community_local} <br />
             모임명: {group.community_name} <br />
             소개: {group.introduce} <br />
@@ -167,8 +163,7 @@ export default function CommunityBoard() {
         </div>
       ))}
 
-      {/* <h4>소모임 만들기 버튼</h4> */}
-      <button onClick={handleClick} className="MakeGroup">
+      <button onClick={handleClick} className={styles.MakeGroup}>
         +
       </button>
     </>

@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import "./MakeCommunity.scss";
+import styles from "./MakeCommunity.module.scss";
 import AxiosMockAdapter from "axios-mock-adapter";
 import { useNavigate } from "react-router-dom";
 
@@ -60,9 +60,9 @@ export default function MakeCommunity() {
             placeholder="(ex.서울시 성동구)"
           />
           {errors.community_local ? (
-            <p className="alert">활동 지역을 입력해주세요.</p>
+            <p className={styles.alert}>활동 지역을 입력해주세요.</p>
           ) : (
-            <p className="placeholder">-</p> //
+            <p className={styles.placeholder}>-</p> //
           )}
           <br />
           <br />
@@ -77,15 +77,17 @@ export default function MakeCommunity() {
           />
           {errors.community_name &&
           errors.community_name.type === "required" ? (
-            <p className="alert">소모임 이름을 입력해주세요.</p>
+            <p className={styles.alert}>소모임 이름을 입력해주세요.</p>
           ) : (
             <p></p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
           )}
           {errors.community_name &&
           errors.community_name.type === "minLength" ? (
-            <p className="alert">소모임 이름은 최소 5자 이상이어야 합니다.</p>
+            <p className={styles.alert}>
+              소모임 이름은 최소 5자 이상이어야 합니다.
+            </p>
           ) : (
-            <p className="placeholder">-</p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
+            <p className={styles.placeholder}>-</p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
           )}
           <br />
           <br />
@@ -99,9 +101,9 @@ export default function MakeCommunity() {
             placeholder="주말 점심마다 모여서 산책해봐요!"
           />
           {errors.introduce ? (
-            <p className="alert">소모임 설명을 입력해주세요.</p>
+            <p className={styles.alert}>소모임 설명을 입력해주세요.</p>
           ) : (
-            <p className="placeholder">-</p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
+            <p className={styles.placeholder}>-</p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
           )}
           <br />
           <br />
