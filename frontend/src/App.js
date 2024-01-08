@@ -40,7 +40,7 @@ function App() {
             <Route path="/board/write" element={<Write />} />
             <Route path="/board/:board_id" element={<Post />} />
             <Route path="/dmpage" element={<DmPage />} />
-            <Route path="/dm" element={<Dm />} />
+            <Route path="/dm/:nickname" element={<Dm />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />
             <Route path="/communityboard" element={<CommunityBoard />} />
             <Route

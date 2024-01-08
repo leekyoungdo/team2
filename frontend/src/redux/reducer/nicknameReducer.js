@@ -37,7 +37,6 @@ const userReducer = (state = initialState, action) => {
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["user"],
 };
 
 const persistedUserReducer = persistReducer(persistConfig, userReducer);
