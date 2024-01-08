@@ -102,70 +102,72 @@ export default function CommunityBoard() {
 
   return (
     <>
-      <h3>홈버튼</h3>
-      <h1>👨‍👩‍👧‍👦 소모임 리스트</h1>
+      <div className={styles.bg}>
+        <h3>홈버튼</h3>
+        <h1>👨‍👩‍👧‍👦 소모임 리스트</h1>
 
-      <div className={styles.CommunityBoardHead}>
-        <h3>🔍</h3>
-        <form
-          name="searchGroups"
-          action=""
-          method="post"
-          onSubmit={(e) => {
-            e.preventDefault();
-            setSearchQuery(e.target.where.value);
-          }}
-        >
-          <input
-            type="text"
-            name="where"
-            placeholder="지역명을 입력해주세요."
-          ></input>
-          <button type="submit">검색</button>
-        </form>
-      </div>
+        <div className={styles.CommunityBoardHead}>
+          <h3>🔍</h3>
+          <form
+            name="searchGroups"
+            action=""
+            method="post"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setSearchQuery(e.target.where.value);
+            }}
+          >
+            <input
+              type="text"
+              name="where"
+              placeholder="지역명을 입력해주세요."
+            ></input>
+            <button type="submit">검색</button>
+          </form>
+        </div>
 
-      <h4>인기 모임탭(참여율(인원) 높은 소모임)</h4>
-      {searchQuery === "" && (
-        <div className={styles.Hotzone}>
-          {hotGroups.map((group, index) => (
-            <div className={styles.Hotbar} key={index}>
-              <img
-                className={styles.CommuPic}
-                src={commupic}
-                alt="모임사진"
-                title="모임 프로필"
-              />
-              <div className={styles.Profile}>
-                지역: {group.community_local} <br />
-                모임명: {group.community_name} <br />
-                소개: {group.introduce} <br />
+        <h4>인기 모임탭(참여율(인원) 높은 소모임)</h4>
+        {searchQuery === "" && (
+          <div className={styles.Hotzone}>
+            {hotGroups.map((group, index) => (
+              <div className={styles.Hotbar} key={index}>
+                <img
+                  className={styles.CommuPic}
+                  src={commupic}
+                  alt="모임사진"
+                  title="모임 프로필"
+                />
+                <div className={styles.Profile}>
+                  지역: {group.community_local} <br />
+                  모임명: {group.community_name} <br />
+                  소개: {group.introduce} <br />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {filteredGroups.map((group, index) => (
-        <div className={styles.Groupbar} key={index}>
-          <img
-            className={styles.CommuPic}
-            src={commupic}
-            alt="모임사진"
-            title="모임 프로필"
-          />
-          <div className={styles.Profile}>
-            지역: {group.community_local} <br />
-            모임명: {group.community_name} <br />
-            소개: {group.introduce} <br />
-            참여인원: {group.groupNum}
+            ))}
           </div>
-        </div>
-      ))}
+        )}
 
-      <button onClick={handleClick} className={styles.MakeGroup}>
-        +
-      </button>
+        {filteredGroups.map((group, index) => (
+          <div className={styles.Groupbar} key={index}>
+            <img
+              className={styles.CommuPic}
+              src={commupic}
+              alt="모임사진"
+              title="모임 프로필"
+            />
+            <div className={styles.Profile}>
+              지역: {group.community_local} <br />
+              모임명: {group.community_name} <br />
+              소개: {group.introduce} <br />
+              참여인원: {group.groupNum}
+            </div>
+          </div>
+        ))}
+
+        <button onClick={handleClick} className={styles.MakeGroup}>
+          +
+        </button>
+      </div>
     </>
   );
 }
