@@ -5,7 +5,7 @@ import { persistStore } from "redux-persist";
 
 const store = configureStore({
   reducer: {
-    nickname: persistedUserReducer,
+    user: persistedUserReducer,
   },
   middleware: (DefaultMiddleware) =>
     DefaultMiddleware({
