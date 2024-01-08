@@ -1,11 +1,14 @@
 import styles from "./UserProfile.module.scss";
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useState({});
   const { nickname } = useParams();
+  const navigator = useNavigate();
+  const { isLoggedIn } = useSelector((state) => state.user);
 
   const getUserProfile = () => {
     axios
@@ -18,6 +21,14 @@ export default function UserProfile() {
   useEffect(() => {
     getUserProfile();
   }, []);
+
+  const handleDmClick = () => {
+    if (isLoggedIn) navigator(`/dm/${nickname}`);
+    else {
+      alert("로그인이 필요한 서비스입니다.");
+      navigator("/user/signin");
+    }
+  };
 
   return (
     <>
@@ -37,10 +48,12 @@ export default function UserProfile() {
           <p className={styles.introduction}>
             {userInfo && userInfo.dog_intro}
           </p>
-          <button className={styles.messageButton}>쪽지 보내기</button>
+          <button className={styles.messageButton} onClick={handleDmClick}>
+            쪽지 보내기
+          </button>
         </div>
 
-        <table class={styles.boardTable}>
+        <table className={styles.boardTable}>
           <thead>
             <tr>
               <th>게시판</th>
@@ -74,7 +87,7 @@ export default function UserProfile() {
 
         <br />
 
-        <table class={styles.commentTable}>
+        <table className={styles.commentTable}>
           <thead>
             <tr>
               <th>게시판</th>

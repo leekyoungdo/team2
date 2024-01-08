@@ -3,9 +3,11 @@ import React, { useState, useRef, useEffect } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../redux/action/nicknameAction";
+import { useNavigate } from "react-router-dom";
 
 export default function Nav() {
   const dispatch = useDispatch();
+  const navigator = useNavigate();
   const { isLoggedIn } = useSelector((state) => state.user);
 
   const handleLogout = () => {
@@ -22,6 +24,7 @@ export default function Nav() {
           console.log(res);
           if (res.data.result) {
             dispatch(logout());
+            navigator("/");
           } else {
             alert("로그아웃에 실패하였습니다.");
           }
