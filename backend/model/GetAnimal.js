@@ -21,6 +21,8 @@ async function apiAnimal() {
           popfile: item.popfile,
           specialMark: item.specialMark,
           careNm: item.careNm,
+          careTel: item.careTel,
+          careAddr: item.careAddr,
         };
       });
     data.push(...parsedData);
