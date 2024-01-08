@@ -1,17 +1,16 @@
 import styles from "./UserProfile.module.scss";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useState({});
+  const { nickname } = useParams();
 
   const getUserProfile = () => {
     axios
-      .get(`${process.env.REACT_APP_HOST}/user/userprofile`, {
-        withCredentials: true,
-      })
+      .get(`${process.env.REACT_APP_HOST}/user/userprofile/${nickname}`)
       .then((res) => {
-        console.log({ ...res.data });
         setUserInfo(res.data);
       });
   };
@@ -35,6 +34,9 @@ export default function UserProfile() {
         <div className={styles.info}>
           <p className={styles.nickname}>{userInfo && userInfo.nickname}</p>
           <p className={styles.introduction}>{userInfo && userInfo.dog_name}</p>
+          <p className={styles.introduction}>
+            {userInfo && userInfo.dog_intro}
+          </p>
           <button className={styles.messageButton}>쪽지 보내기</button>
         </div>
 
