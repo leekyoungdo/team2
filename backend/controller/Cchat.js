@@ -1,4 +1,5 @@
 const { User, Chat_Room, Chat_Member, Message } = require("../model");
+const Sequelize = require("sequelize");
 
 // 채팅방 생성
 exports.createChatRoom = async (req, res) => {
@@ -147,7 +148,7 @@ exports.createMsg = async (req, res) => {
     });
 
     await Message.create({
-      user_id: req.session.user,
+      user_id: req.body.user_id,
       chat_id: chatRoom.chat_id,
       msg_content: msg_content,
     });
@@ -163,12 +164,23 @@ exports.createMsg = async (req, res) => {
 exports.getAllMsg = async (req, res) => {
   try {
     const chatRoom = await Chat_Room.findOne({
-      where: { chat_name: req.body.chat_name },
+      where: { chat_name: req.params.chat_name },
     });
 
     const dm = await Message.findAll({
       where: { chat_id: chatRoom.chat_id },
-      attributes: ["user_id", "msg_content", "send_time"],
+      attributes: [
+        "user_id",
+        "msg_content",
+        [
+          Sequelize.fn(
+            "DATE_FORMAT",
+            Sequelize.col("send_time"),
+            "%Y-%m-%d %H:%i:%s"
+          ),
+          "send_time",
+        ],
+      ],
     });
 
     res.send(dm);

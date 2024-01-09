@@ -3,6 +3,7 @@
   min-height: 500px;
   background-color: #f8f2e5;
   padding: 10px 15px 0;
+  margin-left: 50px;
 }
 
 .chat-container .list {
@@ -40,8 +41,13 @@
   display: flex;
   justify-content: space-between;
   border: 2px solid black;
+  margin-left: 50px;
 }
 
 .input-container > input {
   flex-grow: 1;
+}
+
+.date {
+  font-size: 10px;
 }
