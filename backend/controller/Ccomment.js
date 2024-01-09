@@ -55,6 +55,7 @@ exports.getComment = (req, res) => {
 exports.postComment = async (req, res) => {
   const user_id = req.session.user; // 세션에서 사용자 ID 추출
   const board_id = req.params.board_id;
+  console.log(user_id);
   if (!user_id) {
     res.send({ result: false, message: "로그인 후 이용 가능합니다." });
     return;
@@ -81,6 +82,7 @@ exports.deleteComment = async (req, res) => {
   try {
     const comment_id = req.params.comment_id;
     const user_id = req.session.user;
+    console.log(comment_id, user_id);
 
     if (!user_id) {
       return res.send({
