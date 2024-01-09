@@ -51,9 +51,8 @@ exports.getComment = (req, res) => {
     });
 };
 
-// 특정 사용자가 작성한 댓글 전체 조회
+// 사용자가 작성한 댓글 조회
 exports.getUserComment = (req, res) => {
-  // 세션에서 사용자 ID 가져오기
   const user_id = req.session.user;
 
   Comment.findAll({
