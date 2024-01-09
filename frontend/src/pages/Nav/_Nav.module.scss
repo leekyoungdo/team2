@@ -78,12 +78,13 @@
   }
 }
 
-button {
+.logoutButton {
   border: 0;
   outline: 0;
   background-color: #edf5ed;
   margin-top: 80px;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .navShadow {
