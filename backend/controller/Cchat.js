@@ -129,7 +129,19 @@ exports.ChatRoomList = async (req, res) => {
     }
 
     const chatRoomList = await Chat_Room.findAll({
-      where: { chat_id: chatRoomId, chat_category: req.body.chat_category },
+      where: { chat_id: chatRoomId, chat_category: "dm" },
+      attributes: [
+        "chat_id",
+        "chat_name",
+        [
+          Sequelize.fn(
+            "DATE_FORMAT",
+            Sequelize.col("chat_time"),
+            "%Y-%m-%d %H:%i:%s"
+          ),
+          "chat_time",
+        ],
+      ],
     });
 
     res.send(chatRoomList);
