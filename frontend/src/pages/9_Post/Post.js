@@ -84,6 +84,11 @@ export default function Post() {
   //   getComments();
   // }, []);
 
+  useEffect(() => {
+    getBoard();
+    getComments();
+  }, []);
+
   return (
     <>
       {
