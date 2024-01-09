@@ -35,7 +35,7 @@ module.exports = (server) => {
     socket.on("sendMsg", (res) => {
       console.log("채팅메세지 보내기", res);
       io.to(user.chat_name).emit("chat", {
-        nickname: user.nickname,
+        user_id: res.user_id,
         msg: res.msg,
       });
     });

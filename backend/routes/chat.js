@@ -16,6 +16,6 @@ router.get("/getchatroom", controller.ChatRoomList);
 // 채팅메세지 생성
 router.post("/createmsg", controller.createMsg);
 // 채팅메세지 조회
-router.get("/getmsg", controller.getAllMsg);
+router.get("/getmsg/:chat_name", controller.getAllMsg);
 
 module.exports = router;
