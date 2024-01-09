@@ -31,7 +31,6 @@ export default function SignIn() {
 
         if (res.data.result) {
           dispatch(loginSuccess(res.data));
-          alert("로그인에 성공했습니다.");
           navigator("/"); // home으로 이동
         } else {
           alert("로그인에 실패하였습니다.");
