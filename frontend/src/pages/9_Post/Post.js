@@ -15,7 +15,7 @@ export default function Post() {
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
   const { board_id, comment_id } = useParams(); // 게시판 id, 댓글 id
-
+  const [userNickname, setUserNickname] = useState('');
   const formData = new FormData();
 
   // 게시글 조회
@@ -23,6 +23,7 @@ export default function Post() {
     axios
       .get(`${process.env.REACT_APP_HOST}/board/getboardid/${board_id}`)
       .then((res) => {
+        setUserNickname(res.data.nickname);
         let modifiedPost = res.data.board; // 날짜 형식 변경
         let date = new Date(modifiedPost.makeboard);
         modifiedPost.makeboard = date
@@ -79,6 +80,9 @@ export default function Post() {
       });
   };
 
+  // 댓글 수정
+  const editComment = () => {};
+
   // 댓글 삭제
   const deleteComment = () => {
     axios
@@ -116,7 +120,7 @@ export default function Post() {
                 className={styles.user}
                 onClick={() => navigator(`/userprofile/${post.user_id}`)}
               >
-                작성자 {post.user_id}
+                작성자 {userNickname}
               </span>
 
               <div className={styles.makeboard}>{post.makeboard}</div>
@@ -161,6 +165,9 @@ export default function Post() {
                   <div key={index}>
                     {comment.user_id}
                     {comment.comment_content}
+                    <button onClick={() => editComment(comment.comments)}>
+                      수정
+                    </button>
                     <button onClick={() => deleteComment(comment.comments)}>
                       삭제
                     </button>
