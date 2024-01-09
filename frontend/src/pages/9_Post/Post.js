@@ -41,6 +41,7 @@ export default function Post() {
   const onValid = (data) => {
     console.log('data : ', data);
     console.log('formData : ', formData);
+    console.log('댓글 : ', data.comment_content);
 
     axios
       .post(
@@ -65,23 +66,23 @@ export default function Post() {
   };
 
   // 댓글 조회
-  // 모든 댓글이 있는 api에서 불러와서 key:value 값을 다 불러오기
   const getComments = () => {
     axios
       .get(`${process.env.REACT_APP_HOST}/comment/getallcomment/${board_id}`)
       .then((res) => {
-        if (res.data.comment) {
-          // res.data.comment가 있을 때만 받아 옴
-          setComments(Object.values(res.data.comment)); // 배열로 변환해서 받아 옴
+        if (res.data.comments) {
+          // res.data.comments가 있을 때만 받아 옴
+          // setComments(Object.entries(res.data.comments)); // 배열로 변환해서 받아 옴
+          setComments(res.data.comments);
         }
-        console.log('res.data.comment : ', res.data.comment);
+        console.log('res.data.comments : ', res.data.comments);
       });
   };
 
-  useEffect(() => {
-    getBoard();
-    getComments();
-  }, []);
+  // const deleteComment = useEffect(() => {
+  //   getBoard();
+  //   getComments();
+  // }, []);
 
   return (
     <>
@@ -121,20 +122,15 @@ export default function Post() {
               {/* 댓글 창 */}
               <div className={styles.commentContent}>
                 댓글창
-                {comments.map((comment) => (
-                  <div key={comment.comment_id} className={styles.comment}>
-                    <div className={styles.nickname}>
-                      {/* User 객체가 존재하는지 먼저 확인 */}
-                      {comment.User && comment.User.nickname}
-                      {comment.comment_id}
-                    </div>
-                    <div className={styles.content}>
-                      {comment.comment_content}
-                    </div>
+                {comments.map((comment, index) => (
+                  <div key={index}>
+                    {comment.user_id}
+                    {comment.comment_content}
                   </div>
                 ))}
               </div>
 
+              {/* 댓글 입력 */}
               <form onSubmit={handleSubmit(onValid)}>
                 <div className={styles.comments}>
                   <textarea
