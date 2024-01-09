@@ -6,9 +6,10 @@ import axios from "axios";
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useState({});
+  const [userBoard, setUserBoard] = useState({});
   const { username } = useParams();
-  const navigator = useNavigate();
   const { isLoggedIn, nickname } = useSelector((state) => state.user);
+  const navigator = useNavigate();
 
   const getUserProfile = () => {
     axios
@@ -18,9 +19,29 @@ export default function UserProfile() {
       });
   };
 
+  const getUserBoard = (userInfo) => {
+    axios
+      .get(
+        `${process.env.REACT_APP_HOST}/board/profileboardlist/${userInfo.user_id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((res) => {
+        console.log(res.data);
+        setUserBoard(res.data);
+      });
+  };
+
   useEffect(() => {
     getUserProfile();
   }, []);
+
+  useEffect(() => {
+    if (userInfo) {
+      getUserBoard(userInfo);
+    }
+  }, [userInfo]);
 
   const handleDmClick = () => {
     if (isLoggedIn) {
@@ -53,17 +74,20 @@ export default function UserProfile() {
           <div className={styles.infoBox}>
             <div className={styles.picture}>
               <img
-                src={`${process.env.REACT_APP_HOST}${userInfo && userInfo.image}`}
+                src={`${process.env.REACT_APP_HOST}${
+                  userInfo && userInfo.image
+                }`}
                 alt="프로필 사진"
               />
             </div>
 
             <div className={styles.info}>
-              <p className={styles.nickname}>{userInfo && userInfo.nickname}닉네임</p>
-              <p className={styles.introduction}>{userInfo && userInfo.dog_name}불이</p>
+              <p className={styles.nickname}>{userInfo && userInfo.nickname}</p>
+              <p className={styles.introduction}>
+                {userInfo && userInfo.dog_name}
+              </p>
               <p className={styles.introduction}>
                 {userInfo && userInfo.dog_intro}
-                슈나우져 5살
               </p>
               <button className={styles.messageButton} onClick={handleDmClick}>
                 쪽지 보내기
@@ -71,7 +95,6 @@ export default function UserProfile() {
             </div>
           </div>
         </div>
-
 
         <div className={styles.boardTableContainer}>
           <p className={styles.tableTab}>작성 글</p>
@@ -86,7 +109,19 @@ export default function UserProfile() {
             </thead>
 
             <tbody>
-              <tr>
+              {userBoard.length > 0 &&
+                userBoard.map((value) => (
+                  <tr
+                    key={value.board_id}
+                    onClick={() => navigator(`/board/${value.board_id}`)}
+                  >
+                    <td>{value.category}</td>
+                    <td>{value.title}</td>
+                    <td>{value.viewcount}</td>
+                    <td>{value.makeboard}</td>
+                  </tr>
+                ))}
+              {/* <tr>
                 <td>일상</td>
                 <td>행복한 저녁 시간~</td>
                 <td>2024-01-05</td>
@@ -103,14 +138,12 @@ export default function UserProfile() {
                 <td>꼬까옷 입고 폴짝!</td>
                 <td>2024-01-05</td>
                 <td>100</td>
-              </tr>
+              </tr> */}
             </tbody>
           </table>
         </div>
 
         <br />
-
-        
       </div>
     </>
   );

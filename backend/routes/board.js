@@ -23,7 +23,9 @@ router.patch(
   boardupload.single("image"),
   controller.boardUpdate
 );
-// 회원별 게시판 조회
+// 마이페이지 게시판 조회
 router.get("/userboardlist", controller.userBoardList);
+// 프로필 게시판 조회
+router.get("/profileboardlist/:user_id", controller.profileBoardList);
 
 module.exports = router;
