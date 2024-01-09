@@ -158,7 +158,8 @@ export default function Community() {
                             <h2>멤버 목록</h2>
                             {memberList.map((member, index) => (
                               <div key={index} className={styles.member}>
-                                {member}
+                                <div>{member.nickname}</div>
+                                <img src={member.image} alt={member.nickname} />
                               </div>
                             ))}
 
@@ -174,7 +175,8 @@ export default function Community() {
 
                       {memberList.slice(0, 3).map((member, index) => (
                         <div key={index} className={styles.member}>
-                          {member}
+                          <div>{member.nickname}</div>
+                          <img src={member.image} alt={member.nickname} />
                         </div>
                       ))}
                     </div>

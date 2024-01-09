@@ -7,6 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const imageFiles = [
   "c_pic (1).png",
@@ -27,6 +28,7 @@ export default function CommunityBoard() {
   const [groupsPerPage] = useState(4); // 페이지당 표시할 그룹의 개수를 5개로 설정
   const totalPages = Math.ceil(filteredGroups.length / groupsPerPage);
   const [images, setImages] = useState([]);
+  const { nickname } = useSelector((state) => state.user);
 
   useEffect(() => {
     // 이미지 파일을 동적으로 import 합니다.
@@ -45,7 +47,14 @@ export default function CommunityBoard() {
   ); // 현재 페이지에 표시할 그룹들
 
   const handleClick = () => {
-    navigate("/communityboard/makecommunity"); // '소모임 만들기' 버튼을 클릭하면 '/createcommunity' 경로로 이동합니다.
+    if (!nickname) {
+      // 로그인하지 않은 경우 로그인 페이지로 이동
+      alert("소모임을 만들기 전에 로그인을 해주세요!");
+      navigate(`/user/signin`);
+    } else {
+      // 로그인한 경우 '/createcommunity' 경로로 이동
+      navigate(`/communityboard/makecommunity`);
+    }
   };
 
   useEffect(() => {
