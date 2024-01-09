@@ -29,11 +29,11 @@
 
   ul {
     list-style-type: none;
-    // width: 300px;
     overflow: visible;
-    // border: 1px solid red;
     padding: 0;
     margin: 20px;
+    height: 100%;
+    text-align: center;
   }
 
   a {
@@ -72,6 +72,18 @@
     margin-top: 50px;
     font-size: 20px;
   }
+
+  li a {
+    display: block;
+  }
+}
+
+button {
+  border: 0;
+  outline: 0;
+  background-color: #edf5ed;
+  margin-top: 80px;
+  font-weight: 600;
 }
 
 .navShadow {
