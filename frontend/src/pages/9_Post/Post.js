@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useParams, useNavigate } from "react-router-dom";
-import styles from "./post.module.scss";
-import axios from "axios";
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import styles from './post.module.scss';
+import axios from 'axios';
 
 export default function Post() {
   const {
@@ -14,8 +15,9 @@ export default function Post() {
   const navigator = useNavigate();
   const [post, setPost] = useState({});
   const [comments, setComments] = useState([]);
-  const { board_id, comment_id } = useParams(); // 게시판 id, 댓글 id
-  const [userNickname, setUserNickname] = useState("");
+  const { board_id } = useParams(); // 게시판 id
+  const [userNickname, setUserNickname] = useState('');
+  const { nickname } = useSelector((state) => state.user);
   const formData = new FormData();
 
   // 게시글 조회
@@ -27,22 +29,50 @@ export default function Post() {
         let modifiedPost = res.data.board; // 날짜 형식 변경
         let date = new Date(modifiedPost.makeboard);
         modifiedPost.makeboard = date
-          .toLocaleDateString("ko-KR", {
-            year: "numeric",
-            month: "2-digit",
-            day: "2-digit",
+          .toLocaleDateString('ko-KR', {
+            year: 'numeric',
+            month: '2-digit',
+            day: '2-digit',
           })
-          .replace(/. /g, ".");
+          .replace(/. /g, '.');
 
         setPost(modifiedPost);
       });
   };
 
+  // 게시글 수정
+  const boardUpdate = () => {};
+
+  // 게시글 삭제
+  const boardDelete = () => {
+    console.log('board_id', board_id);
+    axios
+      .delete(`${process.env.REACT_APP_HOST}/board/boarddelete/${board_id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.result) {
+          // 게시글 삭제 성공
+          console.log('게시글 삭제 성공');
+          alert('게시글 삭제 성공');
+          navigator('/board');
+        } else {
+          // 게시글 삭제 실패
+          console.log('res.data.result', res.data.result); // false
+          console.log('게시글 삭제 실패');
+        }
+      })
+      .catch((err) => {
+        // 네트워크 요청 실패 또는 백엔드에서 처리 과정에서 에러 발생
+        console.error('게시글 삭제 요청 또는 처리 과정에서 에러 발생:', err);
+      });
+  };
+
   // 댓글 작성(등록)
   const onValid = (data) => {
-    console.log("data : ", data);
-    console.log("formData : ", formData);
-    console.log("댓글 : ", data.comment_content);
+    console.log('data : ', data);
+    console.log('formData : ', formData);
+    console.log('댓글 : ', data.comment_content);
 
     axios
       .post(
@@ -57,8 +87,8 @@ export default function Post() {
       .then((res) => {
         if (res.data.result) {
           getComments();
-          console.log("res.data : ", res.data);
-          console.log("data.comment_content : ", data.comment_content);
+          console.log('res.data : ', res.data);
+          console.log('data.comment_content : ', data.comment_content);
         }
       })
       .catch((err) => {
@@ -76,7 +106,7 @@ export default function Post() {
           // setComments(Object.entries(res.data.comments)); // 배열로 변환해서 받아 옴
           setComments(res.data.comments);
         }
-        console.log("res.data.comments : ", res.data.comments);
+        console.log('res.data.comments : ', res.data.comments);
       });
   };
 
@@ -84,20 +114,24 @@ export default function Post() {
   const editComment = () => {};
 
   // 댓글 삭제
-  const deleteComment = () => {
+  const deleteComment = (comment_id) => {
+    console.log('comment_id', comment_id);
     axios
       .delete(
-        `${process.env.REACT_APP_HOST}/comment/deletecomment/${comment_id}`
+        `${process.env.REACT_APP_HOST}/comment/deletecomment/${comment_id}`,
+        { withCredentials: true } // 세션 정보 포함 옵션 추가
       )
       .then((res) => {
         if (res.data.result) {
-          getComments(); // 댓글 목록을 새로고침
-          console.log("댓글이 삭제되었습니다.");
+          console.log('댓글 삭제 성공');
+        } else {
+          console.log('res.data.result', res.data.result); // false
+          console.log('정보를 벡엔드에 전달했으나 실패(리스폰옴)');
         }
       })
-      .catch((err) => {
-        console.log(err);
-      });
+      .catch((err) =>
+        console.error('댓글 삭제 정보 전달이 되지 않았음(리스폰스 안옴):', err)
+      );
   };
 
   useEffect(() => {
@@ -125,6 +159,13 @@ export default function Post() {
 
               <div className={styles.makeboard}>{post.makeboard}</div>
 
+              {userNickname === nickname && (
+                <div>
+                  <button onClick={() => boardUpdate()}>글수정</button>
+                  <button onClick={() => boardDelete()}>글삭제</button>
+                </div>
+              )}
+
               <div className={styles.divisionLine}></div>
 
               <div className={styles.imgContainer}>
@@ -149,7 +190,7 @@ export default function Post() {
                   <textarea
                     className={styles.commentsText}
                     placeholder="댓글을 입력해주세요"
-                    {...register("comment_content")}
+                    {...register('comment_content')}
                   ></textarea>
                 </div>
 
@@ -163,14 +204,20 @@ export default function Post() {
                 댓글창
                 {comments.map((comment, index) => (
                   <div key={index}>
-                    {comment.user_id}
-                    {comment.comment_content}
-                    <button onClick={() => editComment(comment.comments)}>
-                      수정
-                    </button>
-                    <button onClick={() => deleteComment(comment.comments)}>
-                      삭제
-                    </button>
+                    {userNickname} {comment.comment_content}
+                    {/* 로그인한 사용자와 댓글 작성자가 동일한 경우에만 수정 / 삭제 버튼을 보여줌 */}
+                    {userNickname === nickname && (
+                      <div>
+                        <button onClick={() => editComment(comment.comment_id)}>
+                          수정
+                        </button>
+                        <button
+                          onClick={() => deleteComment(comment.comment_id)}
+                        >
+                          삭제
+                        </button>
+                      </div>
+                    )}
                   </div>
                 ))}
               </div>

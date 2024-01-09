@@ -1,18 +1,18 @@
 .container {
-  margin: 0 0 0 40px;
+  margin: 0 0 0 22px;
 
   .title {
     margin: 20px 0 10px 5px;
     font-size: 25px;
     font-weight: 700;
-    color: rgb(58, 161, 96);
+    color: rgb(64, 153, 96);
   }
 }
 
 .chatContainer {
   width: 400px;
   height: 690px;
-  background-color: #ddd3f0;
+  background-color: #f8f2e5;
   padding: 10px 15px 0;
   border: 2px solid black;
   border-radius: 35px;
@@ -55,7 +55,7 @@
   align-items: center;
 
   .content {
-    background-color: rgb(255, 255, 118);
+    background-color: rgb(250, 184, 164);
     border-radius: 8px;
     margin: 0 0 5px 0;
   }
@@ -74,7 +74,7 @@
   }
 
   .content {
-    background-color: #f8f8f8;
+    background-color: #ffffff;
     border-radius: 8px;
     margin: 0 0 5px 0;
   }
