@@ -133,6 +133,7 @@ export default function Dm() {
             onChange={(e) => setMsgInput(e.target.value)}
             onKeyDown={handleEnter}
           />
+
           <button onClick={sendMsg}>전송</button>
         </div>
       </div>
