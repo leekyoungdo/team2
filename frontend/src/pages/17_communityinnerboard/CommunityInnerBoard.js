@@ -71,7 +71,7 @@ export default function CommunityInnerBoard() {
         <div className={`${styles.container} ${styles.one}`}>
           <h1>
             📬 {communityData ? communityData.community_name : "Loading..."}{" "}
-            소모임 게시판
+            게시판
           </h1>
 
           <div className={`${styles.container} ${styles.two}`}>

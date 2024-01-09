@@ -6,6 +6,8 @@ const router = express.Router();
 router.get("/getallcomment/:board_id", controller.getAllComment);
 // 댓글 하나 조회
 router.get("/getcomment/:comment_id", controller.getComment);
+// 특정 사용자가 작성한 댓글 전체 조회
+router.get("/getusercomment", controller.getUserComment);
 // 댓글 작성
 router.post("/postcomment/:board_id", controller.postComment);
 // 댓글 삭제
