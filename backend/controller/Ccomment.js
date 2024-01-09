@@ -82,6 +82,7 @@ exports.deleteComment = async (req, res) => {
   try {
     const comment_id = req.params.comment_id;
     const user_id = req.session.user;
+    console.log(comment_id, user_id);
 
     if (!user_id) {
       return res.send({

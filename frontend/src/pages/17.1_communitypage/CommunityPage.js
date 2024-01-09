@@ -7,7 +7,6 @@ import { useSelector } from "react-redux";
 
 export default function CommunityPage() {
   const { pageNum } = useParams();
-  const { comment_id } = useParams();
   const { community_id } = useParams();
   const [currentPageNum, setCurrentPageNum] = useState(Number(pageNum));
   const [page, setPage] = useState([]);
@@ -89,7 +88,7 @@ export default function CommunityPage() {
               if (response.data.comments.length > 0) {
                 // 'posts'를 'comments'로 변경
                 console.log("댓글 불러오기");
-                console.log("comments", response.data.comments);
+                console.log("comments 정보", response.data.comments);
                 console.log("nickname:", nickname);
                 getComments(response.data.comments); // 'posts'를 'comments'로 변경
               } else {
@@ -138,12 +137,12 @@ export default function CommunityPage() {
   const editComment = () => {};
 
   const handleDeleteComment = (comment_id) => {
-    const url = `${process.env.REACT_APP_HOST}/comment/deletecomment/${comment_id}`;
-    console.log("URL:", url);
-
+    console.log(comment_id);
     axios
       .delete(
-        `${process.env.REACT_APP_HOST}/comment/deletecomment/${comment_id}`
+        `${process.env.REACT_APP_HOST}/comment/deletecomment/${comment_id}`,
+
+        { withCredentials: true } // 세션 정보 포함 옵션 추가
       )
       .then((response) => {
         if (response.data.result) {
