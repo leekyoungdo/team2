@@ -20,6 +20,10 @@ export default function Post() {
   const { nickname } = useSelector((state) => state.user);
   const formData = new FormData();
 
+  const [editing, setEditing] = useState(false); // 수정 상태를 관리하기 위한 상태
+  const [editingId, setEditingId] = useState(null); // 현재 수정 중인 댓글의 ID를 저장하는 상태
+  const [editedContent, setEditedContent] = useState(''); // 수정된 내용을 관리하기 위한 상태
+
   // 게시글 조회
   const getBoard = () => {
     axios
@@ -41,7 +45,13 @@ export default function Post() {
   };
 
   // 게시글 수정
-  const boardUpdate = () => {};
+  const boardUpdate = async () => {
+    await axios.patch(`/board/update/${board_id}`).then((res) => {
+      console.log('수정되었습니다.');
+      // alert('수정되었습니다.');
+      navigator('/board');
+    });
+  };
 
   // 게시글 삭제
   const boardDelete = () => {
@@ -53,12 +63,11 @@ export default function Post() {
       .then((res) => {
         if (res.data.result) {
           // 게시글 삭제 성공
-          console.log('게시글 삭제 성공');
-          alert('게시글 삭제 성공');
+          console.log('게시글을 삭제했습니다.');
+          alert('게시글을 삭제했습니다.');
           navigator('/board');
         } else {
           // 게시글 삭제 실패
-          console.log('res.data.result', res.data.result); // false
           console.log('게시글 삭제 실패');
         }
       })
@@ -123,7 +132,8 @@ export default function Post() {
       )
       .then((res) => {
         if (res.data.result) {
-          console.log('댓글 삭제 성공');
+          alert('댓글을 삭제했습니다.');
+          console.log('댓글을 삭제했습니다.');
         } else {
           console.log('res.data.result', res.data.result); // false
           console.log('정보를 벡엔드에 전달했으나 실패(리스폰옴)');
