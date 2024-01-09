@@ -79,10 +79,22 @@ export default function Post() {
       });
   };
 
-  // const deleteComment = useEffect(() => {
-  //   getBoard();
-  //   getComments();
-  // }, []);
+  // 댓글 삭제
+  const deleteComment = () => {
+    axios
+      .delete(
+        `${process.env.REACT_APP_HOST}/comment/deletecomment/${comment_id}`
+      )
+      .then((res) => {
+        if (res.data.result) {
+          getComments(); // 댓글 목록을 새로고침
+          console.log('댓글이 삭제되었습니다.');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     getBoard();
@@ -100,12 +112,12 @@ export default function Post() {
             <div className={styles.innerContainer}>
               <div className={styles.title}>{post.title}</div>
 
-              <div
+              <span
                 className={styles.user}
-                onClick={() => navigator('/userprofile')}
+                onClick={() => navigator(`/userprofile/${post.user_id}`)}
               >
                 작성자 {post.user_id}
-              </div>
+              </span>
 
               <div className={styles.makeboard}>{post.makeboard}</div>
 
@@ -124,19 +136,11 @@ export default function Post() {
 
               <div className={styles.divisionLine}></div>
 
-              {/* 댓글 창 */}
-              <div className={styles.commentContent}>
-                댓글창
-                {comments.map((comment, index) => (
-                  <div key={index}>
-                    {comment.user_id}
-                    {comment.comment_content}
-                  </div>
-                ))}
-              </div>
-
               {/* 댓글 입력 */}
-              <form onSubmit={handleSubmit(onValid)}>
+              <form
+                onSubmit={handleSubmit(onValid)}
+                className={styles.commentsForm}
+              >
                 <div className={styles.comments}>
                   <textarea
                     className={styles.commentsText}
@@ -149,6 +153,20 @@ export default function Post() {
                   등록
                 </button>
               </form>
+
+              {/* 댓글 창 */}
+              <div className={styles.commentContent}>
+                댓글창
+                {comments.map((comment, index) => (
+                  <div key={index}>
+                    {comment.user_id}
+                    {comment.comment_content}
+                    <button onClick={() => deleteComment(comment.comments)}>
+                      삭제
+                    </button>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
