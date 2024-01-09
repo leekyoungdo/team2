@@ -17,6 +17,39 @@ export default function CommunityPage() {
   const [comments, getComments] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [commentContent, setCommentContent] = useState("");
+  const [editing, setEditing] = useState(false); // 수정 상태를 관리하기 위한 상태입니다.
+  const [editingId, setEditingId] = useState(null); // 현재 수정 중인 댓글의 ID를 저장하는 상태입니다.
+  const [editedContent, setEditedContent] = useState(""); // 수정된 내용을 관리하기 위한 상태입니다.
+
+  function handleEditComment(id, currentContent) {
+    setEditingId(id);
+    setEditedContent(currentContent);
+  }
+
+  async function handleUpdateComment(comment_id) {
+    try {
+      const response = await axios.patch(
+        `${process.env.REACT_APP_HOST}/comment/editcomment/${comment_id}`,
+        { comment_content: editedContent },
+        {
+          withCredentials: true,
+        }
+      );
+
+      if (response.data.result) {
+        // 요청이 성공했다면, 수정 상태를 초기화하고 댓글 목록을 다시 불러옵니다.
+        setEditingId(null);
+        setEditedContent("");
+        getPageAndCommentData(); // 댓글을 다시 불러오는 함수. 적절한 함수로 대체해주세요.
+      } else {
+        // 요청이 실패했다면, 에러 메시지를 보여줍니다.
+        alert("댓글 수정에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   const navigator = useNavigate();
   const formData = new FormData();
 
@@ -241,13 +274,22 @@ export default function CommunityPage() {
                             {comments.map((comment, index) => (
                               <tr key={index}>
                                 <td className={styles.cWriter}>
-                                  {comment.user_id}{" "}
-                                  {/* 작성자의 닉네임으로 변경 */}
+                                  {comment.user_id}
                                 </td>
                                 <td className={styles.cContent}>
-                                  {comment.comment_content} {comment.comment_id}
+                                  {editingId === comment.comment_id ? (
+                                    <input
+                                      type="text"
+                                      value={editedContent}
+                                      onChange={(e) =>
+                                        setEditedContent(e.target.value)
+                                      }
+                                    />
+                                  ) : (
+                                    comment.comment_content
+                                  )}
+                                  {comment.comment_id}
                                 </td>
-                                {/* 로그인한 사용자와 댓글 작성자가 동일한 경우에만 삭제 버튼을 보여줌 */}
                                 {comment.user_id === nickname && (
                                   <td>
                                     <button
@@ -257,6 +299,28 @@ export default function CommunityPage() {
                                     >
                                       삭제
                                     </button>
+                                    {editingId === comment.comment_id ? (
+                                      <button
+                                        onClick={() =>
+                                          handleUpdateComment(
+                                            comment.comment_id
+                                          )
+                                        }
+                                      >
+                                        저장
+                                      </button>
+                                    ) : (
+                                      <button
+                                        onClick={() =>
+                                          handleEditComment(
+                                            comment.comment_id,
+                                            comment.comment_content
+                                          )
+                                        }
+                                      >
+                                        수정
+                                      </button>
+                                    )}
                                   </td>
                                 )}
                               </tr>
