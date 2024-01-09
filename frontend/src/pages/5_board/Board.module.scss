@@ -35,6 +35,35 @@
       margin-right: 50px; 
     }
   }
+
+  .pagination {
+    margin-left: 20px;
+    .pageButton {
+      margin: 0 20px;
+      border-radius: 10px;
+      width: 60px;
+      height: 35px;
+      background-color: #f8f2e5;
+      border: 2px solid black;
+    }
+  }
+
+
+  .writeButton {
+    font-size: 18px;
+    font-weight: 900;
+    width: 110px;
+    height: 40px;
+    border-radius: 35px;
+    border: 2px solid #000000;
+    background-color: #f5ba3f;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
+    margin-left: auto;
+  }
+  
 }
 
 .contents {
@@ -122,18 +151,3 @@ p {
 }
 
 
-.writeButton {
-  font-size: 20px;
-  font-weight: 900;
-  width: 150px;
-  height: 60px;
-  border-radius: 35px;
-  border: 2px solid #000000;
-  background-color: #f5ba3f;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 20px;
-  margin-left: auto;
-  box-shadow: 1.5px 2px 0px #000000;
-}
