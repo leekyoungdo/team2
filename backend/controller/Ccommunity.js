@@ -142,7 +142,7 @@ exports.createCommunity = async (req, res) => {
 // 소모임 참여
 exports.joinCommunity = async (req, res) => {
   try {
-    const { community_id } = req.body;
+    const community_id = req.params.community_id;
 
     const community = await Community.findOne({
       where: { community_id: community_id },
@@ -163,6 +163,21 @@ exports.joinCommunity = async (req, res) => {
       });
     }
 
+    // 사용자가 이미 소모임에 가입했는지 확인
+    const existingMember = await Community_Member.findOne({
+      where: {
+        user_id: req.session.user,
+        community_id: community.community_id,
+      },
+    });
+
+    if (existingMember) {
+      return res.send({
+        result: false,
+        message: "이미 소모임에 가입하셨습니다.",
+      });
+    }
+
     await Community_Member.create({
       user_id: req.session.user,
       community_id: community.community_id,
@@ -174,7 +189,6 @@ exports.joinCommunity = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
-
 // 소모임 나가기
 exports.leaveCommunity = async (req, res) => {
   try {
