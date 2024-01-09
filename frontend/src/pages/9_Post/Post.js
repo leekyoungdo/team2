@@ -68,10 +68,12 @@ export default function Post() {
   // 모든 댓글이 있는 api에서 불러와서 key:value 값을 다 불러오기
   const getComments = () => {
     axios
-      .get(`${process.env.REACT_APP_HOST}/comment/getComment/${board_id}`)
+      .get(`${process.env.REACT_APP_HOST}/comment/getallcomment/${board_id}`)
       .then((res) => {
-        if (res.data) setComments(Object.values(res.data.comment)); // 배열로 변환해서 받아 옴
-
+        if (res.data.comment) {
+          // res.data.comment가 있을 때만 받아 옴
+          setComments(Object.values(res.data.comment)); // 배열로 변환해서 받아 옴
+        }
         console.log('res.data.comment : ', res.data.comment);
       });
   };
