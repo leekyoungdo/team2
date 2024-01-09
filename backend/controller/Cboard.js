@@ -50,6 +50,8 @@ exports.getBoardId = async (req, res) => {
       },
     });
 
+    const user = await User.findOne({ where: { user_id: board.user_id } });
+
     if (!board) {
       return res.status(404).send({ error: "해당 ID의 게시글이 없습니다." });
     }
@@ -58,7 +60,7 @@ exports.getBoardId = async (req, res) => {
     board.viewcount += 1;
     await board.save();
 
-    res.send({ result: true, board: board });
+    res.send({ result: true, board: board, nickname: user.nickname });
   } catch (error) {
     console.error("Error getting board by ID:", error);
     res.status(500).send({ error: "서버 에러" });
