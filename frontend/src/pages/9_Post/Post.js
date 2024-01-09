@@ -65,11 +65,13 @@ export default function Post() {
   };
 
   // 댓글 조회
+  // 모든 댓글이 있는 api에서 불러와서 key:value 값을 다 불러오기
   const getComments = () => {
     axios
       .get(`${process.env.REACT_APP_HOST}/comment/getComment/${board_id}`)
       .then((res) => {
-        setComments(Object.values(res.data.comment)); // 배열로 변환해서 받아 옴
+        if (res.data) setComments(Object.values(res.data.comment)); // 배열로 변환해서 받아 옴
+
         console.log('res.data.comment : ', res.data.comment);
       });
   };
