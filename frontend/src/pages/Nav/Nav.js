@@ -60,11 +60,16 @@ export default function Nav() {
             </li>
 
             {isLoggedIn ? (
-              <li className={styles.signin}>
-                <button className="logoutButton" onClick={handleLogout}>
-                  로그아웃
-                </button>
-              </li>
+              <>
+                <li className={styles.signin}>
+                  <a href="/mypage">마이페이지</a>
+                </li>
+                <li className={styles.signin}>
+                  <button className="logoutButton" onClick={handleLogout}>
+                    로그아웃
+                  </button>
+                </li>
+              </>
             ) : (
               <li className={styles.signin}>
                 <a href="/user/signin">로그인</a>
