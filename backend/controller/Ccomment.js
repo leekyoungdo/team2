@@ -62,9 +62,10 @@ exports.getUserComment = (req, res) => {
     include: [
       {
         model: Board,
-        attributes: ["title"],
+        attributes: ["title", "category"],
       },
     ],
+    order: [["comment_id", "DESC"]],
   })
     .then((comments) => {
       res.send({ result: true, comments });

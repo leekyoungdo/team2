@@ -9,6 +9,7 @@ export default function MyPage() {
   const [userInfo, setUserInfo] = useState({});
   const [userBoard, setUserBoard] = useState({});
   const [userChat, setUserChat] = useState({});
+  const [userComment, setUserComment] = useState({});
   const { nickname } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -36,11 +37,11 @@ export default function MyPage() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("chat", res.data);
-
         // chat_name은 그대로 두고, chat_title을 추가하여 상태를 업데이트합니다.
         const modifiedChats = res.data.map((chat) => {
-          const chat_title = chat.chat_name.split("&")[1];
+          const chat_title = chat.chat_name
+            .split("&")
+            .find((part) => part !== nickname);
           return {
             chat_id: chat.chat_id,
             chat_name: chat.chat_name,
@@ -54,10 +55,24 @@ export default function MyPage() {
       });
   };
 
+  const getUserComment = () => {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/comment/getusercomment`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("comment", res.data);
+        console.log("comment board", res.data.comments);
+        // console.log("comment board title", res.data.comments.Board);
+        setUserComment(res.data.comments);
+      });
+  };
+
   useEffect(() => {
     getUserProfile();
     getUserBoard();
     getUserChat();
+    getUserComment();
   }, []);
 
   return (
@@ -175,24 +190,18 @@ export default function MyPage() {
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>일상</td>
-                  <td>행복한 저녁 시간~</td>
-                  <td>맛있겠다~~</td>
-                  <td>2024-01-05</td>
-                </tr>
-                <tr>
-                  <td>자유</td>
-                  <td>이럴 때는 어쩌죠?</td>
-                  <td>저도 그런 경험이....</td>
-                  <td>2024-01-05</td>
-                </tr>
-                <tr>
-                  <td>일상</td>
-                  <td>꼬까옷 입고 폴짝!</td>
-                  <td>너무 이뻐요~~</td>
-                  <td>2024-01-05</td>
-                </tr>
+                {userComment.length > 0 &&
+                  userComment.map((value) => (
+                    <tr
+                      key={value.comment_id}
+                      onClick={() => navigate(`/board/${value.board_id}`)}
+                    >
+                      <td>{value.Board.category}</td>
+                      <td>{value.Board.title}</td>
+                      <td>{value.comment_content}</td>
+                      <td>{value.makecomment}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           )}
