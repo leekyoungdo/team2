@@ -51,6 +51,31 @@ exports.getComment = (req, res) => {
     });
 };
 
+// 특정 사용자가 작성한 댓글 전체 조회
+exports.getUserComment = (req, res) => {
+  // 세션에서 사용자 ID 가져오기
+  const user_id = req.session.user;
+
+  Comment.findAll({
+    where: {
+      user_id: user_id,
+    },
+    include: [
+      {
+        model: Board,
+        attributes: ["title"],
+      },
+    ],
+  })
+    .then((comments) => {
+      res.send({ result: true, comments });
+    })
+    .catch((error) => {
+      console.error("Error getting user comments:", error);
+      res.send({ result: false, message: "댓글 조회 실패" });
+    });
+};
+
 // 댓글 작성
 exports.postComment = async (req, res) => {
   const user_id = req.session.user; // 세션에서 사용자 ID 추출
