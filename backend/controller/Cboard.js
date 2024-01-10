@@ -199,7 +199,10 @@ exports.boardUpdate = async (req, res) => {
 exports.userBoardList = async (req, res) => {
   try {
     const boardList = await Board.findAll({
-      where: { user_id: req.session.user },
+      where: {
+        user_id: req.session.user,
+        category: ["일상", "질문", "실종/포착"],
+      },
       order: [["board_id", "DESC"]],
     });
 
