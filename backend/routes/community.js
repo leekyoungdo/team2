@@ -10,6 +10,8 @@ router.get("/searchlocal/:local", controller.searchLocal);
 router.get("/getcommunity/:community_id", controller.getCommunity);
 // 소모임 전체 조회
 router.get("/getcommunities", controller.getCommunities);
+// 사용자가 참여한 소모임 조회
+router.get("/getusercommunity", controller.getUserCommunity);
 // 소모임 참여자 목록 조회
 router.get(
   "/getcommunitymembers/:community_id",
