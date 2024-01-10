@@ -19,6 +19,8 @@
 }
 
 .header {
+  margin-top: 10px;
+  margin-bottom: 20px;
   text-align: center;
   font-size: 30px;
   font-weight: 800;
@@ -147,7 +149,8 @@
 
 .boardTableContainer {
   width: 80%;
-  margin: auto;
+  height: 30%;
+  margin: 20px auto;
   .boardTable {
     width: 100%;
     border-collapse: collapse;
@@ -273,5 +276,37 @@
         object-fit: cover;
       }
     }
+  }
+}
+
+
+.pageButtonBox {
+  margin:-35px auto;
+  text-align: center;
+  align-items: center;
+
+  .pageButton {
+    margin: 0 10px;
+    border-radius: 10px;
+    width: 65px;
+    height: 35px;
+    background-color: #f5ba3f;
+    border: 2px solid black;
+  }
+}
+
+
+.pageButtonBox2 {
+  margin: 10px auto;
+  text-align: center;
+  align-items: center;
+
+  .pageButton2 {
+    margin: 0 10px;
+    border-radius: 10px;
+    width: 65px;
+    height: 35px;
+    background-color: #f5ba3f;
+    border: 2px solid black;
   }
 }

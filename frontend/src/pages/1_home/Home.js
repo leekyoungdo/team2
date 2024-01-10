@@ -46,8 +46,7 @@ export default function Home() {
         <div className={styles.findDog}>
           <img src={polygon} className={styles.polygonPic1} />
           {dogs
-            // .sort((a, b) => new Date(b.date) - new Date(a.date)) // 날짜를 기준으로 내림차순 정렬
-            .slice(0, 3) // 최신 데이터 4개 선택
+            .slice(0, 3) 
             .map((data, index) => (
               <div className={styles.picBar} key={index}>
                 <img
@@ -101,12 +100,6 @@ export default function Home() {
             ))}
         </div>
 
-        {/* <Link to={`/board/write`}>
-          <div className={styles.writeButton}>
-            <img src={plus} className={styles.plusPic} />
-            글쓰기
-          </div>
-        </Link> */}
       </div>
     </>
   );
