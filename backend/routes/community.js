@@ -17,6 +17,8 @@ router.get(
   "/getcommunitymembers/:community_id",
   controller.getCommunityMembers
 );
+// 소모임 매니저 조회
+router.get("/getmanager/:community_id", controller.getManager);
 // 소모임 생성
 router.post("/createcommunity", controller.createCommunity);
 // 소모임 참여

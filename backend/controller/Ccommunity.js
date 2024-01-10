@@ -115,6 +115,35 @@ exports.getCommunityMembers = async (req, res) => {
   }
 };
 
+// 소모임 매니저 조회
+exports.getManager = async (req, res) => {
+  try {
+    const community_id = req.params.community_id;
+
+    // 커뮤니티 매니저 조회
+    const manager = await Community_Member.findOne({
+      where: { community_id: community_id },
+      attributes: ["manager"],
+    });
+
+    if (!manager) {
+      return res.send({
+        result: false,
+        message: "해당 소모임의 매니저가 존재하지 않습니다.",
+      });
+    } else {
+      return res.send({
+        result: true,
+        message: "매니저 정보 조회에 성공하였습니다.",
+        data: manager,
+      });
+    }
+  } catch (error) {
+    console.error("Error getting manager:", error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
+
 // 소모임 생성
 exports.createCommunity = async (req, res) => {
   try {
@@ -189,6 +218,7 @@ exports.joinCommunity = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
 // 소모임 나가기
 exports.leaveCommunity = async (req, res) => {
   try {
@@ -210,6 +240,14 @@ exports.leaveCommunity = async (req, res) => {
       return res.send({
         result: false,
         message: "해당 소모임에 가입하지 않았습니다.",
+      });
+    }
+
+    // 매니저는 소모임을 나갈 수 없습니다.
+    if (membership.manager === user_id) {
+      return res.send({
+        result: false,
+        message: "매니저는 소모임을 나갈 수 없습니다.",
       });
     }
 
