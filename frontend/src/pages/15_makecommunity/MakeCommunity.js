@@ -22,7 +22,7 @@ export default function MakeCommunity() {
 
   useEffect(() => {
     const updateCommunityData = async () => {
-      if (update_D) {
+      if (update_D && update_D.communityData) {
         await setCommunity_Data((prevData) => ({
           community_local:
             update_D.communityData.community_local || prevData.community_local,
@@ -56,7 +56,7 @@ export default function MakeCommunity() {
     formData.append("community_local", data.community_local);
     formData.append("introduce", data.introduce);
 
-    if (update_D) {
+    if (update_D && update_D !== "기본값") {
       console.log("정보받음");
       console.log(
         "community_name",
@@ -90,7 +90,11 @@ export default function MakeCommunity() {
       axios
         .post(
           `${process.env.REACT_APP_HOST}/community/createcommunity`,
-          formData,
+          {
+            community_name: data.community_name,
+            community_local: data.community_local,
+            introduce: data.introduce,
+          },
           {
             withCredentials: true,
           }
