@@ -20,11 +20,38 @@ export default function CommunityPage() {
   const [editing, setEditing] = useState(false); // 수정 상태를 관리하기 위한 상태입니다.
   const [editingId, setEditingId] = useState(null); // 현재 수정 중인 댓글의 ID를 저장하는 상태입니다.
   const [editedContent, setEditedContent] = useState(""); // 수정된 내용을 관리하기 위한 상태입니다.
+  const [isMember, setIsMember] = useState(false);
+  const [memberList, setMemberList] = useState(null);
+  const [authorId, setAuthorId] = useState(null);
 
   function handleEditComment(id, currentContent) {
     setEditingId(id);
     setEditedContent(currentContent);
   }
+
+  const fetchMembers = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_HOST}/community/getcommunitymembers/${community_id}`
+      );
+      if (response.data.result) {
+        setMemberList(response.data.data);
+        console.log("현재 모임 멤버 :", response.data.data);
+        // 현재 사용자가 이미 가입된 상태인지 확인
+        const member = response.data.data.some(
+          (member) => member.nickname === nickname
+        );
+        setIsMember(member); // 현재 사용자가 멤버인지 여부를 state에 저장
+      } else {
+        console.error("커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.");
+      }
+    } catch (error) {
+      console.error(
+        "커뮤니티 멤버 데이터를 불러오는 API 호출에 실패하였습니다:",
+        error
+      );
+    }
+  };
 
   async function handleUpdateComment(comment_id) {
     try {
@@ -72,6 +99,7 @@ export default function CommunityPage() {
   } = useForm();
 
   useEffect(() => {
+    fetchMembers();
     axios
       .get(
         `${process.env.REACT_APP_HOST}/community/getcommunity/${community_id}`
@@ -97,7 +125,7 @@ export default function CommunityPage() {
 
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/board/getboardcategory/모임_${community_id}_자유`,
+        `${process.env.REACT_APP_HOST}/board/getboardcategory/${community_id}_자유`,
         {
           params: params,
         }
@@ -107,6 +135,8 @@ export default function CommunityPage() {
           setPage(response.data.posts);
           setBoard_id(response.data.posts[currentPageNum - 1].board_id);
           setPostsPerPage(response.data.posts.length);
+          setAuthorId(response.data.posts[currentPageNum - 1].user_id);
+
           console.log("게시물 데이터 불러오기 성공");
 
           // 게시물 데이터를 불러온 후 댓글 데이터도 불러옵니다.
@@ -134,6 +164,33 @@ export default function CommunityPage() {
         }
       })
       .catch((err) => console.error("API 요청 및 페이지, 댓글 조회 오류", err));
+  };
+
+  // 게시글 삭제
+  const boardDelete = () => {
+    console.log("board_id", board_id);
+    axios
+      .delete(`${process.env.REACT_APP_HOST}/board/boarddelete/${board_id}`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        if (res.data.result) {
+          // 게시글 삭제 성공
+          console.log("게시글을 삭제했습니다.");
+          alert("게시글을 삭제했습니다.");
+          navigator(
+            `/communityboard/community/${community_id}/communityinnerboard/`
+          );
+          window.location.reload();
+        } else {
+          // 게시글 삭제 실패
+          console.log("게시글 삭제 실패");
+        }
+      })
+      .catch((err) => {
+        // 네트워크 요청 실패 또는 백엔드에서 처리 과정에서 에러 발생
+        console.error("게시글 삭제 요청 또는 처리 과정에서 에러 발생:", err);
+      });
   };
 
   // 댓글 작성(등록)
@@ -290,7 +347,7 @@ export default function CommunityPage() {
                                   )}
                                   {comment.comment_id}
                                 </td>
-                                {comment.user_id === nickname && (
+                                {comment.user_id === nickname && isMember && (
                                   <td>
                                     <button
                                       onClick={() =>
@@ -328,23 +385,25 @@ export default function CommunityPage() {
                           </tbody>
                         </table>
                       </div>
-                      <div
-                        className={`${styles.container} ${styles.commentwrite}`}
-                      >
-                        <form onSubmit={handleSubmit(onValid)}>
-                          <div className={styles.comments}>
-                            <textarea
-                              className={styles.commentsText}
-                              placeholder="댓글을 입력해주세요"
-                              {...register("comment_content")}
-                            ></textarea>
-                          </div>
+                      {isMember && (
+                        <div
+                          className={`${styles.container} ${styles.commentwrite}`}
+                        >
+                          <form onSubmit={handleSubmit(onValid)}>
+                            <div className={styles.comments}>
+                              <textarea
+                                className={styles.commentsText}
+                                placeholder="댓글을 입력해주세요"
+                                {...register("comment_content")}
+                              ></textarea>
+                            </div>
 
-                          <button type="submit" className={`${styles.btn}`}>
-                            등록
-                          </button>
-                        </form>
-                      </div>
+                            <button type="submit" className={`${styles.btn}`}>
+                              등록
+                            </button>
+                          </form>
+                        </div>
+                      )}
                     </RenderContainer>
                   </div>
                 )
@@ -366,6 +425,13 @@ export default function CommunityPage() {
                 handleFunction={handleBack}
                 label="목록으로"
               />
+              {authorId === nickname && isMember && (
+                <RenderButton
+                  classname={styles.back}
+                  handleFunction={boardDelete}
+                  label="삭제"
+                />
+              )}
             </div>
           </RenderContainer>
         </div>
