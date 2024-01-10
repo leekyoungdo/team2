@@ -18,6 +18,23 @@ export default function Community() {
     if (!memberList.includes(nickname)) {
       setMemberList((memberList) => [...memberList, nickname]);
       setIsJoined(true);
+
+      // 서버로 가입 요청 보내기
+      axios
+
+        .post(
+          `${process.env.REACT_APP_HOST}/community/joincommunity/${community_id}`,
+          {
+            withCredentials: true,
+          }
+        )
+
+        .then((response) => {
+          console.log("가입 요청 성공:", response);
+        })
+        .catch((error) => {
+          console.error("가입 요청 실패:", error);
+        });
     } else console.log("이미 가입한 모임입니다");
   };
 
@@ -26,6 +43,21 @@ export default function Community() {
       memberList.filter((member) => member !== nickname)
     );
     setIsJoined(false);
+
+    // 서버로 탈퇴 요청 보내기
+    axios
+      .delete(
+        `${process.env.REACT_APP_HOST}/community/leavecommunity/${community_id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log("탈퇴 요청 성공:", response);
+      })
+      .catch((error) => {
+        console.error("탈퇴 요청 실패:", error);
+      });
   };
 
   useEffect(() => {
