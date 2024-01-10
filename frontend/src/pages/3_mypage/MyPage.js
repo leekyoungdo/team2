@@ -81,6 +81,16 @@ export default function MyPage() {
     getUserComment();
   }, []);
 
+
+  const [currentPageDM, setCurrentPageDM] = useState(1);
+  const [itemsPerPageDM] = useState(4);
+
+  const getCurrentPageItemsDM = () => {
+    const startIndex = (currentPageDM - 1) * itemsPerPageDM;
+    const endIndex = startIndex + itemsPerPageDM;
+    return userChat.slice(startIndex, endIndex);
+  };
+
   // const [showEditModal, setShowEditModal] = useState(false);
 
   // const handleEditClick = () => {
@@ -293,47 +303,49 @@ export default function MyPage() {
 
         <br />
 
-
         <div className={styles.dmListContainer}>
           <p className={styles.dmP}>쪽지함</p>
           <table className={styles.dmlistTable}>
             <tbody>
-              {getCurrentPageItems().map((value) => (
-                <tr key={value.chat_id} onClick={() => navigate(`/dm/${value.chat_name}`)}>
-                  <td>✉️</td>
-                  <td>{value.chat_title}</td>
-                  <td></td>
-                  <td>{value.chat_time}</td>
-                </tr>
-              ))}
+              {userChat.length > 0 &&
+                userChat.map((value) => (
+                  <tr
+                    key={value.chat_id}
+                    onClick={() => navigate(`/dm/${value.chat_name}`)}
+                  >
+                    <td>✉️</td>
+                    <td>{value.chat_title}</td>
+                    <td></td>
+                    <td>{value.chat_time}</td>
+                  </tr>
+                ))}
             </tbody>
           </table>
-
-          {userChat.length > 0 && (
-            <div className={styles.pageButtonBox2}>
-              <button
-                className={styles.pageButton2}
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-              >
-                이전
-              </button>
-              <span>{currentPage}</span>
-              <button
-                className={styles.pageButton2}
-                onClick={() =>
-                  setCurrentPage((prev) =>
-                    Math.min(prev + 1, Math.ceil(userChat.length / itemsPerPage))
-                  )
-                }
-                disabled={currentPage === Math.ceil(userChat.length / itemsPerPage)}
-              >
-                다음
-              </button>
-            </div>
-          )}
         </div>
 
+        {userChat.length > 0 && (
+          <div className={styles.pageButtonBox2}>
+            <button
+              className={styles.pageButton2}
+              onClick={() => setCurrentPageDM((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPageDM === 1}
+            >
+              이전
+            </button>
+            <span>{currentPageDM}</span>
+            <button
+              className={styles.pageButton2}
+              onClick={() =>
+                setCurrentPageDM((prev) =>
+                  Math.min(prev + 1, Math.ceil(userChat.length / itemsPerPageDM))
+                )
+              }
+              disabled={currentPageDM === Math.ceil(userChat.length / itemsPerPageDM)}
+            >
+              다음
+            </button>
+          </div>
+        )}
 
         <br />
       </div>
