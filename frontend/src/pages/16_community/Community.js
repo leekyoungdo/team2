@@ -1,7 +1,6 @@
 import styles from "./Community.module.scss";
 import React, { useState, useEffect } from "react";
 import axios from "axios"; // axios 라이브러리 import
-
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
@@ -18,7 +17,6 @@ export default function Community() {
   useEffect(() => {
     console.log("현재 멤버 리스트", { memberList });
   }, [memberList]);
-
   const [isMemberModalOpen, setMemberModalOpen] = useState(false);
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   // const community_id = 2; // 실제로는 해당 커뮤니티를 조회하기 위한 고유 id값을 사용해야 합니다.
@@ -74,14 +72,18 @@ export default function Community() {
         const joined = response.data.data.some(
           (member) => member.nickname === nickname
         );
-        // 현재 사용자가 모임을 생성한 관리자인지 확인
-        const isManager = response.data.data.some(
-          (manager) =>
-            manager.community_id === community_id &&
-            manager.user_id === nickname
-        );
-        setIsManager(isManager);
         setIsJoined(joined);
+
+        // 추가: 매니저 정보를 불러옵니다.
+        const responseManager = await axios.get(
+          `${process.env.REACT_APP_HOST}/community/getmanager/${community_id}`
+        );
+        if (responseManager.data.result) {
+          const isManager = responseManager.data.data.manager === nickname;
+          setIsManager(isManager);
+        } else {
+          console.error("매니저 정보를 불러오는데 실패하였습니다.");
+        }
       } else {
         console.error("커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.");
       }
@@ -154,8 +156,10 @@ export default function Community() {
         }
       )
       .then((response) => {
+        alert("모임이 삭제되었습니다.");
         console.log(response);
         fetchMembers();
+        navigator(`/communityboard/`);
       })
       .catch((error) => {
         console.error(error);
@@ -280,10 +284,15 @@ export default function Community() {
                   </div>
                   <div className={styles.bottom}>
                     {isManager ? (
-                      <div>
+                      <div className={styles.flex_m}>
                         <div
                           className={styles.button_manage}
-                          // onClick={}
+                          onClick={() => {
+                            navigator(
+                              `/communityboard/makecommunity/${community_id}/update`,
+                              { state: { value: { communityData } } }
+                            );
+                          }}
                         >
                           모임 수정하기
                         </div>
