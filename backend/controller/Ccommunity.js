@@ -289,3 +289,26 @@ exports.deleteCommunity = async (req, res) => {
     res.send({ result: false, message: "서버 오류 발생" });
   }
 };
+
+// 사용자가 참여한 소모임 조회
+exports.getUserCommunity = async (req, res) => {
+  try {
+    const communityJoin = await Community_Member.findAll({
+      where: { user_id: req.session.user },
+    });
+
+    let communityId = [];
+    for (let community of communityJoin) {
+      communityId.push(community.community_id);
+    }
+
+    const communityList = await Community.findAll({
+      where: { community_id: communityId },
+    });
+
+    res.send(communityList);
+  } catch (error) {
+    console.log(error);
+    res.send({ result: false, message: "서버 오류 발생" });
+  }
+};
