@@ -11,6 +11,7 @@ export default function MyPage() {
   const [userBoard, setUserBoard] = useState([]);
   const [userChat, setUserChat] = useState([]);
   const [userComment, setUserComment] = useState([]);
+  const [userCommunity, setUserCommunity] = useState({});
   const { nickname } = useSelector((state) => state.user);
   const navigate = useNavigate();
 
@@ -20,7 +21,9 @@ export default function MyPage() {
   const getCurrentPageItems = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    return showWriteTable ? userBoard.slice(startIndex, endIndex) : userComment.slice(startIndex, endIndex);
+    return showWriteTable
+      ? userBoard.slice(startIndex, endIndex)
+      : userComment.slice(startIndex, endIndex);
   };
 
   const getUserProfile = () => {
@@ -74,13 +77,24 @@ export default function MyPage() {
       });
   };
 
+  const getUserCommunity = () => {
+    axios
+      .get(`${process.env.REACT_APP_HOST}/community/getusercommunity`, {
+        withCredentials: true,
+      })
+      .then((res) => {
+        console.log("community", res.data);
+        setUserCommunity(res.data);
+      });
+  };
+
   useEffect(() => {
     getUserProfile();
     getUserBoard();
     getUserChat();
     getUserComment();
+    getUserCommunity();
   }, []);
-
 
   const [currentPageDM, setCurrentPageDM] = useState(1);
   const [itemsPerPageDM] = useState(4);
@@ -128,10 +142,6 @@ export default function MyPage() {
   //   }
   // }, [userInfo]);
 
-
-
-
-  
   return (
     <>
       <div className={styles.mypageContainer}>
@@ -142,7 +152,9 @@ export default function MyPage() {
           <div className={styles.infoBox}>
             <div className={styles.picture}>
               <img
-                src={`${process.env.REACT_APP_HOST}${userInfo && userInfo.image}`}
+                src={`${process.env.REACT_APP_HOST}${
+                  userInfo && userInfo.image
+                }`}
                 alt="프로필 사진"
               />
             </div>
@@ -155,9 +167,7 @@ export default function MyPage() {
               <p className={styles.introduction}>
                 {userInfo && userInfo.dog_intro}
               </p>
-              <button className={styles.editButton} >
-                정보수정
-              </button>
+              <button className={styles.editButton}>정보수정</button>
             </div>
           </div>
 
@@ -167,15 +177,19 @@ export default function MyPage() {
             <p className={styles.comP}>참여소모임</p>
             <table className={styles.comlistTable}>
               <tbody>
-                <tr>
-                  <td>부산 플레이데이트</td>
-                </tr>
-                <tr>
-                  <td>포실포실 대전</td>
-                </tr>
-                <tr>
-                  <td>스파니얼 러버스</td>
-                </tr>
+                {userCommunity.length > 0 &&
+                  userCommunity.map((value) => (
+                    <tr
+                      key={value.community_id}
+                      onClick={() =>
+                        navigate(
+                          `/communityboard/community/${value.community_id}`
+                        )
+                      }
+                    >
+                      <td>{value.community_name}</td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
@@ -248,57 +262,70 @@ export default function MyPage() {
             </table>
           )}
         </div>
-        
+
         <div>
-          {showWriteTable ? (
-            userBoard.length > 0 && (
-              <div className={styles.pageButtonBox}>
-                <button
-                  className={styles.pageButton}
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                >
-                  이전
-                </button>
-                <span>{currentPage}</span>
-                <button
-                  className={styles.pageButton}
-                  onClick={() =>
-                    setCurrentPage((prev) =>
-                      Math.min(prev + 1, Math.ceil(userBoard.length / itemsPerPage))
-                    )
-                  }
-                  disabled={currentPage === Math.ceil(userBoard.length / itemsPerPage)}
-                >
-                  다음
-                </button>
-              </div>
-            )
-          ) : (
-            userComment.length > 0 && (
-              <div className={styles.pageButtonBox}>
-                <button
-                  className={styles.pageButton}
-                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                  disabled={currentPage === 1}
-                >
-                  이전
-                </button>
-                <span>{currentPage}</span>
-                <button
-                  className={styles.pageButton}
-                  onClick={() =>
-                    setCurrentPage((prev) =>
-                      Math.min(prev + 1, Math.ceil(userComment.length / itemsPerPage))
-                    )
-                  }
-                  disabled={currentPage === Math.ceil(userComment.length / itemsPerPage)}
-                >
-                  다음
-                </button>
-              </div>
-            )
-          )}
+          {showWriteTable
+            ? userBoard.length > 0 && (
+                <div className={styles.pageButtonBox}>
+                  <button
+                    className={styles.pageButton}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    이전
+                  </button>
+                  <span>{currentPage}</span>
+                  <button
+                    className={styles.pageButton}
+                    onClick={() =>
+                      setCurrentPage((prev) =>
+                        Math.min(
+                          prev + 1,
+                          Math.ceil(userBoard.length / itemsPerPage)
+                        )
+                      )
+                    }
+                    disabled={
+                      currentPage === Math.ceil(userBoard.length / itemsPerPage)
+                    }
+                  >
+                    다음
+                  </button>
+                </div>
+              )
+            : userComment.length > 0 && (
+                <div className={styles.pageButtonBox}>
+                  <button
+                    className={styles.pageButton}
+                    onClick={() =>
+                      setCurrentPage((prev) => Math.max(prev - 1, 1))
+                    }
+                    disabled={currentPage === 1}
+                  >
+                    이전
+                  </button>
+                  <span>{currentPage}</span>
+                  <button
+                    className={styles.pageButton}
+                    onClick={() =>
+                      setCurrentPage((prev) =>
+                        Math.min(
+                          prev + 1,
+                          Math.ceil(userComment.length / itemsPerPage)
+                        )
+                      )
+                    }
+                    disabled={
+                      currentPage ===
+                      Math.ceil(userComment.length / itemsPerPage)
+                    }
+                  >
+                    다음
+                  </button>
+                </div>
+              )}
         </div>
 
         <br />
@@ -337,10 +364,15 @@ export default function MyPage() {
               className={styles.pageButton2}
               onClick={() =>
                 setCurrentPageDM((prev) =>
-                  Math.min(prev + 1, Math.ceil(userChat.length / itemsPerPageDM))
+                  Math.min(
+                    prev + 1,
+                    Math.ceil(userChat.length / itemsPerPageDM)
+                  )
                 )
               }
-              disabled={currentPageDM === Math.ceil(userChat.length / itemsPerPageDM)}
+              disabled={
+                currentPageDM === Math.ceil(userChat.length / itemsPerPageDM)
+              }
             >
               다음
             </button>

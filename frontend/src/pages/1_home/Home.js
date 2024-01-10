@@ -1,5 +1,4 @@
 import styles from "./Home.module.scss";
-import dogpic from "./mdog.jpg";
 import plus from "./플러스.png";
 import polygon from "./Polygon 1.png";
 import React, { useState, useRef, useEffect } from "react";
@@ -45,20 +44,18 @@ export default function Home() {
         <h2>가족을 찾아요</h2>
         <div className={styles.findDog}>
           <img src={polygon} className={styles.polygonPic1} />
-          {dogs
-            .slice(0, 3) 
-            .map((data, index) => (
-              <div className={styles.picBar} key={index}>
-                <img
-                  className={styles.DogPic}
-                  src={data.popfile}
-                  alt="강아지"
-                  title="멋진 우리 강아지!"
-                />
-                <div className={styles.title}> {data.kindCd}</div>
-                <div className={styles.author}> {data.careNm}</div>
-              </div>
-            ))}
+          {dogs.slice(0, 3).map((data, index) => (
+            <div className={styles.picBar} key={index}>
+              <img
+                className={styles.DogPic}
+                src={data.popfile}
+                alt="강아지"
+                title="멋진 우리 강아지!"
+              />
+              <div className={styles.title}> {data.kindCd}</div>
+              <div className={styles.author}> {data.careNm}</div>
+            </div>
+          ))}
           <img src={polygon} className={styles.polygonPic2} />
         </div>
 
@@ -99,7 +96,6 @@ export default function Home() {
               </Link>
             ))}
         </div>
-
       </div>
     </>
   );
