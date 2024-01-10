@@ -13,71 +13,17 @@ export default function Community() {
   const [isJoined, setIsJoined] = useState(false);
   const { nickname } = useSelector((state) => state.user);
   const [boardList, setBoardList] = useState(null);
-
-  const JoinCommunity = () => {
-    if (!memberList.includes(nickname)) {
-      setMemberList((memberList) => [...memberList, nickname]);
-      setIsJoined(true);
-
-      // 서버로 가입 요청 보내기
-      axios
-
-        .post(
-          `${process.env.REACT_APP_HOST}/community/joincommunity/${community_id}`,
-          {
-            withCredentials: true,
-          }
-        )
-
-        .then((response) => {
-          console.log("가입 요청 성공:", response);
-        })
-        .catch((error) => {
-          console.error("가입 요청 실패:", error);
-        });
-    } else console.log("이미 가입한 모임입니다");
-  };
-
-  const LeaveCommunity = () => {
-    setMemberList((memberList) =>
-      memberList.filter((member) => member !== nickname)
-    );
-    setIsJoined(false);
-
-    // 서버로 탈퇴 요청 보내기
-    axios
-      .delete(
-        `${process.env.REACT_APP_HOST}/community/leavecommunity/${community_id}`,
-        {
-          withCredentials: true,
-        }
-      )
-      .then((response) => {
-        console.log("탈퇴 요청 성공:", response);
-      })
-      .catch((error) => {
-        console.error("탈퇴 요청 실패:", error);
-      });
-  };
+  const [isManager, setIsManager] = useState(false);
 
   useEffect(() => {
-    console.log({ memberList });
+    console.log("현재 멤버 리스트", { memberList });
   }, [memberList]);
-
-  const boardlist = [
-    { title: "테스트게시글1", writer: "강아지사랑" },
-    { title: "테스트게시글2", writer: "강아지사랑" },
-    { title: "테스트게시글3", writer: "강아지사랑" },
-    { title: "테스트게시글4", writer: "강아지사랑" },
-    { title: "테스트게시글5", writer: "강아지사랑" },
-  ];
 
   const [isMemberModalOpen, setMemberModalOpen] = useState(false);
   const [isBoardModalOpen, setBoardModalOpen] = useState(false);
   // const community_id = 2; // 실제로는 해당 커뮤니티를 조회하기 위한 고유 id값을 사용해야 합니다.
 
   useEffect(() => {
-    // 커뮤니티 데이터 조회
     axios
       .get(
         `${process.env.REACT_APP_HOST}/community/getcommunity/${community_id}`
@@ -98,25 +44,7 @@ export default function Community() {
 
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/community/getcommunitymembers/${community_id}`
-      )
-      .then((response) => {
-        if (response.data.result) {
-          setMemberList(response.data.data);
-        } else {
-          console.error("커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.");
-        }
-      })
-      .catch((error) => {
-        console.error(
-          "커뮤니티 멤버 데이터를 불러오는 API 호출에 실패하였습니다:",
-          error
-        );
-      });
-
-    axios
-      .get(
-        `${process.env.REACT_APP_HOST}/board/getboardcategory/모임_${community_id}_자유`
+        `${process.env.REACT_APP_HOST}/board/getboardcategory/${community_id}_자유`
       )
       .then((res) => {
         if (res.data.posts.length > 0) {
@@ -133,6 +61,106 @@ export default function Community() {
         );
       });
   }, [community_id]);
+
+  const fetchMembers = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_HOST}/community/getcommunitymembers/${community_id}`
+      );
+      if (response.data.result) {
+        setMemberList(response.data.data);
+        console.log(response.data.data);
+        // 현재 사용자가 이미 가입된 상태인지 확인
+        const joined = response.data.data.some(
+          (member) => member.nickname === nickname
+        );
+        // 현재 사용자가 모임을 생성한 관리자인지 확인
+        const isManager = response.data.data.some(
+          (manager) =>
+            manager.community_id === community_id &&
+            manager.user_id === nickname
+        );
+        setIsManager(isManager);
+        setIsJoined(joined);
+      } else {
+        console.error("커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.");
+      }
+    } catch (error) {
+      console.error(
+        "커뮤니티 멤버 데이터를 불러오는 API 호출에 실패하였습니다:",
+        error
+      );
+    }
+  };
+
+  useEffect(() => {
+    fetchMembers();
+  }, [community_id]);
+
+  const JoinCommunity = () => {
+    if (!memberList.includes(nickname)) {
+      setMemberList((memberList) => [...memberList, nickname]);
+      setIsJoined(true);
+
+      // 서버로 가입 요청 보내기
+      axios
+        .post(
+          `${process.env.REACT_APP_HOST}/community/joincommunity/${community_id}`,
+          {},
+          {
+            withCredentials: true,
+          }
+        )
+
+        .then((response) => {
+          console.log(response.data);
+          fetchMembers();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else console.log("이미 가입한 모임입니다");
+  };
+
+  const LeaveCommunity = () => {
+    setMemberList((memberList) =>
+      memberList.filter((member) => member !== nickname)
+    );
+    setIsJoined(false);
+
+    // 서버로 탈퇴 요청 보내기
+    axios
+      .delete(
+        `${process.env.REACT_APP_HOST}/community/leavecommunity/${community_id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        fetchMembers();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const DeleteCommunity = () => {
+    axios
+      .delete(
+        `${process.env.REACT_APP_HOST}/community/deletecommunity/${community_id}`,
+        {
+          withCredentials: true,
+        }
+      )
+      .then((response) => {
+        console.log(response);
+        fetchMembers();
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   if (!communityData || !memberList) return <div>Loading...</div>;
 
@@ -153,7 +181,7 @@ export default function Community() {
                 </h1>
                 <div className={styles.buttonHold}>
                   {isJoined && (
-                    <div className={styles.button_opentalk}>오픈톡방 입장</div>
+                    <div className={styles.button_opentalk}>가입 중</div>
                   )}
                 </div>
               </div>
@@ -191,7 +219,7 @@ export default function Community() {
                             {memberList.map((member, index) => (
                               <div key={index} className={styles.member}>
                                 <div>{member.nickname}</div>
-                                <img src={member.image} alt={member.nickname} />
+                                <img src={member.image} />
                               </div>
                             ))}
 
@@ -207,8 +235,10 @@ export default function Community() {
 
                       {memberList.slice(0, 3).map((member, index) => (
                         <div key={index} className={styles.member}>
-                          <div>{member.nickname}</div>
-                          <img src={member.image} alt={member.nickname} />
+                          <div className={styles.flex}>
+                            <div>{member.nickname}</div>
+                            <img src={member.image} />
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -249,26 +279,43 @@ export default function Community() {
                       ))}
                   </div>
                   <div className={styles.bottom}>
-                    <div
-                      className={styles.button_join}
-                      onClick={isJoined ? LeaveCommunity : JoinCommunity}
-                      style={{
-                        color: isJoined ? "white" : "", // 가입 상태에 따라 글씨 색상 변경
-                        border: "2px solid #000000",
-                        height: "65px",
-                        width: "calc(18%)",
-                        borderRadius: "35px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        fontWeight: "bold",
-                        boxShadow: isJoined ? "" : "1.5px 2px 0px #000000",
-                        backgroundColor: isJoined ? "grey" : "#f5ba3f",
-                        fontSize: isJoined ? "20px" : "20px", // 가입 상태에 따라 글씨 크기 변경
-                      }}
-                    >
-                      {isJoined ? "탈퇴하기" : "가입하기"}
-                    </div>
+                    {isManager ? (
+                      <div>
+                        <div
+                          className={styles.button_manage}
+                          // onClick={}
+                        >
+                          모임 수정하기
+                        </div>
+                        <div
+                          className={styles.button_delete}
+                          onClick={DeleteCommunity}
+                        >
+                          모임 삭제하기
+                        </div>
+                      </div>
+                    ) : (
+                      <div
+                        className={styles.button_join}
+                        onClick={isJoined ? LeaveCommunity : JoinCommunity}
+                        style={{
+                          color: isJoined ? "white" : "", // 가입 상태에 따라 글씨 색상 변경
+                          border: "2px solid #000000",
+                          height: "65px",
+                          width: "calc(18%)",
+                          borderRadius: "35px",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontWeight: "bold",
+                          boxShadow: isJoined ? "" : "1.5px 2px 0px #000000",
+                          backgroundColor: isJoined ? "grey" : "#f5ba3f",
+                          fontSize: isJoined ? "20px" : "20px", // 가입 상태에 따라 글씨 크기 변경
+                        }}
+                      >
+                        {isJoined ? "탈퇴하기" : "가입하기"}
+                      </div>
+                    )}
                   </div>
                 </>
               )
