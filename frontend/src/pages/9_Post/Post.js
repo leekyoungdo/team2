@@ -251,7 +251,10 @@ export default function Post() {
               {/* 글 작성자와 로그인한 사용자가 동일한 경우에만 수정 / 삭제 버튼을 보여줌 */}
               {userNickname === nickname && (
                 <div>
-                  <button onClick={() => boardUpdate()}>글수정</button>
+                  {/* <button onClick={() => boardUpdate()}>글수정</button> */}
+                  <button onClick={() => navigator(`/board/edit/${board_id}`)}>
+                    글수정
+                  </button>
                   <button onClick={() => boardDelete()}>글삭제</button>
                 </div>
               )}

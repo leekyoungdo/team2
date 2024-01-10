@@ -11,6 +11,7 @@ import SignUp from './pages/6_signup/SignUp';
 import SignIn from './pages/7_signin/SignIn';
 import Write from './pages/8_write/Write';
 import Post from './pages/9_Post/Post';
+import EditPost from './pages/9_Post/EditPost';
 import DmPage from './pages/10_dmpage/DmPage';
 import Dm from './pages/11_dm/dm';
 
@@ -39,6 +40,7 @@ function App() {
             <Route path="/user/signin" element={<SignIn />} />
             <Route path="/board/write" element={<Write />} />
             <Route path="/board/:board_id" element={<Post />} />
+            <Route path="/board/edit/:board_id" element={<EditPost />} />
             <Route path="/dmpage" element={<DmPage />} />
             <Route path="/dm/:chat_name" element={<Dm />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />
