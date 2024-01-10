@@ -63,6 +63,9 @@ exports.getUserComment = (req, res) => {
       {
         model: Board,
         attributes: ["title", "category"],
+        where: {
+          category: ["일상", "질문", "실종/포착"],
+        },
       },
     ],
     order: [["comment_id", "DESC"]],

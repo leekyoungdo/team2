@@ -2,14 +2,46 @@ import styles from "./CommunityInnerBoard.module.scss";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 
 export default function CommunityInnerBoard() {
   const navigator = useNavigate();
   const [page, setPage] = useState([]);
   const { community_id } = useParams();
   const [communityData, setCommunityData] = useState(null); // new state for community data
+  const { nickname } = useSelector((state) => state.user);
+  const [isMember, setIsMember] = useState(false);
+  const [memberList, setMemberList] = useState(null);
+  const [boardId, setBoardId] = useState(null);
+  const location = useLocation();
+
+  const fetchMembers = async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.REACT_APP_HOST}/community/getcommunitymembers/${community_id}`
+      );
+      if (response.data.result) {
+        setMemberList(response.data.data);
+        console.log("현재 모임 멤버 :", response.data.data);
+        // 현재 사용자가 이미 가입된 상태인지 확인
+        const member = response.data.data.some(
+          (member) => member.nickname === nickname
+        );
+        setIsMember(member); // 현재 사용자가 멤버인지 여부를 state에 저장
+      } else {
+        console.error("커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.");
+      }
+    } catch (error) {
+      console.error(
+        "커뮤니티 멤버 데이터를 불러오는 API 호출에 실패하였습니다:",
+        error
+      );
+    }
+  };
 
   useEffect(() => {
+    fetchMembers();
     axios
       .get(
         `${process.env.REACT_APP_HOST}/community/getcommunity/${community_id}`
@@ -32,7 +64,7 @@ export default function CommunityInnerBoard() {
   const getApi = () => {
     axios
       .get(
-        `${process.env.REACT_APP_HOST}/board/getboardcategory/모임_${community_id}_자유`
+        `${process.env.REACT_APP_HOST}/board/getboardcategory/${community_id}_자유`
       )
       .then((res) => {
         if (res.data.posts.length > 0) {
@@ -49,13 +81,14 @@ export default function CommunityInnerBoard() {
 
   useEffect(() => {
     getApi();
-  }, []);
+  }, [boardId, location]);
 
-  const handlePostClick = (pageNumber) => {
+  const handlePostClick = (board_id) => {
     navigator(
-      `/communityboard/community/${community_id}/communityinnerboard/communityPage/${pageNumber}`
+      `/communityboard/community/${community_id}/communityinnerboard/communityPage/${board_id}`
     );
   };
+
   const writeClick = () => {
     navigator(
       `/communityboard/community/${community_id}/communityinnerboard/CommunityWrite`
@@ -113,9 +146,11 @@ export default function CommunityInnerBoard() {
               </tbody>
             </table>
             <div className={styles.flex}>
-              <button onClick={() => writeClick()} className={styles.button}>
-                작성하기
-              </button>
+              {isMember && ( // isMember가 true인 경우에만 작성하기 버튼이 보입니다.
+                <button onClick={() => writeClick()} className={styles.button}>
+                  작성하기
+                </button>
+              )}
               <button onClick={() => BackClick()} className={styles.button}>
                 이전 페이지로
               </button>

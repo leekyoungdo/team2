@@ -38,15 +38,16 @@ export default function CommunityWrite() {
 
   const handleBack = () => {
     navigator(`/communityboard/community/${community_id}/communityinnerboard/`);
+    window.location.reload();
   };
 
   const onValid = (data) => {
     const postData = {
+      title: data.title,
       category:
         data.category === "자유게시판"
-          ? "1강아지모임_자유"
-          : "1강아지모임_공지",
-      title: data.title,
+          ? `${community_id}_자유`
+          : `${community_id}_공지`,
       content: data.content,
     };
 
@@ -56,6 +57,7 @@ export default function CommunityWrite() {
       })
       .then((res) => {
         console.log(res.data);
+        handleBack();
       })
       .catch((error) => {
         console.error(error);
@@ -123,7 +125,7 @@ export default function CommunityWrite() {
                   <button type="submit" className={styles["submit-button"]}>
                     등록
                   </button>
-                  <label className={styles["upload-button"]} htmlFor="picture">
+                  {/* <label className={styles["upload-button"]} htmlFor="picture">
                     사진 업로드
                     <input
                       {...register("image")}
@@ -135,10 +137,10 @@ export default function CommunityWrite() {
                       // formData()로 파일을 업로드할 때 encType 속성을 아래와 같이 명시해주어야 한다
                       encType="multipart/form-data"
                     />
-                  </label>
+                  </label> */}
                 </div>
                 <button
-                  type="submit"
+                  type="button"
                   onClick={handleBack}
                   className={styles["back-button"]}
                 >

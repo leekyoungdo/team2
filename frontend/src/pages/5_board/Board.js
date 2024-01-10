@@ -1,8 +1,9 @@
 import styles from "./Board.module.scss";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import view from "./view.png";
+import { useSelector } from "react-redux";
 
 export default function Board() {
   const [allboardList, setAllBoardList] = useState([]);
@@ -10,7 +11,8 @@ export default function Board() {
   const [selectedCategory, setSelectedCategory] = useState("전체");
   const [currentPage, setCurrentPage] = useState(1);
   const navigate = useNavigate();
-  const postsPerPage = 8; 
+  const { isLoggedIn } = useSelector((state) => state.user);
+  const postsPerPage = 8;
 
   const getBoard = () => {
     axios
@@ -24,8 +26,6 @@ export default function Board() {
       });
   };
 
-
-
   useEffect(() => {
     getBoard();
   }, []);
@@ -33,8 +33,6 @@ export default function Board() {
   useEffect(() => {
     setCurrentPage(1);
   }, [filteredBoardList]);
-
-
 
   const handleCategoryClick = (category) => {
     // 카테고리를 클릭했을 때 호출되는 함수
@@ -51,12 +49,13 @@ export default function Board() {
     }
   };
 
-
   const indexOfLastPost = currentPage * postsPerPage;
   const indexOfFirstPost = indexOfLastPost - postsPerPage;
-  const currentPosts = filteredBoardList.slice(indexOfFirstPost, indexOfLastPost);
+  const currentPosts = filteredBoardList.slice(
+    indexOfFirstPost,
+    indexOfLastPost
+  );
   const totalPages = Math.ceil(filteredBoardList.length / postsPerPage);
-
 
   const nextPage = () => {
     if (indexOfLastPost < filteredBoardList.length) {
@@ -70,13 +69,19 @@ export default function Board() {
     }
   };
 
-
+  const handleWriteClick = () => {
+    if (isLoggedIn) {
+      navigate(`/board/write`);
+    } else {
+      alert("로그인이 필요한 서비스입니다.");
+      navigate("/user/signin");
+    }
+  };
 
   return (
     <>
       <div className={styles.bg}>
         <div className={styles.category}>
-
           <ul>
             <li>
               <a onClick={() => handleCategoryClick("전체")}>전체</a>
@@ -92,26 +97,32 @@ export default function Board() {
             </li>
           </ul>
 
-
           <div className={styles.pagination}>
-            <button className={styles.pageButton} onClick={prevPage} disabled={currentPage === 1}>
+            <button
+              className={styles.pageButton}
+              onClick={prevPage}
+              disabled={currentPage === 1}
+            >
               이전
             </button>
-            <span>{currentPage} / {totalPages}</span>
-            <button className={styles.pageButton} onClick={nextPage} disabled={indexOfLastPost >= filteredBoardList.length}>
+            <span>
+              {currentPage} / {totalPages}
+            </span>
+            <button
+              className={styles.pageButton}
+              onClick={nextPage}
+              disabled={indexOfLastPost >= filteredBoardList.length}
+            >
               다음
             </button>
           </div>
 
-          <div
-            className={styles.writeButton}
-            onClick={() => navigate(`/board/write`)}
-          >
+          <div className={styles.writeButton} onClick={handleWriteClick}>
             글쓰기
           </div>
-      </div>
+        </div>
 
-      <div className={styles.contents}>
+        <div className={styles.contents}>
           {currentPosts.length > 0 &&
             currentPosts.map((value) => (
               <div
@@ -119,36 +130,37 @@ export default function Board() {
                 key={value.board_id}
                 onClick={() => navigate(`/board/${value.board_id}`)}
               >
-                                          <div className={styles.bar}>
-                            <p className={styles.category_contents}>{value.category}</p>
-                            <p className={styles.title}>
-                              {value.title.length > 10 ? `${value.title.substring(0, 10)}...` : value.title}
-                            </p>
-                            <p className={styles.content}>
-                              {value.content.length > 15 ? `${value.content.substring(0, 15)}...` : value.content}
-                            </p>
-                            <p className={styles.user_id}>{value.user_id}</p>
-                            <p className={styles.viewcount}> 
-                              <img src={view} className={styles.viewPic} />
-                              {value.viewcount}
-                            </p>
-                          </div>
-                      
-                          <p className={styles.image}>
-                            {value.image && (
-                              <img
-                                src={`${process.env.REACT_APP_HOST}${value.image}`}
-                                alt="게시물 사진"
-                              />
-                            )}
-                          </p>
-                          <p className={styles.makeboard}>{value.makeboard}</p>
-                        </div>
+                <div className={styles.bar}>
+                  <p className={styles.category_contents}>{value.category}</p>
+                  <p className={styles.title}>
+                    {value.title.length > 10
+                      ? `${value.title.substring(0, 10)}...`
+                      : value.title}
+                  </p>
+                  <p className={styles.content}>
+                    {value.content.length > 15
+                      ? `${value.content.substring(0, 15)}...`
+                      : value.content}
+                  </p>
+                  <p className={styles.user_id}>{value.user_id}</p>
+                  <p className={styles.viewcount}>
+                    <img src={view} className={styles.viewPic} />
+                    {value.viewcount}
+                  </p>
+                </div>
+
+                <p className={styles.image}>
+                  {value.image && (
+                    <img
+                      src={`${process.env.REACT_APP_HOST}${value.image}`}
+                      alt="게시물 사진"
+                    />
+                  )}
+                </p>
+                <p className={styles.makeboard}>{value.makeboard}</p>
+              </div>
             ))}
         </div>
-
-
-
       </div>
     </>
   );
