@@ -129,11 +129,22 @@
       }
     }
 
-    .commentContent {
+    .commentContainer {
       border: 2px solid black;
       width: auto;
       height: auto;
       padding: 0 0 15px 0;
+
+      .comment {
+        .nickname {
+        }
+
+        .commentContent {
+        }
+
+        .makecomment {
+        }
+      }
     }
   }
 }
