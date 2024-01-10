@@ -1,52 +1,69 @@
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
 
 .bgHome {
+  margin: 30px 20px 20px 20px;
+  padding: 20px;
+  background-color: #7eba94;
+  border-radius: 35px;
+  border: 2px solid #000000;
+  box-shadow: 4px 4px 0px #000000;
   font-family: "Pretendard";
-  align-items: center;
-  position: relative;
-  margin: 50px 20px 20px 20px;
-  max-width: 1200px;
-  min-width: 850px;
+  height: 750px;
+  min-width: 830px;
+
+  p {
+    font-size: 25px;
+    font-weight: 900;
+    margin-left: 20px;
+  }
 }
 
+
 .findDog {
-  height: 250px;
+  height:200px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-bottom: 50px;
+  margin-top: 10px;
+  margin-bottom: 20px;
+
+  .finddogInfo {
+    margin: -5px 0 0 10px;
+  }
 }
 
 .polygonPic1 {
   position: absolute;
   top: 40%;
-  left: 0;
-  width: 30px;
+  left: 15px;
+  width: 25px;
   transform: scaleX(-1);
+
 }
 
 .polygonPic2 {
   position: absolute;
   top: 40%;
-  right: 0;
-  width: 30px;
+  right: 15px;
+  width: 25px;
 }
 
 .picBar {
-  width: 230px;
-  height: 220px;
+  width: 210px;
+  height: 190px;
 
   background-color: #fff;
   border-radius: 35px;
   border: 2px solid #000000;
-  margin: 10px;
+  margin: 15px;
   box-shadow: 1.5px 2px 0px #000000;
   overflow: hidden;
 
   .DogPic {
-    width: 230px;
-    height: 140px;
+    width: 210px;
+    height: 120px;
+    
   }
   .title {
     margin: 10px;
@@ -60,22 +77,35 @@
 }
 
 .hotTopic {
-  width: 800px;
-  height: 220px;
+  width: 720px;
+  height: 135px;
   padding: 20px;
-  margin: 10px;
+  margin: 10px auto;
   background-color: #f8f2e5;
   border-radius: 35px;
   border: 2px solid #000000;
   box-shadow: 1.5px 2px 0px #000000;
-  overflow: hidden;
-  margin-left: 30px;
+  align-items: center;
+
 }
 
-.bar {
-  margin: 10px 25px 20px 25px;
+
+.bar{
   font-size: 18px;
   font-weight: 900;
+  display: flex;
+
+
+  .boardCategory {
+    margin: 0 10px;
+    width: 100px;
+  }
+
+  .boardTitle {
+    width: 500px;
+    height: 30px;
+    overflow: hidden;
+  }
 }
 
 .writeButton {

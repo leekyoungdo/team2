@@ -9,6 +9,8 @@ export default function Home() {
   const [dogs, setDogs] = useState([]);
   const [newBoard, setNewBoard] = useState([]);
   const [hotBoard, setHotBoard] = useState([]);
+  
+
 
   const getApi = () => {
     axios
@@ -40,8 +42,9 @@ export default function Home() {
 
   return (
     <>
+
       <div className={styles.bgHome}>
-        <h2>가족을 찾아요</h2>
+        <p>가족을 찾아요</p>
         <div className={styles.findDog}>
           <img src={polygon} className={styles.polygonPic1} />
           {dogs.slice(0, 3).map((data, index) => (
@@ -52,14 +55,16 @@ export default function Home() {
                 alt="강아지"
                 title="멋진 우리 강아지!"
               />
-              <div className={styles.title}> {data.kindCd}</div>
-              <div className={styles.author}> {data.careNm}</div>
+              <div className={styles.finddogInfo}>
+                <div className={styles.title}> {data.kindCd}</div>
+                <div className={styles.author}> {data.careNm}</div>
+              </div>
             </div>
           ))}
           <img src={polygon} className={styles.polygonPic2} />
         </div>
 
-        <h2>최신글</h2>
+        <p>최신글</p>
         <div className={`${styles.Box} ${styles.hotTopic}`}>
           {newBoard.length > 0 &&
             newBoard.map((value) => (
@@ -69,9 +74,13 @@ export default function Home() {
                 style={{ color: "inherit", textDecoration: "none" }}
               >
                 <div className={styles.bar} key={value.board_id}>
-                  {value.category}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  {value.title}
+                  <div className={styles.boardCategory}>{value.category}
+                  </div>
+                  <div className={styles.boardTitle}>{value.title}
+                    {value.title.length > 5
+                      ? `${value.title.substring(0, 5)}...`
+                      : value.title}
+                  </div>
                 </div>
               </Link>
             ))}
@@ -79,7 +88,7 @@ export default function Home() {
 
         <br />
 
-        <h2>인기글</h2>
+        <p>인기글</p>
         <div className={`${styles.Box} ${styles.hotTopic}`}>
           {hotBoard.length > 0 &&
             hotBoard.map((value) => (
@@ -89,9 +98,12 @@ export default function Home() {
                 style={{ color: "inherit", textDecoration: "none" }}
               >
                 <div className={styles.bar} key={value.board_id}>
-                  {value.category}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  {value.title}
+                  <div className={styles.boardCategory}>{value.category}</div>
+                  <div className={styles.boardTitle}>{value.title}
+                    {value.title.length > 5
+                      ? `${value.title.substring(0, 5)}...`
+                      : value.title}
+                  </div>
                 </div>
               </Link>
             ))}
