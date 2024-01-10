@@ -1,17 +1,27 @@
-import styles from "./MyPage.module.scss";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import UserEditModal from "./UserEditModal";
+import styles from "./MyPage.module.scss";
 
 export default function MyPage() {
   const [showWriteTable, setShowWriteTable] = useState(true);
   const [userInfo, setUserInfo] = useState({});
-  const [userBoard, setUserBoard] = useState({});
-  const [userChat, setUserChat] = useState({});
-  const [userComment, setUserComment] = useState({});
+  const [userBoard, setUserBoard] = useState([]);
+  const [userChat, setUserChat] = useState([]);
+  const [userComment, setUserComment] = useState([]);
   const { nickname } = useSelector((state) => state.user);
   const navigate = useNavigate();
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(4);
+
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return showWriteTable ? userBoard.slice(startIndex, endIndex) : userComment.slice(startIndex, endIndex);
+  };
 
   const getUserProfile = () => {
     axios
@@ -37,7 +47,6 @@ export default function MyPage() {
         withCredentials: true,
       })
       .then((res) => {
-        // chat_name은 그대로 두고, chat_title을 추가하여 상태를 업데이트합니다.
         const modifiedChats = res.data.map((chat) => {
           const chat_title = chat.chat_name
             .split("&")
@@ -61,9 +70,6 @@ export default function MyPage() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("comment", res.data);
-        console.log("comment board", res.data.comments);
-        // console.log("comment board title", res.data.comments.Board);
         setUserComment(res.data.comments);
       });
   };
@@ -75,6 +81,57 @@ export default function MyPage() {
     getUserComment();
   }, []);
 
+
+  const [currentPageDM, setCurrentPageDM] = useState(1);
+  const [itemsPerPageDM] = useState(4);
+
+  const getCurrentPageItemsDM = () => {
+    const startIndex = (currentPageDM - 1) * itemsPerPageDM;
+    const endIndex = startIndex + itemsPerPageDM;
+    return userChat.slice(startIndex, endIndex);
+  };
+
+  // const [showEditModal, setShowEditModal] = useState(false);
+
+  // const handleEditClick = () => {
+  //   setShowEditModal(true);
+  // };
+
+  // const handleCloseModal = () => {
+  //   setShowEditModal(false);
+  // };
+
+  // const handleSaveChanges = (editedName, editedIntro) => {
+  //   axios.put(`${process.env.REACT_APP_HOST}/user/updatedoginfo`, {
+  //     dog_name: editedName,
+  //     dog_intro: editedIntro
+  //   }, {
+  //     withCredentials: true,
+  //   }).then((res) => {
+  //     setUserInfo(res.data);
+  //   }).catch((error) => {
+  //     console.error("Error updating profile:", error);
+  //     if (error.response) {
+  //       console.error("Server responded with error:", error.response.data);
+  //       console.error("Status code:", error.response.status);
+  //     } else if (error.request) {
+  //       console.error("No response received:", error.request);
+  //     } else {
+  //       console.error("Error setting up the request:", error.message);
+  //     }
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   if (Object.keys(userInfo).length !== 0) {
+  //     handleSaveChanges(userInfo.dog_name, userInfo.dog_intro);
+  //   }
+  // }, [userInfo]);
+
+
+
+
+  
   return (
     <>
       <div className={styles.mypageContainer}>
@@ -85,9 +142,7 @@ export default function MyPage() {
           <div className={styles.infoBox}>
             <div className={styles.picture}>
               <img
-                src={`${process.env.REACT_APP_HOST}${
-                  userInfo && userInfo.image
-                }`}
+                src={`${process.env.REACT_APP_HOST}${userInfo && userInfo.image}`}
                 alt="프로필 사진"
               />
             </div>
@@ -100,36 +155,25 @@ export default function MyPage() {
               <p className={styles.introduction}>
                 {userInfo && userInfo.dog_intro}
               </p>
-              <button className={styles.editButton}>정보수정</button>
+              <button className={styles.editButton} >
+                정보수정
+              </button>
             </div>
           </div>
+
+          {/* {showEditModal && <UserEditModal onClose={handleCloseModal} onSave={handleSaveChanges} />} */}
 
           <div className={styles.comContainer}>
             <p className={styles.comP}>참여소모임</p>
             <table className={styles.comlistTable}>
               <tbody>
                 <tr>
-                  <td>
-                    <div className={styles.comPicture}>
-                      <img src="모임 URL" alt="모임 사진" />
-                    </div>
-                  </td>
                   <td>부산 플레이데이트</td>
                 </tr>
                 <tr>
-                  <td>
-                    <div className={styles.comPicture}>
-                      <img src="모임 URL" alt="모임 사진" />
-                    </div>
-                  </td>
                   <td>포실포실 대전</td>
                 </tr>
                 <tr>
-                  <td>
-                    <div className={styles.comPicture}>
-                      <img src="모임 URL" alt="모임 사진" />
-                    </div>
-                  </td>
                   <td>스파니얼 러버스</td>
                 </tr>
               </tbody>
@@ -165,18 +209,17 @@ export default function MyPage() {
               </thead>
 
               <tbody>
-                {userBoard.length > 0 &&
-                  userBoard.map((value) => (
-                    <tr
-                      key={value.board_id}
-                      onClick={() => navigate(`/board/${value.board_id}`)}
-                    >
-                      <td>{value.category}</td>
-                      <td>{value.title}</td>
-                      <td>{value.viewcount}</td>
-                      <td>{value.makeboard}</td>
-                    </tr>
-                  ))}
+                {getCurrentPageItems().map((value) => (
+                  <tr
+                    key={value.board_id}
+                    onClick={() => navigate(`/board/${value.board_id}`)}
+                  >
+                    <td>{value.category}</td>
+                    <td>{value.title}</td>
+                    <td>{value.viewcount}</td>
+                    <td>{value.makeboard}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           ) : (
@@ -190,20 +233,71 @@ export default function MyPage() {
                 </tr>
               </thead>
               <tbody>
-                {userComment.length > 0 &&
-                  userComment.map((value) => (
-                    <tr
-                      key={value.comment_id}
-                      onClick={() => navigate(`/board/${value.board_id}`)}
-                    >
-                      <td>{value.Board.category}</td>
-                      <td>{value.Board.title}</td>
-                      <td>{value.comment_content}</td>
-                      <td>{value.makecomment}</td>
-                    </tr>
-                  ))}
+                {getCurrentPageItems().map((value) => (
+                  <tr
+                    key={value.comment_id}
+                    onClick={() => navigate(`/board/${value.board_id}`)}
+                  >
+                    <td>{value.Board.category}</td>
+                    <td>{value.Board.title}</td>
+                    <td>{value.comment_content}</td>
+                    <td>{value.makecomment}</td>
+                  </tr>
+                ))}
               </tbody>
             </table>
+          )}
+        </div>
+        
+        <div>
+          {showWriteTable ? (
+            userBoard.length > 0 && (
+              <div className={styles.pageButtonBox}>
+                <button
+                  className={styles.pageButton}
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                >
+                  이전
+                </button>
+                <span>{currentPage}</span>
+                <button
+                  className={styles.pageButton}
+                  onClick={() =>
+                    setCurrentPage((prev) =>
+                      Math.min(prev + 1, Math.ceil(userBoard.length / itemsPerPage))
+                    )
+                  }
+                  disabled={currentPage === Math.ceil(userBoard.length / itemsPerPage)}
+                >
+                  다음
+                </button>
+              </div>
+            )
+          ) : (
+            userComment.length > 0 && (
+              <div className={styles.pageButtonBox}>
+                <button
+                  className={styles.pageButton}
+                  onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+                  disabled={currentPage === 1}
+                >
+                  이전
+                </button>
+                <span>{currentPage}</span>
+                <button
+                  className={styles.pageButton}
+                  onClick={() =>
+                    setCurrentPage((prev) =>
+                      Math.min(prev + 1, Math.ceil(userComment.length / itemsPerPage))
+                    )
+                  }
+                  disabled={currentPage === Math.ceil(userComment.length / itemsPerPage)}
+                >
+                  다음
+                </button>
+              </div>
+            )
           )}
         </div>
 
@@ -219,11 +313,6 @@ export default function MyPage() {
                     key={value.chat_id}
                     onClick={() => navigate(`/dm/${value.chat_name}`)}
                   >
-                    {/* <td>
-                      <div className={styles.dmPicture}>
-                        <img src="프로필 사진 URL" alt="프로필 사진" />
-                      </div>
-                    </td> */}
                     <td>✉️</td>
                     <td>{value.chat_title}</td>
                     <td></td>
@@ -233,6 +322,30 @@ export default function MyPage() {
             </tbody>
           </table>
         </div>
+
+        {userChat.length > 0 && (
+          <div className={styles.pageButtonBox2}>
+            <button
+              className={styles.pageButton2}
+              onClick={() => setCurrentPageDM((prev) => Math.max(prev - 1, 1))}
+              disabled={currentPageDM === 1}
+            >
+              이전
+            </button>
+            <span>{currentPageDM}</span>
+            <button
+              className={styles.pageButton2}
+              onClick={() =>
+                setCurrentPageDM((prev) =>
+                  Math.min(prev + 1, Math.ceil(userChat.length / itemsPerPageDM))
+                )
+              }
+              disabled={currentPageDM === Math.ceil(userChat.length / itemsPerPageDM)}
+            >
+              다음
+            </button>
+          </div>
+        )}
 
         <br />
       </div>
