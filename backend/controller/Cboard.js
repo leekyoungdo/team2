@@ -217,7 +217,10 @@ exports.userBoardList = async (req, res) => {
 exports.profileBoardList = async (req, res) => {
   try {
     const boardList = await Board.findAll({
-      where: { user_id: req.params.user_id },
+      where: {
+        user_id: req.params.user_id,
+        category: ["일상", "질문", "실종/포착"],
+      },
       order: [["board_id", "DESC"]],
     });
 
