@@ -83,7 +83,7 @@ export default function MyPage() {
 
 
   const [currentPageDM, setCurrentPageDM] = useState(1);
-  const [itemsPerPageDM] = useState(3);
+  const [itemsPerPageDM] = useState(4);
 
   const getCurrentPageItemsDM = () => {
     const startIndex = (currentPageDM - 1) * itemsPerPageDM;
