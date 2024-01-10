@@ -1,12 +1,45 @@
 import React from "react";
+
 import { useForm } from "react-hook-form";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import styles from "./MakeCommunity.module.scss";
 import AxiosMockAdapter from "axios-mock-adapter";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function MakeCommunity() {
+  const { community_id } = useParams();
+  const location = useLocation();
+  const update_D =
+    location.state && location.state.value ? location.state.value : "기본값";
+
+  const [community_Data, setCommunity_Data] = useState({
+    community_local: "",
+    community_name: "",
+    introduce: "",
+  });
+
+  useEffect(() => {
+    const updateCommunityData = async () => {
+      if (update_D) {
+        await setCommunity_Data((prevData) => ({
+          community_local:
+            update_D.communityData.community_local || prevData.community_local,
+          community_name:
+            update_D.communityData.community_name || prevData.community_name,
+          introduce: update_D.communityData.introduce || prevData.introduce,
+        }));
+      }
+    };
+
+    updateCommunityData();
+  }, [update_D]);
+
+  useEffect(() => {
+    console.log("update_D:", update_D);
+    console.log("community_Data: 받았음", community_Data);
+  }, [community_Data, update_D]);
   const {
     register,
     handleSubmit,
@@ -17,33 +50,60 @@ export default function MakeCommunity() {
 
   const onSubmit = (data) => {
     console.log(data);
-    const formData = new FormData();
 
+    const formData = new FormData();
     formData.append("community_name", data.community_name);
     formData.append("community_local", data.community_local);
     formData.append("introduce", data.introduce);
 
-    axios
-      .post(
-        `${process.env.REACT_APP_HOST}/community/createcommunity`,
-        {
-          community_name: data.community_name,
-          community_local: data.community_local,
-          introduce: data.introduce,
-        },
-        {
-          withCredentials: true,
-        }
-      )
-      .then((res) => {
-        console.log(res.data);
-        navigate("/communityboard/");
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+    if (update_D) {
+      console.log("정보받음");
+      console.log(
+        "community_name",
+        data.community_name,
+        "community_local",
+        data.community_local,
+        "introduce",
+        data.introduce
+      );
 
+      axios
+        .patch(
+          `${process.env.REACT_APP_HOST}/community/updatecommunity/${community_id}`,
+          {
+            community_name: data.community_name,
+            community_local: data.community_local,
+            introduce: data.introduce,
+          },
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          navigate("/communityboard/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    } else {
+      axios
+        .post(
+          `${process.env.REACT_APP_HOST}/community/createcommunity`,
+          formData,
+          {
+            withCredentials: true,
+          }
+        )
+        .then((res) => {
+          console.log(res.data);
+          navigate("/communityboard/");
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+  };
   return (
     <>
       <div className={styles.bg1}>
@@ -61,13 +121,20 @@ export default function MakeCommunity() {
                 pattern: /^[가-힣]*시 [가-힣]*구$/,
               })}
               placeholder="(ex.서울시 성동구)"
+              value={community_Data.community_local}
+              onChange={(e) =>
+                setCommunity_Data({
+                  ...community_Data,
+                  community_local: e.target.value,
+                })
+              }
             />
             {errors.community_local ? (
               <p className={styles.alert}>
                 활동 지역을 형식에 맞게 입력해주세요. (ex.서울시 성동구)
               </p>
             ) : (
-              <p className={styles.placeholder}>&nbsp;</p> //
+              <p className={styles.placeholder}>&nbsp;</p>
             )}
             <br />
             <br />
@@ -80,6 +147,13 @@ export default function MakeCommunity() {
               className={styles.textarea}
               {...register("community_name", { required: true, minLength: 3 })}
               placeholder="(ex.동네 산책 모임)"
+              value={community_Data.community_name}
+              onChange={(e) =>
+                setCommunity_Data({
+                  ...community_Data,
+                  community_name: e.target.value,
+                })
+              }
             />
             {errors.community_name &&
             errors.community_name.type === "required" ? (
@@ -87,7 +161,7 @@ export default function MakeCommunity() {
                 소모임 이름은 최소 3자 이상 입력해주세요.
               </p>
             ) : (
-              <p></p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
+              <p></p>
             )}
             {errors.community_name &&
             errors.community_name.type === "minLength" ? (
@@ -95,7 +169,7 @@ export default function MakeCommunity() {
                 소모임 이름은 최소 5자 이상이어야 합니다.
               </p>
             ) : (
-              <p className={styles.placeholder}>&nbsp;</p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
+              <p className={styles.placeholder}>&nbsp;</p>
             )}
             <br />
             <br />
@@ -108,11 +182,18 @@ export default function MakeCommunity() {
               className={`${styles.textarea} ${styles.big}`}
               {...register("introduce", { required: true })}
               placeholder="(ex.주말 점심마다 모여서 산책해봐요!)"
+              value={community_Data.introduce}
+              onChange={(e) =>
+                setCommunity_Data({
+                  ...community_Data,
+                  introduce: e.target.value,
+                })
+              }
             />
             {errors.introduce ? (
               <p className={styles.alert}>소모임 설명을 입력해주세요.</p>
             ) : (
-              <p className={styles.placeholder}>&nbsp;</p> // 알림이 뜨지 않았을 때 공간을 차지하는 요소
+              <p className={styles.placeholder}>&nbsp;</p>
             )}
             <br />
             <br />

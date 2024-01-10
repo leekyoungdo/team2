@@ -70,6 +70,32 @@
   font-weight: bold;
 }
 
+.button_delete {
+  width: calc(18%);
+  height: 65px;
+  background-color: #f8f2e5;
+  border: 2px solid #000000;
+  box-shadow: 1.5px 2px 0px #000000;
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.button_manage {
+  width: calc(18%);
+  height: 65px;
+  background-color: #f5ba3f;
+  border: 2px solid #000000;
+  box-shadow: 1.5px 2px 0px #000000;
+  border-radius: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
 .headSection {
   width: calc(105%);
   display: flex;
@@ -187,4 +213,10 @@
   width: calc(105%);
 
   justify-content: center;
+}
+
+.flex_m {
+  width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
