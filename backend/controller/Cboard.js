@@ -6,7 +6,12 @@ const path = require("path");
 // 게시판 전체 조회
 exports.getAllBoard = async (req, res) => {
   try {
-    const posts = await Board.findAll({ order: [["board_id", "DESC"]] });
+    const posts = await Board.findAll({
+      where: {
+        category: ["일상", "질문", "실종/포착"],
+      },
+      order: [["board_id", "DESC"]],
+    });
     res.send({ result: true, posts: posts });
   } catch (error) {
     console.error("Error getting all posts:", error);
