@@ -186,10 +186,8 @@ exports.deleteUser = (req, res) => {
 // 회원 강아지 정보 입력
 exports.updateDogInfo = (req, res) => {
   const data = {
-    dog_name: req.body.dog_name,
-    dog_gender: req.body.dog_gender,
-    dog_age: req.body.dog_age,
-    dog_intro: req.body.dog_intro,
+    dog_name: req.body.dog_name || null,
+    dog_intro: req.body.dog_intro || null,
   };
 
   User.update(data, {

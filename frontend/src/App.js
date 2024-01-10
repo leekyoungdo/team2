@@ -7,12 +7,13 @@ import UserProfile from "./pages/4_userprofile/UserProfile";
 import Board from "./pages/5_board/Board";
 import Nav from "./pages/Nav/Nav";
 
-import SignUp from "./pages/6_signup/SignUp";
-import SignIn from "./pages/7_signin/SignIn";
-import Write from "./pages/8_write/Write";
-import Post from "./pages/9_Post/Post";
-import DmPage from "./pages/10_dmpage/DmPage";
-import Dm from "./pages/11_dm/dm";
+import SignUp from './pages/6_signup/SignUp';
+import SignIn from './pages/7_signin/SignIn';
+import Write from './pages/8_write/Write';
+import Post from './pages/9_Post/Post';
+import EditPost from './pages/9_Post/EditPost';
+import DmPage from './pages/10_dmpage/DmPage';
+import Dm from './pages/11_dm/dm';
 
 import ShelterBoard from "./pages/12_shelterboard/ShelterBoard";
 import CommunityBoard from "./pages/14_communityboard/CommunityBoard";
@@ -39,6 +40,7 @@ function App() {
             <Route path="/user/signin" element={<SignIn />} />
             <Route path="/board/write" element={<Write />} />
             <Route path="/board/:board_id" element={<Post />} />
+            <Route path="/board/edit/:board_id" element={<EditPost />} />
             <Route path="/dmpage" element={<DmPage />} />
             <Route path="/dm/:chat_name" element={<Dm />} />
             <Route path="/shelterboard" element={<ShelterBoard />} />

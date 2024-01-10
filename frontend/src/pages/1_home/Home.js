@@ -1,5 +1,4 @@
 import styles from "./Home.module.scss";
-import dogpic from "./mdog.jpg";
 import plus from "./플러스.png";
 import polygon from "./Polygon 1.png";
 import React, { useState, useRef, useEffect } from "react";
@@ -10,6 +9,8 @@ export default function Home() {
   const [dogs, setDogs] = useState([]);
   const [newBoard, setNewBoard] = useState([]);
   const [hotBoard, setHotBoard] = useState([]);
+  
+
 
   const getApi = () => {
     axios
@@ -41,29 +42,29 @@ export default function Home() {
 
   return (
     <>
+
       <div className={styles.bgHome}>
-        <h2>가족을 찾아요</h2>
+        <p>가족을 찾아요</p>
         <div className={styles.findDog}>
           <img src={polygon} className={styles.polygonPic1} />
-          {dogs
-            // .sort((a, b) => new Date(b.date) - new Date(a.date)) // 날짜를 기준으로 내림차순 정렬
-            .slice(0, 3) // 최신 데이터 4개 선택
-            .map((data, index) => (
-              <div className={styles.picBar} key={index}>
-                <img
-                  className={styles.DogPic}
-                  src={data.popfile}
-                  alt="강아지"
-                  title="멋진 우리 강아지!"
-                />
+          {dogs.slice(0, 3).map((data, index) => (
+            <div className={styles.picBar} key={index}>
+              <img
+                className={styles.DogPic}
+                src={data.popfile}
+                alt="강아지"
+                title="멋진 우리 강아지!"
+              />
+              <div className={styles.finddogInfo}>
                 <div className={styles.title}> {data.kindCd}</div>
                 <div className={styles.author}> {data.careNm}</div>
               </div>
-            ))}
+            </div>
+          ))}
           <img src={polygon} className={styles.polygonPic2} />
         </div>
 
-        <h2>최신글</h2>
+        <p>최신글</p>
         <div className={`${styles.Box} ${styles.hotTopic}`}>
           {newBoard.length > 0 &&
             newBoard.map((value) => (
@@ -73,9 +74,13 @@ export default function Home() {
                 style={{ color: "inherit", textDecoration: "none" }}
               >
                 <div className={styles.bar} key={value.board_id}>
-                  {value.category}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  {value.title}
+                  <div className={styles.boardCategory}>{value.category}
+                  </div>
+                  <div className={styles.boardTitle}>{value.title}
+                    {value.title.length > 5
+                      ? `${value.title.substring(0, 5)}...`
+                      : value.title}
+                  </div>
                 </div>
               </Link>
             ))}
@@ -83,7 +88,7 @@ export default function Home() {
 
         <br />
 
-        <h2>인기글</h2>
+        <p>인기글</p>
         <div className={`${styles.Box} ${styles.hotTopic}`}>
           {hotBoard.length > 0 &&
             hotBoard.map((value) => (
@@ -93,20 +98,16 @@ export default function Home() {
                 style={{ color: "inherit", textDecoration: "none" }}
               >
                 <div className={styles.bar} key={value.board_id}>
-                  {value.category}
-                  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                  {value.title}
+                  <div className={styles.boardCategory}>{value.category}</div>
+                  <div className={styles.boardTitle}>{value.title}
+                    {value.title.length > 5
+                      ? `${value.title.substring(0, 5)}...`
+                      : value.title}
+                  </div>
                 </div>
               </Link>
             ))}
         </div>
-
-        {/* <Link to={`/board/write`}>
-          <div className={styles.writeButton}>
-            <img src={plus} className={styles.plusPic} />
-            글쓰기
-          </div>
-        </Link> */}
       </div>
     </>
   );
