@@ -167,7 +167,7 @@ export default function MyPage() {
               <p className={styles.introduction}>
                 {userInfo && userInfo.dog_intro}
               </p>
-              <button className={styles.editButton}>정보수정</button>
+              {/* <button className={styles.editButton}>정보수정</button> */}
             </div>
           </div>
 
