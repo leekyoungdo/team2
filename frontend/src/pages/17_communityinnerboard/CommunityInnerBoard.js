@@ -102,9 +102,11 @@ export default function CommunityInnerBoard() {
     <>
       <div className={styles.box1}>
         <div className={`${styles.container} ${styles.one}`}>
-          <h1>
-            📬 {communityData ? communityData.community_name : "Loading..."}{" "}
-            게시판
+          <h1 className={`${styles.tt}`}>
+            <>
+              📬 {communityData ? communityData.community_name : "Loading..."}{" "}
+              게시판
+            </>
           </h1>
 
           <div className={`${styles.container} ${styles.two}`}>
@@ -114,8 +116,8 @@ export default function CommunityInnerBoard() {
                   <th className={`${styles.th}`}>작성자</th>
                   <th className={`${styles.th}`}>유형</th>
                   <th className={`${styles.th}`}>글 제목</th>
-                  <th className={`${styles.th}`}>댓글 수</th>
-                  <th className={`${styles.th}`}>조회수</th>
+                  {/* <th className={`${styles.th}`}>댓글 수</th>
+                  <th className={`${styles.th}`}>조회수</th> */}
                 </tr>
               </thead>
               <tbody>
@@ -135,12 +137,12 @@ export default function CommunityInnerBoard() {
                     <td className={`${styles.td} ${styles.cellTitle}`}>
                       {post.title}
                     </td>
-                    <td className={`${styles.td} ${styles.cellComment}`}>
+                    {/* <td className={`${styles.td} ${styles.cellComment}`}>
                       {post.commentNum}
                     </td>
                     <td className={`${styles.td} ${styles.cellViews}`}>
                       {post.viewcount}
-                    </td>
+                    </td> */}
                   </tr>
                 ))}
               </tbody>

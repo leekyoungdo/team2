@@ -23,6 +23,7 @@ export default function CommunityPage() {
   const [isMember, setIsMember] = useState(false);
   const [memberList, setMemberList] = useState(null);
   const [authorId, setAuthorId] = useState(null);
+  const [Onepage, setOnePage] = useState();
 
   function handleEditComment(id, currentContent) {
     setEditingId(id);
@@ -137,7 +138,15 @@ export default function CommunityPage() {
           setPostsPerPage(response.data.posts.length);
           setAuthorId(response.data.posts[currentPageNum - 1].user_id);
 
+          const onePage = response.data.posts.find(
+            (item) =>
+              item.board_id === response.data.posts[currentPageNum - 1].board_id
+          );
+          setOnePage(onePage);
+
           console.log("게시물 데이터 불러오기 성공");
+          console.log("원페이지 정보~~~", onePage);
+          console.log("페이지 정보~~~", page);
 
           // 게시물 데이터를 불러온 후 댓글 데이터도 불러옵니다.
           axios
@@ -224,7 +233,16 @@ export default function CommunityPage() {
       });
   };
 
-  const editComment = () => {};
+  // 게시글 수정
+  const editWrite = () => {
+    console.log("페이지 정보 보내기", page);
+    navigator(
+      `/communityboard/community/${community_id}/communityinnerboard/CommunityWrite/${board_id}/update`,
+      {
+        state: { value: { Onepage } },
+      }
+    );
+  };
 
   const handleDeleteComment = (comment_id) => {
     console.log(comment_id);
@@ -236,7 +254,7 @@ export default function CommunityPage() {
       )
       .then((response) => {
         if (response.data.result) {
-          console.log("댓글 삭제 성공");
+          console.log("댓글 삭제 정보 확인", comment_id);
           getPageAndCommentData();
         } else {
           console.log("정보를 벡엔드에 전달했으나 실패(리스폰옴)");
@@ -430,6 +448,13 @@ export default function CommunityPage() {
                   classname={styles.back}
                   handleFunction={boardDelete}
                   label="삭제"
+                />
+              )}
+              {authorId === nickname && isMember && (
+                <RenderButton
+                  classname={styles.back}
+                  handleFunction={editWrite}
+                  label="수정"
                 />
               )}
             </div>
