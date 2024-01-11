@@ -1,9 +1,10 @@
-import styles from "./_Nav.module.scss";
-import React, { useState, useRef, useEffect } from "react";
-import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
-import { logout } from "../../redux/action/nicknameAction";
-import { useNavigate } from "react-router-dom";
+import styles from './_Nav.module.scss';
+import logo from './logo.png';
+import React, { useState, useRef, useEffect } from 'react';
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { logout } from '../../redux/action/nicknameAction';
+import { useNavigate } from 'react-router-dom';
 
 export default function Nav() {
   const dispatch = useDispatch();
@@ -11,7 +12,7 @@ export default function Nav() {
   const { isLoggedIn } = useSelector((state) => state.user);
 
   const handleLogout = () => {
-    if (window.confirm("로그아웃 하시겠습니까?")) {
+    if (window.confirm('로그아웃 하시겠습니까?')) {
       axios
         .post(
           `${process.env.REACT_APP_HOST}/user/logout`,
@@ -24,14 +25,14 @@ export default function Nav() {
           console.log(res);
           if (res.data.result) {
             dispatch(logout());
-            navigator("/");
+            navigator('/');
           } else {
-            alert("로그아웃에 실패하였습니다.");
+            alert('로그아웃에 실패하였습니다.');
           }
         })
         .catch((err) => {
           console.log(err);
-          alert("error!");
+          alert('error!');
         });
     }
   };
@@ -42,7 +43,9 @@ export default function Nav() {
         <div className={styles.navContainer}>
           <ul>
             <div className={styles.logo}>
-              <a href="/">멍멍투게더</a>
+              <a href="/">
+                <img src={logo} alt="멍멍투게더 로고" />
+              </a>
             </div>
             <li>
               <a className={styles.home} href="/">
@@ -65,7 +68,7 @@ export default function Nav() {
                   <a href="/mypage">마이페이지</a>
                 </li>
                 <button className={styles.logoutButton} onClick={handleLogout}>
-                    로그아웃
+                  로그아웃
                 </button>
               </>
             ) : (

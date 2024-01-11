@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import styles from "./CommunityPage.module.scss";
-import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import styles from './CommunityPage.module.scss';
+import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 export default function CommunityPage() {
   const { pageNum } = useParams();
@@ -15,11 +15,11 @@ export default function CommunityPage() {
   const [communityData, setCommunityData] = useState(null);
   const [postsPerPage, setPostsPerPage] = useState(0);
   const [comments, getComments] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const [commentContent, setCommentContent] = useState("");
+  const [newComment, setNewComment] = useState('');
+  const [commentContent, setCommentContent] = useState('');
   const [editing, setEditing] = useState(false); // 수정 상태를 관리하기 위한 상태입니다.
   const [editingId, setEditingId] = useState(null); // 현재 수정 중인 댓글의 ID를 저장하는 상태입니다.
-  const [editedContent, setEditedContent] = useState(""); // 수정된 내용을 관리하기 위한 상태입니다.
+  const [editedContent, setEditedContent] = useState(''); // 수정된 내용을 관리하기 위한 상태입니다.
   const [isMember, setIsMember] = useState(false);
   const [memberList, setMemberList] = useState(null);
   const [authorId, setAuthorId] = useState(null);
@@ -37,18 +37,18 @@ export default function CommunityPage() {
       );
       if (response.data.result) {
         setMemberList(response.data.data);
-        console.log("현재 모임 멤버 :", response.data.data);
+        console.log('현재 모임 멤버 :', response.data.data);
         // 현재 사용자가 이미 가입된 상태인지 확인
         const member = response.data.data.some(
           (member) => member.nickname === nickname
         );
         setIsMember(member); // 현재 사용자가 멤버인지 여부를 state에 저장
       } else {
-        console.error("커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.");
+        console.error('커뮤니티 멤버 데이터를 불러오는데 실패하였습니다.');
       }
     } catch (error) {
       console.error(
-        "커뮤니티 멤버 데이터를 불러오는 API 호출에 실패하였습니다:",
+        '커뮤니티 멤버 데이터를 불러오는 API 호출에 실패하였습니다:',
         error
       );
     }
@@ -67,11 +67,11 @@ export default function CommunityPage() {
       if (response.data.result) {
         // 요청이 성공했다면, 수정 상태를 초기화하고 댓글 목록을 다시 불러옵니다.
         setEditingId(null);
-        setEditedContent("");
+        setEditedContent('');
         getPageAndCommentData(); // 댓글을 다시 불러오는 함수. 적절한 함수로 대체해주세요.
       } else {
         // 요청이 실패했다면, 에러 메시지를 보여줍니다.
-        alert("댓글 수정에 실패했습니다.");
+        alert('댓글 수정에 실패했습니다.');
       }
     } catch (error) {
       console.error(error);
@@ -89,7 +89,7 @@ export default function CommunityPage() {
   const handleFormSubmit = (e) => {
     e.preventDefault();
     onValid({ content: newComment });
-    setNewComment("");
+    setNewComment('');
   };
 
   const {
@@ -109,12 +109,12 @@ export default function CommunityPage() {
         if (response.data.result) {
           setCommunityData(response.data.data);
         } else {
-          console.error("커뮤니티 데이터를 불러오는데 실패하였습니다.");
+          console.error('커뮤니티 데이터를 불러오는데 실패하였습니다.');
         }
       })
       .catch((error) => {
         console.error(
-          "커뮤니티 데이터를 불러오는 API 호출에 실패하였습니다:",
+          '커뮤니티 데이터를 불러오는 API 호출에 실패하였습니다:',
           error
         );
       });
@@ -144,9 +144,9 @@ export default function CommunityPage() {
           );
           setOnePage(onePage);
 
-          console.log("게시물 데이터 불러오기 성공");
-          console.log("원페이지 정보~~~", onePage);
-          console.log("페이지 정보~~~", page);
+          console.log('게시물 데이터 불러오기 성공');
+          console.log('원페이지 정보~~~', onePage);
+          console.log('페이지 정보~~~', page);
 
           // 게시물 데이터를 불러온 후 댓글 데이터도 불러옵니다.
           axios
@@ -159,25 +159,25 @@ export default function CommunityPage() {
             .then((response) => {
               if (response.data.comments.length > 0) {
                 // 'posts'를 'comments'로 변경
-                console.log("댓글 불러오기");
-                console.log("comments 정보", response.data.comments);
-                console.log("nickname:", nickname);
+                console.log('댓글 불러오기');
+                console.log('comments 정보', response.data.comments);
+                console.log('nickname:', nickname);
                 getComments(response.data.comments); // 'posts'를 'comments'로 변경
               } else {
-                console.log("댓글 배열을 받아왔으나 비어있거나 없음");
+                console.log('댓글 배열을 받아왔으나 비어있거나 없음');
               }
             })
-            .catch((err) => console.error("API 요청 및 댓글 조회 오류", err));
+            .catch((err) => console.error('API 요청 및 댓글 조회 오류', err));
         } else {
-          console.log("posts 배열이 비어있거나 없음");
+          console.log('posts 배열이 비어있거나 없음');
         }
       })
-      .catch((err) => console.error("API 요청 및 페이지, 댓글 조회 오류", err));
+      .catch((err) => console.error('API 요청 및 페이지, 댓글 조회 오류', err));
   };
 
   // 게시글 삭제
   const boardDelete = () => {
-    console.log("board_id", board_id);
+    console.log('board_id', board_id);
     axios
       .delete(`${process.env.REACT_APP_HOST}/board/boarddelete/${board_id}`, {
         withCredentials: true,
@@ -185,27 +185,27 @@ export default function CommunityPage() {
       .then((res) => {
         if (res.data.result) {
           // 게시글 삭제 성공
-          console.log("게시글을 삭제했습니다.");
-          alert("게시글을 삭제했습니다.");
+          console.log('게시글을 삭제했습니다.');
+          alert('게시글을 삭제했습니다.');
           navigator(
             `/communityboard/community/${community_id}/communityinnerboard/`
           );
           window.location.reload();
         } else {
           // 게시글 삭제 실패
-          console.log("게시글 삭제 실패");
+          console.log('게시글 삭제 실패');
         }
       })
       .catch((err) => {
         // 네트워크 요청 실패 또는 백엔드에서 처리 과정에서 에러 발생
-        console.error("게시글 삭제 요청 또는 처리 과정에서 에러 발생:", err);
+        console.error('게시글 삭제 요청 또는 처리 과정에서 에러 발생:', err);
       });
   };
 
   // 댓글 작성(등록)
   const onValid = (data) => {
-    console.log("data : ", data);
-    console.log("댓글 : ", data.comment_content);
+    console.log('data : ', data);
+    console.log('댓글 : ', data.comment_content);
 
     axios
       .post(
@@ -219,12 +219,12 @@ export default function CommunityPage() {
       )
       .then((res) => {
         if (res.data.result) {
-          console.log("res.data : ", res.data);
-          console.log("data.comment_content : ", data.comment_content);
+          console.log('res.data : ', res.data);
+          console.log('data.comment_content : ', data.comment_content);
 
           getPageAndCommentData();
           reset({
-            comment_content: "", // 초기화할 필드의 이름과 초기값
+            comment_content: '', // 초기화할 필드의 이름과 초기값
           });
         }
       })
@@ -235,7 +235,7 @@ export default function CommunityPage() {
 
   // 게시글 수정
   const editWrite = () => {
-    console.log("페이지 정보 보내기", page);
+    console.log('페이지 정보 보내기', page);
     navigator(
       `/communityboard/community/${community_id}/communityinnerboard/CommunityWrite/${board_id}/update`,
       {
@@ -254,15 +254,15 @@ export default function CommunityPage() {
       )
       .then((response) => {
         if (response.data.result) {
-          console.log("댓글 삭제 정보 확인", comment_id);
+          console.log('댓글 삭제 정보 확인', comment_id);
           getPageAndCommentData();
         } else {
-          console.log("정보를 벡엔드에 전달했으나 실패(리스폰옴)");
+          console.log('정보를 벡엔드에 전달했으나 실패(리스폰옴)');
         }
       })
       .catch((error) =>
         console.error(
-          "댓글 삭제 정보 전달이 되지 않았음(리스폰스 안옴):",
+          '댓글 삭제 정보 전달이 되지 않았음(리스폰스 안옴):',
           error
         )
       );
@@ -275,9 +275,9 @@ export default function CommunityPage() {
   const handleNextPage = () => {
     const nextPageNum = currentPageNum + 1;
     if (nextPageNum > page.length) {
-      console.log("마지막 글입니다. 현재 게시물 인덱스: ", currentPageNum); // 마지막 페이지 도달 시 현재 인덱스 출력
+      console.log('마지막 글입니다. 현재 게시물 인덱스: ', currentPageNum); // 마지막 페이지 도달 시 현재 인덱스 출력
     } else {
-      console.log("현재 게시물 인덱스", nextPageNum);
+      console.log('현재 게시물 인덱스', nextPageNum);
       setCurrentPageNum(nextPageNum);
 
       // 주소창에 페이지 번호를 반영합니다.
@@ -294,9 +294,9 @@ export default function CommunityPage() {
   const handlePrevPage = () => {
     const prevPageNum = currentPageNum - 1;
     if (prevPageNum < 1) {
-      console.log("첫번째 글입니다. 현재 게시물 인덱스: ", currentPageNum); // 첫 페이지 도달 시 현재 인덱스 출력
+      console.log('첫번째 글입니다. 현재 게시물 인덱스: ', currentPageNum); // 첫 페이지 도달 시 현재 인덱스 출력
     } else {
-      console.log("현재 게시물 인덱스", prevPageNum);
+      console.log('현재 게시물 인덱스', prevPageNum);
       setCurrentPageNum(prevPageNum);
 
       navigator(
@@ -363,7 +363,7 @@ export default function CommunityPage() {
                                   ) : (
                                     comment.comment_content
                                   )}
-                                  {comment.comment_id}
+                                  {/* {comment.comment_id} */}
                                 </td>
                                 {comment.user_id === nickname && isMember && (
                                   <td>
@@ -412,7 +412,7 @@ export default function CommunityPage() {
                               <textarea
                                 className={styles.commentsText}
                                 placeholder="댓글을 입력해주세요"
-                                {...register("comment_content")}
+                                {...register('comment_content')}
                               ></textarea>
                             </div>
 
