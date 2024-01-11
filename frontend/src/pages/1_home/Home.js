@@ -1,16 +1,16 @@
 import styles from "./Home.module.scss";
 import plus from "./플러스.png";
 import polygon from "./Polygon 1.png";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
 export default function Home() {
   const [dogs, setDogs] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dogsPerPage] = useState(3);
   const [newBoard, setNewBoard] = useState([]);
   const [hotBoard, setHotBoard] = useState([]);
-  
-
 
   const getApi = () => {
     axios
@@ -40,14 +40,29 @@ export default function Home() {
     getBoard();
   }, []);
 
+  const indexOfLastDog = currentPage * dogsPerPage;
+  const indexOfFirstDog = indexOfLastDog - dogsPerPage;
+  const currentDogs = dogs.slice(indexOfFirstDog, indexOfLastDog);
+  const totalPages = Math.ceil(dogs.length / dogsPerPage);
+
+  const prevPage = () => {
+    setCurrentPage((prev) => Math.max(prev - 1, 1));
+  };
+
+  const nextPage = () => {
+    setCurrentPage((prev) => Math.min(prev + 1, Math.ceil(dogs.length / dogsPerPage)));
+  };
+
+
   return (
     <>
 
       <div className={styles.bgHome}>
-        <p>가족을 찾아요</p>
+        <p><a href="/shelterboard">가족을 찾아요</a></p>
         <div className={styles.findDog}>
-          <img src={polygon} className={styles.polygonPic1} />
-          {dogs.slice(0, 3).map((data, index) => (
+          <img src={polygon} className={styles.polygonPic1} onClick={prevPage}
+            disabled={currentPage === 1}/>
+          {currentDogs.map((data, index) => (
             <div className={styles.picBar} key={index}>
               <img
                 className={styles.DogPic}
@@ -61,11 +76,19 @@ export default function Home() {
               </div>
             </div>
           ))}
-          <img src={polygon} className={styles.polygonPic2} />
+          <img src={polygon} className={styles.polygonPic2} onClick={nextPage}
+            disabled={indexOfLastDog >= dogs.length}/>
         </div>
 
-        <p>최신글</p>
-        <div className={`${styles.Box} ${styles.hotTopic}`}>
+        {/* <div className={styles.pagination}>
+          <span>
+            {currentPage} / {totalPages}
+          </span>
+        </div> */}
+
+        <p><a href="/board">최신글</a></p>
+        <div className={`${styles.Box} ${styles.newTopic}`}>
+        <div className={styles.barBox}>
           {newBoard.length > 0 &&
             newBoard.map((value) => (
               <Link
@@ -85,11 +108,13 @@ export default function Home() {
               </Link>
             ))}
         </div>
+        </div>
 
         <br />
 
-        <p>인기글</p>
+        <p><a href="/board">인기글</a></p>
         <div className={`${styles.Box} ${styles.hotTopic}`}>
+          <div className={styles.barBox}>
           {hotBoard.length > 0 &&
             hotBoard.map((value) => (
               <Link
@@ -107,6 +132,7 @@ export default function Home() {
                 </div>
               </Link>
             ))}
+          </div>
         </div>
       </div>
     </>
