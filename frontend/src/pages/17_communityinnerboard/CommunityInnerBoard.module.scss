@@ -1,10 +1,10 @@
 .box1 {
   background-color: #f8f8f8;
-  width: 950px;
-  max-width: 100%;
-  min-width: 300px;
-  height: 67dvh;
-  margin: auto; /* 추가 */
+  // width: 950px;
+  // max-width: 100%;
+  // min-width: 300px;
+  height: auto;
+  margin: auto;
   overflow: hidden;
   display: flex;
 }
@@ -23,7 +23,12 @@
   box-shadow: 4px 4px 0px #000000;
   flex-grow: 1;
   max-width: 950px;
-
+  min-height: 750px;
+  // overflow-y: auto;
+  // &::-webkit-scrollbar {
+  //   display: none; /*Chrome, Safari, Opera*/
+  //   width: 0px;
+  // }
   &.one {
     margin-top: 30px;
     display: flex;
@@ -73,7 +78,7 @@
   z-index: 1;
 
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 5%;
     left: 0;
