@@ -1,10 +1,10 @@
-import dogpic from "./mdog.jpg";
-import styles from "./ShelterBoard.module.scss";
-import { useState, useEffect } from "react";
-import axios from "axios";
+import dogpic from './mdog.jpg';
+import styles from './ShelterBoard.module.scss';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
 
 export default function ShelterBoard() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [dogs, setDogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [dogsPerPage] = useState(8);
@@ -91,9 +91,39 @@ export default function ShelterBoard() {
             </form>
           </div>
           <div className={styles.pagination}>
-            <button onClick={prevPage}>이전</button>
+            <button onClick={prevPage}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-chevron-left"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                />
+                이전
+              </svg>
+            </button>
             <span>{currentPage}</span>
-            <button onClick={nextPage}>다음</button>
+            <button onClick={nextPage}>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                fill="currentColor"
+                class="bi bi-chevron-right"
+                viewBox="0 0 16 16"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                />
+                다음
+              </svg>
+            </button>
           </div>
         </div>
 

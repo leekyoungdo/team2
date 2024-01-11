@@ -1,7 +1,7 @@
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css");
+@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.css');
 
 * {
-  font-family: "Pretendard";
+  font-family: 'Pretendard';
 }
 
 a {
@@ -10,6 +10,16 @@ a {
 }
 a:visited {
   color: inherit;
+}
+
+@mixin small-btn {
+  width: 60px;
+  height: 30px;
+  background-color: #edf5ed;
+  border-radius: 15px;
+  font-weight: 600;
+  font-size: 13px;
+  margin: 0 3px 0 3px;
 }
 
 .CommunityBoardHead {
@@ -160,5 +170,20 @@ a:visited {
 
 .S_2 {
   display: flex;
-  flex-direction: column-reverse;
+  // flex-direction: column-reverse;
+  flex-direction: column;
+
+  .c_buttons {
+    // flex-direction: column-reverse;
+  }
+
+  .pagination {
+    button {
+      // @include small-btn;
+      background-color: transparent;
+      cursor: pointer;
+      border: 0px solid transparent;
+      margin: 6px 0 0 0;
+    }
+  }
 }

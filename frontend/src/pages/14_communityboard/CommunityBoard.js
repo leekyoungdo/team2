@@ -1,26 +1,26 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import styles from "./CommunityBoard.module.scss";
-import commupic from "./commupic.png";
-import { useNavigate } from "react-router-dom";
-import Slider from "react-slick";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import styles from './CommunityBoard.module.scss';
+import commupic from './commupic.png';
+import { useNavigate } from 'react-router-dom';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const imageFiles = [
-  "c_pic (1).png",
-  "c_pic (2).png",
-  "c_pic (3).png",
-  "c_pic (4).png",
-  "c_pic (5).png",
-  "c_pic (6).png",
-  "c_pic (7).png",
-  "c_pic (8).png",
+  'c_pic (1).png',
+  'c_pic (2).png',
+  'c_pic (3).png',
+  'c_pic (4).png',
+  'c_pic (5).png',
+  'c_pic (6).png',
+  'c_pic (7).png',
+  'c_pic (8).png',
 ];
 export default function CommunityBoard() {
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [filteredGroups, setFilteredGroups] = useState([]);
   const [hotGroups, setHotGroups] = useState([]);
   const [Group, setGroup] = useState([]);
@@ -49,7 +49,7 @@ export default function CommunityBoard() {
   const handleClick = () => {
     if (!nickname) {
       // 로그인하지 않은 경우 로그인 페이지로 이동
-      alert("소모임을 만들기 전에 로그인을 해주세요!");
+      alert('소모임을 만들기 전에 로그인을 해주세요!');
       navigate(`/user/signin`);
     } else {
       // 로그인한 경우 '/createcommunity' 경로로 이동
@@ -97,7 +97,7 @@ export default function CommunityBoard() {
         setFilteredGroups(response.data.data); // API 응답에 따라 적절히 수정해야 합니다.
       })
       .catch((error) => {
-        console.error("There was an error!", error);
+        console.error('There was an error!', error);
       });
   };
 
@@ -110,7 +110,7 @@ export default function CommunityBoard() {
         setHotGroups(response.data.data.slice(0, 3));
       })
       .catch((error) => {
-        console.error("There was an error!", error);
+        console.error('There was an error!', error);
       });
   }, []);
 
@@ -151,7 +151,7 @@ export default function CommunityBoard() {
               autoplay={true}
               autoplaySpeed={4000}
             >
-              {searchQuery === "" &&
+              {searchQuery === '' &&
                 hotGroups.map((group, index) => {
                   const randomIndex = Math.floor(Math.random() * images.length);
                   return (
@@ -184,9 +184,40 @@ export default function CommunityBoard() {
         <div className={styles.S_2}>
           <div className={styles.c_buttons}>
             <div className={styles.pagination}>
-              <button onClick={prevPage}>이전</button>
+              <button onClick={prevPage}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chevron-left"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z"
+                  />
+                  이전
+                </svg>
+              </button>
+
               <span>{currentPage}</span>
-              <button onClick={nextPage}>다음</button>
+              <button onClick={nextPage}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  fill="currentColor"
+                  class="bi bi-chevron-right"
+                  viewBox="0 0 16 16"
+                >
+                  <path
+                    fill-rule="evenodd"
+                    d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z"
+                  />
+                  다음
+                </svg>
+              </button>
             </div>
             <button onClick={handleClick} className={styles.MakeGroup}>
               새 모임 만들기 +
