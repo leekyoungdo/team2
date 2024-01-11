@@ -1,9 +1,9 @@
-import styles from "./CommunityWrite.module.scss";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { useNavigate, useParams } from "react-router-dom";
+import styles from './CommunityWrite.module.scss';
+import { useState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import axios from "axios";
+import axios from 'axios';
 
 export default function CommunityWrite() {
   const [communityData, setCommunityData] = useState(null); // new state for community data
@@ -19,12 +19,12 @@ export default function CommunityWrite() {
         if (response.data.result) {
           setCommunityData(response.data.data);
         } else {
-          console.error("커뮤니티 데이터를 불러오는데 실패하였습니다.");
+          console.error('커뮤니티 데이터를 불러오는데 실패하였습니다.');
         }
       })
       .catch((error) => {
         console.error(
-          "커뮤니티 데이터를 불러오는 API 호출에 실패하였습니다:",
+          '커뮤니티 데이터를 불러오는 API 호출에 실패하였습니다:',
           error
         );
       });
@@ -45,7 +45,7 @@ export default function CommunityWrite() {
     const postData = {
       title: data.title,
       category:
-        data.category === "자유게시판"
+        data.category === '자유게시판'
           ? `${community_id}_자유`
           : `${community_id}_공지`,
       content: data.content,
@@ -69,35 +69,35 @@ export default function CommunityWrite() {
       <div className={styles.bg}>
         <div className={styles.bg1}>
           <h2>
-            📃{communityData ? communityData.community_name : "Loading..."}{" "}
+            📃{communityData ? communityData.community_name : 'Loading...'}{' '}
             소모임 게시글 작성
           </h2>
         </div>
         <div className={styles.bg2}>
           <form onSubmit={handleSubmit(onValid)}>
-            <div>
+            <div className={styles.contentsContainer}>
               게시판
               <div
-                className={styles["board-type-container"]}
-                {...register("category")}
+                className={styles['board-type-container']}
+                {...register('category')}
               >
-                <select className={styles["board-type-select"]}>
+                <select className={styles['board-type-select']}>
                   <option>자유게시판</option>
                   <option>공지게시판</option>
                 </select>
               </div>
               <br />
               제목
-              <div className={styles["title-container"]}>
+              <div className={styles['title-container']}>
                 <br />
                 <input
                   type="text"
-                  className={styles["title-text"]}
-                  placeholder="  제목을 입력해주세요"
-                  {...register("title", {
-                    required: "제목은 필수로 입력해야 합니다",
+                  className={styles['title-text']}
+                  placeholder="제목을 입력해주세요"
+                  {...register('title', {
+                    required: '제목은 필수로 입력해야 합니다',
                   })}
-                />{" "}
+                />{' '}
                 {errors.title && (
                   <small role="alert" className={styles.error}>
                     {errors.title.message}
@@ -105,15 +105,15 @@ export default function CommunityWrite() {
                 )}
               </div>
               <br />
-              <div className={styles["contents"]}>
+              <div className={styles['contents']}>
                 내용
                 <br />
                 <textarea
-                  className={styles["contents-text"]}
-                  {...register("content", {
-                    required: "내용은 필수로 입력해야 합니다",
+                  className={styles['contents-text']}
+                  {...register('content', {
+                    required: '내용은 필수로 입력해야 합니다',
                   })}
-                ></textarea>{" "}
+                ></textarea>{' '}
                 {errors.content && (
                   <small role="alert" className={styles.error}>
                     {errors.content.message}
@@ -121,8 +121,8 @@ export default function CommunityWrite() {
                 )}
               </div>
               <div className={styles.buttonsDiv}>
-                <div className={styles["buttonsBar1"]}>
-                  <button type="submit" className={styles["submit-button"]}>
+                <div className={styles['buttonsBar1']}>
+                  <button type="submit" className={styles['submit-button']}>
                     등록
                   </button>
                   {/* <label className={styles["upload-button"]} htmlFor="picture">
@@ -142,7 +142,7 @@ export default function CommunityWrite() {
                 <button
                   type="button"
                   onClick={handleBack}
-                  className={styles["back-button"]}
+                  className={styles['back-button']}
                 >
                   목록으로
                 </button>

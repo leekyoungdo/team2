@@ -23,6 +23,10 @@
   border-radius: 35px;
   padding: 10px 20px 10px 20px;
   margin: 20px 0px;
+
+  div {
+    cursor: pointer;
+  }
 }
 
 .flex {
@@ -213,6 +217,10 @@
   width: calc(105%);
 
   justify-content: center;
+
+  div {
+    cursor: pointer;
+  }
 }
 
 .flex_m {
