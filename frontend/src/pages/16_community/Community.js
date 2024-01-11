@@ -223,7 +223,6 @@ export default function Community() {
                             {memberList.map((member, index) => (
                               <div key={index} className={styles.member}>
                                 <div>{member.nickname}</div>
-                                <img src={member.image} />
                               </div>
                             ))}
 
