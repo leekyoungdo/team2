@@ -209,38 +209,12 @@ export default function Community() {
 
                     <div className={styles.section}>
                       <h1 className={styles.caption}>멤버 목록</h1>
-                      <div
-                        className={styles.button_member}
-                        onClick={() => setMemberModalOpen(true)}
-                      >
-                        멤버목록 더보기
-                      </div>
 
-                      {isMemberModalOpen && (
-                        <div className={styles.modal}>
-                          <div className={styles.modal_content}>
-                            <h2>멤버 목록</h2>
-                            {memberList.map((member, index) => (
-                              <div key={index} className={styles.member}>
-                                <div>{member.nickname}</div>
-                              </div>
-                            ))}
-
-                            <button
-                              className={styles.close}
-                              onClick={() => setMemberModalOpen(false)}
-                            >
-                              닫기
-                            </button>
-                          </div>
-                        </div>
-                      )}
 
                       {memberList.slice(0, 3).map((member, index) => (
                         <div key={index} className={styles.member}>
                           <div className={styles.flex}>
                             <div>{member.nickname}</div>
-                            <img src={member.image} />
                           </div>
                         </div>
                       ))}
