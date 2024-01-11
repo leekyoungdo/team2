@@ -249,12 +249,20 @@ export default function Post() {
 
               {/* 글 작성자와 로그인한 사용자가 동일한 경우에만 수정 / 삭제 버튼을 보여줌 */}
               {userNickname === nickname && (
-                <div>
+                <div className={styles.contentsBtn}>
                   {/* <button onClick={() => boardUpdate()}>글수정</button> */}
-                  <button onClick={() => navigator(`/board/edit/${board_id}`)}>
+                  <button
+                    onClick={() => navigator(`/board/edit/${board_id}`)}
+                    className={styles.textEditBtn}
+                  >
                     글수정
                   </button>
-                  <button onClick={() => boardDelete()}>글삭제</button>
+                  <button
+                    onClick={() => boardDelete()}
+                    className={styles.textDelBtn}
+                  >
+                    글삭제
+                  </button>
                 </div>
               )}
 
@@ -274,6 +282,7 @@ export default function Post() {
               <div className={styles.divisionLine}></div>
 
               {/* 댓글 입력 */}
+              <p>댓글</p>
               <form
                 onSubmit={handleSubmit(onValid)}
                 className={styles.commentsForm}
@@ -293,14 +302,14 @@ export default function Post() {
 
               {/* 댓글 창 */}
               <div className={styles.commentContainer}>
-                댓글
                 {comments.map((comment, index) => (
-                  <div key={index}>
+                  <div key={index} className={styles.commentContainer2}>
                     {editing === comment.comment_id ? (
                       <input
                         type="text"
                         value={editCommentContent}
                         onChange={(e) => setEditCommentContent(e.target.value)}
+                        className={styles.commentInput}
                       />
                     ) : (
                       <>
@@ -320,22 +329,25 @@ export default function Post() {
 
                     {/* 댓글 작성자와 로그인한 사용자가 동일한 경우에만 수정 / 삭제 버튼을 보여줌 */}
                     {comment.User.nickname === nickname && (
-                      <div>
+                      <div className={styles.commentBtn}>
                         {editing === comment.comment_id ? (
                           <button
                             onClick={() => saveComment(comment.comment_id)}
+                            className={styles.saveBtn}
                           >
                             저장
                           </button>
                         ) : (
                           <button
                             onClick={() => editComment(comment.comment_id)}
+                            className={styles.editBtn}
                           >
                             수정
                           </button>
                         )}
                         <button
                           onClick={() => deleteComment(comment.comment_id)}
+                          className={styles.delBtn}
                         >
                           삭제
                         </button>
