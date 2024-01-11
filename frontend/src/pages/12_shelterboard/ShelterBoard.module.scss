@@ -9,6 +9,23 @@
   box-shadow: 4px 4px 0px #000000;
   font-family: 'Pretendard';
   height: 770px;
+
+  .pagination {
+    display: flex;
+    align-items: center;
+
+    button {
+      background-color: transparent;
+      border: 0 solid transparent;
+      margin: 5px 14px 0px 14px;
+      cursor: pointer;
+    }
+
+    span {
+      // display: inline-block;
+      // margin: 0 0 3px 0;
+    }
+  }
 }
 
 .showDogs {
