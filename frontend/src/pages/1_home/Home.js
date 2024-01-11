@@ -100,9 +100,9 @@ export default function Home() {
                   <div className={styles.boardCategory}>{value.category}
                   </div>
                   <div className={styles.boardTitle}>{value.title}
-                    {value.title.length > 5
+                    {/* {value.title.length > 5
                       ? `${value.title.substring(0, 5)}...`
-                      : value.title}
+                      : value.title} */}
                   </div>
                 </div>
               </Link>
@@ -125,9 +125,9 @@ export default function Home() {
                 <div className={styles.bar} key={value.board_id}>
                   <div className={styles.boardCategory}>{value.category}</div>
                   <div className={styles.boardTitle}>{value.title}
-                    {value.title.length > 5
+                    {/* {value.title.length > 5
                       ? `${value.title.substring(0, 5)}...`
-                      : value.title}
+                      : value.title} */}
                   </div>
                 </div>
               </Link>
