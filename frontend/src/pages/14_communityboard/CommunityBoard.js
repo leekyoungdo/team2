@@ -132,7 +132,7 @@ export default function CommunityBoard() {
               <input
                 type="text"
                 name="where"
-                placeholder="지역명을 입력해주세요."
+                placeholder="지역명을 입력해주세요"
               ></input>
               <button type="submit">검색</button>
             </form>
@@ -188,7 +188,7 @@ export default function CommunityBoard() {
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
-                  height="16"
+                  height="16 모임 ㄹ"
                   fill="currentColor"
                   class="bi bi-chevron-left"
                   viewBox="0 0 16 16"
