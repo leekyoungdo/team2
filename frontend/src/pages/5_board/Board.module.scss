@@ -70,8 +70,9 @@
 
 .contents {
   display: flex;
-  justify-content: center;
+  justify-content: left;
   flex-wrap: wrap;
+  margin-left: 20px;
 
   .box {
     position: relative;
@@ -131,6 +132,7 @@
     font-size: 15px;
     color: #000;
     margin-bottom: 8px;
+    
   }
 
   .user_id {

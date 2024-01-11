@@ -37,10 +37,11 @@
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
+  margin-right: 70px;
 }
 .infoBox {
   display: flex;
-  margin: auto 0;
+  margin: auto 10px;
 }
 
 .picture > img {
@@ -58,7 +59,7 @@
 }
 
 .info {
-  margin-left: 20px;
+  margin-left: 30px;
 
   p {
     margin: 5px;
@@ -94,7 +95,7 @@
   height: 30px;
   border: 2px solid black;
   border-bottom: none;
-  background-color: #e3dcce;
+  background-color: #EDF5ED;
   cursor: pointer;
 }
 
@@ -102,7 +103,7 @@
   .comP {
     font-weight: 600;
     font-size: 16px;
-    margin: 5px 0 10px 0;
+    margin: 5px 0 20px 0;
   }
   .comlistTable {
     width: 100%;
@@ -114,6 +115,7 @@
       height: 15px;
       padding: 8px;
       text-align: left;
+    
     }
     td {
       // border: 1px solid #000;
@@ -294,8 +296,9 @@
     border-radius: 10px;
     width: 65px;
     height: 35px;
-    background-color: #f5ba3f;
+    background-color: #EDF5ED;
     border: 2px solid black;
+    cursor: pointer;
   }
 }
 
@@ -309,7 +312,8 @@
     border-radius: 10px;
     width: 65px;
     height: 35px;
-    background-color: #f5ba3f;
+    background-color: #EDF5ED;
     border: 2px solid black;
+    cursor: pointer;
   }
 }
