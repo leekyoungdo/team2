@@ -1,10 +1,12 @@
 .box1 {
   background-color: #f8f8f8;
-  // width: 950px;
-  // max-width: 100%;
-  // min-width: 300px;
-  height: auto;
-  margin: auto;
+
+  width: 950px;
+  max-width: 100%;
+  min-width: 300px;
+  height: 840px;
+  margin: auto; /* 추가 */
+
   overflow: hidden;
   display: flex;
 }
