@@ -25,6 +25,9 @@
     margin-bottom: 50px;
     text-align: center;
     font-size: 30px;
+    img {
+      width: 150px;
+    }
   }
 
   ul {
@@ -82,7 +85,7 @@
   border: 0;
   outline: 0;
   background-color: #edf5ed;
-  margin-top: 80px;
+  margin-top: 10px;
   font-weight: 600;
   cursor: pointer;
 }

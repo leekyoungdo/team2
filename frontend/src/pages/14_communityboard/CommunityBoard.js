@@ -121,6 +121,7 @@ export default function CommunityBoard() {
         <div className={styles.S_2}>
           <div className={styles.c_buttons}>
             <div className={styles.pagination}>
+
               <button onClick={prevPage}> {"◀ "} 이전</button>
               <span>{currentPage}</span>
               <button onClick={nextPage}>다음{" ▶"}</button>

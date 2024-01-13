@@ -77,4 +77,17 @@
   background-color: #fa8b8b;
   justify-content: space-around;
   font-weight: bold;
+
+  input {
+    width: 155px;
+    border-radius: 10px;
+    padding-left: 6px;
+  }
+
+  button {
+    margin-left: 5px;
+    border-radius: 10px;
+    background-color: #f5ba3f;
+    cursor: pointer;
+  }
 }
