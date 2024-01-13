@@ -43,7 +43,7 @@
 #### 1️⃣ 홈
 
 <div align="center">
-	<img src="/app/static/img/login.jpg](https://github.com/leekyoungdo/team2/assets/85711768/06dd151d-365d-4a0a-acae-62257dd293bf">
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/06dd151d-365d-4a0a-acae-62257dd293bf">
 </div>
 
 #### 2️⃣ 게시판
