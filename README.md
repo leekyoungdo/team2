@@ -48,26 +48,26 @@
 
 #### 2️⃣ 게시판
 
-1. 게시글 목록
+1. 게시판
 <div align="center">
-	<img src="/app/static/img/login.jpg">
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/fa0465a3-601e-4ae0-9326-b7c715c10b54">
 </div>
 
 2. 게시글
 <div align="center">
-	<img src="/app/static/img/singup.jpg">
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/ecc66ca3-67c5-4d3d-80de-5fb0db3e8cc6">
 </div>
 
 3. 글 작성
 <div align="center">
-	<img src="/app/static/img/singup.jpg">
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/820f6318-e6f3-4923-bf59-c433adec2ba8">
 </div>
 
 #### 3️⃣ 소모임
 
-1. 소모임 리스트
+1. 소모임
 <div align="center">
-	<img src="/app/static/img/mypage.jpg">
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/953ab227-7e4c-4db5-b632-dfe2d54960b9">
 </div>
 
 2. 소모임 상세
@@ -80,7 +80,12 @@
 	<img src="/app/static/img/info2.jpg">
 </div>
 
-4. 소모임 만들기
+4. 소모임 게시글
+<div align="center">
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/7d22a3a7-d664-4b1d-93b4-ecd883d85da1">
+</div>
+
+5. 소모임 만들기
 <div align="center">
 	<img src="/app/static/img/info2.jpg">
 </div>
@@ -88,37 +93,37 @@
 #### 4️⃣ 유기견 공고
 
 <div align="center">
-
+	<img src="/app/static/img/info2.jpg">
 </div>
 
 #### 5️⃣ 로그인
 
 <div align="center">
-
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/922989d1-144a-489e-8f37-e584e5801529">
 </div>
 
 #### 6️⃣ 회원가입
 
 <div align="center">
-
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/05b9db5b-38ba-4878-970a-76e775f80412">
 </div>
 
 #### 7️⃣ 마이페이지
 
 <div align="center">
-
+	<img src="https://github.com/leekyoungdo/team2/assets/85711768/60e219ae-0ba4-4152-943f-013277ea9c83">
 </div>
 
 #### 8️⃣ 프로필
 
 <div align="center">
-
+	<img src="/app/static/img/info2.jpg">
 </div>
 
 ## ERD
 
 <div align="center">
-
+	<img src="/app/static/img/info2.jpg">
 </div>
 
 ## Tech Stack
