@@ -2,7 +2,7 @@ const multer = require("multer");
 const path = require("path");
 
 // 업로드된 파일을 저장할 디렉터리 및 파일명 설정
-let imageNum = 1;
+let imageNum = Date();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "static"); // 파일을 저장할 디렉터리
@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
 });
 
 // 업로드된 파일을 저장할 디렉터리 및 파일명 설정
-let boardImageNum = 1;
+let boardImageNum = Date();
 const storageEditor = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "static"); // 파일을 저장할 디렉터리
