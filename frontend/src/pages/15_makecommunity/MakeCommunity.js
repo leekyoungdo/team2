@@ -11,8 +11,7 @@ import { useLocation } from "react-router-dom";
 export default function MakeCommunity() {
   const { community_id } = useParams();
   const location = useLocation();
-  const update_D =
-    location.state && location.state.value ? location.state.value : "기본값";
+  const update_D = location.state?.value ?? "기본값";
 
   const [community_Data, setCommunity_Data] = useState({
     community_local: "",
@@ -21,93 +20,41 @@ export default function MakeCommunity() {
   });
 
   useEffect(() => {
-    const updateCommunityData = async () => {
-      if (update_D && update_D.communityData) {
-        await setCommunity_Data((prevData) => ({
-          community_local:
-            update_D.communityData.community_local || prevData.community_local,
-          community_name:
-            update_D.communityData.community_name || prevData.community_name,
-          introduce: update_D.communityData.introduce || prevData.introduce,
-        }));
-      }
-    };
-
-    updateCommunityData();
+    if (update_D?.communityData) {
+      setCommunity_Data((prevData) => ({
+        ...prevData,
+        ...update_D.communityData,
+      }));
+    }
   }, [update_D]);
 
-  useEffect(() => {
-    console.log("update_D:", update_D);
-    console.log("community_Data: 받았음", community_Data);
-  }, [community_Data, update_D]);
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    console.log(data);
-
-    const formData = new FormData();
-    formData.append("community_name", data.community_name);
-    formData.append("community_local", data.community_local);
-    formData.append("introduce", data.introduce);
-
-    if (update_D && update_D !== "기본값") {
-      console.log("정보받음");
-      console.log(
-        "community_name",
-        data.community_name,
-        "community_local",
-        data.community_local,
-        "introduce",
-        data.introduce
-      );
-
-      axios
-        .patch(
-          `${process.env.REACT_APP_HOST}/community/updatecommunity/${community_id}`,
-          {
-            community_name: data.community_name,
-            community_local: data.community_local,
-            introduce: data.introduce,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-          navigate("/communityboard/");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-      axios
-        .post(
-          `${process.env.REACT_APP_HOST}/community/createcommunity`,
-          {
-            community_name: data.community_name,
-            community_local: data.community_local,
-            introduce: data.introduce,
-          },
-          {
-            withCredentials: true,
-          }
-        )
-        .then((res) => {
-          console.log(res.data);
-          navigate("/communityboard/");
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }
+  const sendRequest = (method, url, data) => {
+    axios[method](`${process.env.REACT_APP_HOST}${url}`, data, {
+      withCredentials: true,
+    })
+      .then(() => {
+        navigate("/communityboard/");
+      })
+      .catch(console.error);
   };
+
+  const onSubmit = (data) => {
+    const requestMethod = update_D !== "기본값" ? "patch" : "post";
+    const url =
+      update_D !== "기본값"
+        ? `/community/updatecommunity/${community_id}`
+        : "/community/createcommunity";
+
+    sendRequest(requestMethod, url, data);
+  };
+
   return (
     <>
       <div className={styles.bg1}>
@@ -159,16 +106,14 @@ export default function MakeCommunity() {
                 })
               }
             />
-            {errors.community_name &&
-            errors.community_name.type === "required" ? (
+            {errors.community_name?.type === "required" ? (
               <p className={styles.alert}>
                 소모임 이름은 최소 3자 이상 입력해주세요.
               </p>
             ) : (
               <p></p>
             )}
-            {errors.community_name &&
-            errors.community_name.type === "minLength" ? (
+            {errors.community_name?.type === "minLength" ? (
               <p className={styles.alert}>
                 소모임 이름은 최소 5자 이상이어야 합니다.
               </p>
