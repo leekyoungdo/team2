@@ -1,4 +1,3 @@
-// 글 수정 컴포넌트
 import styles from './editPost.module.scss';
 import { useForm } from 'react-hook-form';
 import { useParams, useNavigate } from 'react-router-dom';

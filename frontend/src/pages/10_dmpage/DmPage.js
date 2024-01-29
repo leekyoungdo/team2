@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import './dmpage.module.scss';
 
 export default function DmPage() {

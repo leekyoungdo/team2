@@ -21,7 +21,7 @@ export default function Dm() {
 
   const initSocketConnect = () => {
     console.log('connected', socket.connected);
-    if (!socket.connected) socket.connect(); // 연결이 안 되어 있을 때만 연결을 하겠다
+    if (!socket.connected) socket.connect();
   };
 
   const getChatMsg = () => {
@@ -82,18 +82,6 @@ export default function Dm() {
         });
     }
   };
-
-  // chatList 변경시
-  // useEffect(() => {
-  //   const notice = (res) => {
-  //     console.log("notice");
-  //     const newChatList = [...chatList, { type: "notice", content: res.msg }];
-  //     setChatList(newChatList);
-  //   };
-
-  //   socket.on("notice", notice);
-  //   return () => socket.off("notice", notice);
-  // }, [chatList]);
 
   const addChatList = useCallback(
     (res) => {
