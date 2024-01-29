@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import UserEditModal from "./UserEditModal";
-import styles from "./MyPage.module.scss";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import styles from './MyPage.module.scss';
 
 export default function MyPage() {
   const [showWriteTable, setShowWriteTable] = useState(true);
@@ -52,7 +51,7 @@ export default function MyPage() {
       .then((res) => {
         const modifiedChats = res.data.map((chat) => {
           const chat_title = chat.chat_name
-            .split("&")
+            .split('&')
             .find((part) => part !== nickname);
           return {
             chat_id: chat.chat_id,
@@ -83,7 +82,7 @@ export default function MyPage() {
         withCredentials: true,
       })
       .then((res) => {
-        console.log("community", res.data);
+        console.log('community', res.data);
         setUserCommunity(res.data);
       });
   };
@@ -104,43 +103,6 @@ export default function MyPage() {
     const endIndex = startIndex + itemsPerPageDM;
     return userChat.slice(startIndex, endIndex);
   };
-
-  // const [showEditModal, setShowEditModal] = useState(false);
-
-  // const handleEditClick = () => {
-  //   setShowEditModal(true);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setShowEditModal(false);
-  // };
-
-  // const handleSaveChanges = (editedName, editedIntro) => {
-  //   axios.put(`${process.env.REACT_APP_HOST}/user/updatedoginfo`, {
-  //     dog_name: editedName,
-  //     dog_intro: editedIntro
-  //   }, {
-  //     withCredentials: true,
-  //   }).then((res) => {
-  //     setUserInfo(res.data);
-  //   }).catch((error) => {
-  //     console.error("Error updating profile:", error);
-  //     if (error.response) {
-  //       console.error("Server responded with error:", error.response.data);
-  //       console.error("Status code:", error.response.status);
-  //     } else if (error.request) {
-  //       console.error("No response received:", error.request);
-  //     } else {
-  //       console.error("Error setting up the request:", error.message);
-  //     }
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   if (Object.keys(userInfo).length !== 0) {
-  //     handleSaveChanges(userInfo.dog_name, userInfo.dog_intro);
-  //   }
-  // }, [userInfo]);
 
   return (
     <>
@@ -167,11 +129,8 @@ export default function MyPage() {
               <p className={styles.introduction}>
                 {userInfo && userInfo.dog_intro}
               </p>
-              {/* <button className={styles.editButton}>정보수정</button> */}
             </div>
           </div>
-
-          {/* {showEditModal && <UserEditModal onClose={handleCloseModal} onSave={handleSaveChanges} />} */}
 
           <div className={styles.comContainer}>
             <p className={styles.comP}>참여소모임</p>

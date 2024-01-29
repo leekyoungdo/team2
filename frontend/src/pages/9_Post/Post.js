@@ -29,12 +29,6 @@ export default function Post() {
   const [editing, setEditing] = useState(null); // 수정 모드 상태 (어떤 댓글이 수정 중인지)
   const [editInput, setEditInput] = useState(''); // 수정 입력 상태 (수정하는 입력의 현재 값)
 
-  function handleEditComment(id, currentContent, currentComment) {
-    setEditingId(id); // 현재 수정 중인 id
-    setEditPostContent(currentContent); // 글 수정 내용
-    setEditCommentContent(currentComment); // 댓글 수정 내용
-  }
-
   // 게시글 조회
   const getBoard = () => {
     axios
@@ -178,10 +172,9 @@ export default function Post() {
       if (res.data.result) {
         // 요청이 성공했다면, 수정 상태를 초기화하고 댓글 목록을 다시 불러온다
         setEditingId(null);
-        setEditCommentContent(''); // 댓글 수정
+        setEditCommentContent('');
 
-        // getBoard(); // 글 조회
-        getComments(); // 댓글 조회
+        getComments();
         console.log('수정되었습니다.');
         window.location.reload(); // 페이지 리로드
       } else {
@@ -205,7 +198,7 @@ export default function Post() {
         if (res.data.result) {
           alert('댓글을 삭제했습니다.');
           console.log('댓글을 삭제했습니다.');
-          getComments(); // 댓글 목록을 다시 불러오는 함수를 호출
+          getComments();
         } else {
           console.log('res.data.result', res.data.result); // false
           console.log('정보를 벡엔드에 전달했으나 실패(리스폰옴)');
@@ -250,7 +243,6 @@ export default function Post() {
               {/* 글 작성자와 로그인한 사용자가 동일한 경우에만 수정 / 삭제 버튼을 보여줌 */}
               {userNickname === nickname && (
                 <div className={styles.contentsBtn}>
-                  {/* <button onClick={() => boardUpdate()}>글수정</button> */}
                   <button
                     onClick={() => navigator(`/board/edit/${board_id}`)}
                     className={styles.textEditBtn}

@@ -1,8 +1,8 @@
-import styles from "./write.module.scss";
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { useState } from "react";
+import styles from './write.module.scss';
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import { useState } from 'react';
 
 export default function Write() {
   const {
@@ -11,22 +11,22 @@ export default function Write() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const [boardType, setBoardType] = useState("일상");
+  const [boardType, setBoardType] = useState('일상');
   const navigator = useNavigate();
 
   const onValid = (data) => {
     // 파일 인풋 요소에서 선택된 파일 가져오기
-    const fileInput = document.querySelector("#picture");
+    const fileInput = document.querySelector('#picture');
     const file = fileInput.files[0];
 
     // FormData 객체 생성
     const formData = new FormData();
 
     // 전송할 데이터 객체
-    formData.append("image", file);
-    formData.append("category", data.category || "일상");
-    formData.append("title", data.title);
-    formData.append("content", data.content);
+    formData.append('image', file);
+    formData.append('category', data.category || '일상');
+    formData.append('title', data.title);
+    formData.append('content', data.content);
 
     axios
       .post(`${process.env.REACT_APP_HOST}/board/boardsubmit`, formData, {
@@ -35,11 +35,11 @@ export default function Write() {
       .then((res) => {
         console.log(res.data);
         if (res.data.result) {
-          alert("게시물이 등록되었습니다.");
-          navigator("/board");
+          alert('게시물이 등록되었습니다.');
+          navigator('/board');
         } else {
-          alert("로그인이 필요한 서비스입니다.");
-          navigator("/user/signin");
+          alert('로그인이 필요한 서비스입니다.');
+          navigator('/user/signin');
         }
       })
       .catch((error) => {
@@ -61,7 +61,7 @@ export default function Write() {
                   value={boardType}
                   onChange={(e) => {
                     setBoardType(e.target.value);
-                    setValue("category", e.target.value);
+                    setValue('category', e.target.value);
                   }}
                 >
                   <option value="일상">일상 게시판</option>
@@ -75,8 +75,8 @@ export default function Write() {
                   type="text"
                   className={styles.titleText}
                   placeholder="제목을 입력해주세요"
-                  {...register("title", {
-                    required: "제목은 필수로 입력해야 합니다",
+                  {...register('title', {
+                    required: '제목은 필수로 입력해야 합니다',
                   })}
                 />
                 <br />
@@ -91,8 +91,8 @@ export default function Write() {
                 <textarea
                   className={styles.contentsText}
                   placeholder="내용을 입력해주세요"
-                  {...register("content", {
-                    required: "내용은 필수로 입력해야 합니다",
+                  {...register('content', {
+                    required: '내용은 필수로 입력해야 합니다',
                   })}
                 ></textarea>
                 <br />
@@ -109,16 +109,16 @@ export default function Write() {
                 >
                   사진 업로드
                   <input
-                    {...register("image")}
+                    {...register('image')}
                     id="picture"
                     type="file"
                     className={styles.hidden}
                     accept="image/*"
-                    style={{ display: "none" }}
+                    style={{ display: 'none' }}
                     // formData()로 파일을 업로드할 때 encType 속성을 아래와 같이 명시해주어야 한다
                     encType="multipart/form-data"
                   />
-                </label>{" "}
+                </label>{' '}
                 <button
                   type="submit"
                   className={`${styles.btn} ${styles.submitBtn}`}

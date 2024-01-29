@@ -1,8 +1,7 @@
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import styles from "./signup.module.scss";
-import { useEffect, useState } from "react";
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styles from './signup.module.scss';
 
 export default function SignUp() {
   const {
@@ -15,19 +14,17 @@ export default function SignUp() {
   const navigator = useNavigate();
 
   const onValid = (data) => {
-    const fileInput = document.querySelector("#picture");
+    const fileInput = document.querySelector('#picture');
     const file = fileInput.files[0];
 
     const formData = new FormData();
-    formData.append("image", file);
-    formData.append("user_id", data.user_id);
-    formData.append("password", data.password);
-    formData.append("nickname", data.nickname);
-    formData.append("email", data.email);
-    formData.append("dog_name", data.dog_name);
-    formData.append("dog_intro", data.introduction);
-
-    // , {headers: { "Content-Type": "application/json" },}
+    formData.append('image', file);
+    formData.append('user_id', data.user_id);
+    formData.append('password', data.password);
+    formData.append('nickname', data.nickname);
+    formData.append('email', data.email);
+    formData.append('dog_name', data.dog_name);
+    formData.append('dog_intro', data.introduction);
 
     axios
       .post(`${process.env.REACT_APP_HOST}/user/signup`, formData)
@@ -35,10 +32,10 @@ export default function SignUp() {
         console.log(res.data);
 
         if (res.data.result) {
-          alert("회원가입 성공!");
-          navigator("/"); // home으로 이동
+          alert('회원가입 성공!');
+          navigator('/');
         } else {
-          alert("회원가입에 실패하였습니다.");
+          alert('회원가입에 실패하였습니다.');
         }
       })
       .catch((err) => {
@@ -50,24 +47,24 @@ export default function SignUp() {
   };
 
   const onInvalid = (err) => {
-    console.log("실패", err);
+    console.log('실패', err);
   };
 
   const checkId = async () => {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_HOST}/user/checkid`,
-        { user_id: getValues("user_id") }
+        { user_id: getValues('user_id') }
       );
 
       if (response.data.duplicate) {
-        alert("중복된 아이디입니다.");
+        alert('중복된 아이디입니다.');
       } else {
-        alert("사용 가능한 아이디입니다.");
+        alert('사용 가능한 아이디입니다.');
       }
     } catch (error) {
-      console.error("Error during duplicate check:", error);
-      alert("중복 확인 중 에러가 발생했습니다.");
+      console.error('Error during duplicate check:', error);
+      alert('중복 확인 중 에러가 발생했습니다.');
     }
   };
 
@@ -75,17 +72,17 @@ export default function SignUp() {
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_HOST}/user/checknickname`,
-        { nickname: getValues("nickname") }
+        { nickname: getValues('nickname') }
       );
 
       if (response.data.duplicate) {
-        alert("중복된 닉네임입니다.");
+        alert('중복된 닉네임입니다.');
       } else {
-        alert("사용 가능한 닉네임입니다.");
+        alert('사용 가능한 닉네임입니다.');
       }
     } catch (error) {
-      console.error("Error during duplicate check:", error);
-      alert("중복 확인 중 에러가 발생했습니다.");
+      console.error('Error during duplicate check:', error);
+      alert('중복 확인 중 에러가 발생했습니다.');
     }
   };
 
@@ -115,8 +112,8 @@ export default function SignUp() {
                 type="text"
                 id="user_id"
                 // placeholder="아이디를 입력해주세요"
-                {...register("user_id", {
-                  required: "아이디는 필수로 작성해야 합니다",
+                {...register('user_id', {
+                  required: '아이디는 필수로 작성해야 합니다',
                 })}
               />
               <button
@@ -143,8 +140,8 @@ export default function SignUp() {
                 type="text"
                 id="nickname"
                 // placeholder="닉네임을 입력해 주세요"
-                {...register("nickname", {
-                  required: "닉네임은 필수로 작성해야 합니다",
+                {...register('nickname', {
+                  required: '닉네임은 필수로 작성해야 합니다',
                 })}
               />
               <button
@@ -165,12 +162,12 @@ export default function SignUp() {
               type="text"
               id="email"
               // placeholder="이메일을 입력해주세요"
-              {...register("email", {
-                required: "이메일은 필수로 작성해야 합니다",
+              {...register('email', {
+                required: '이메일은 필수로 작성해야 합니다',
                 pattern: {
                   value:
                     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/,
-                  message: "올바른 형태의 이메일을 입력해 주세요",
+                  message: '올바른 형태의 이메일을 입력해 주세요',
                 },
               })}
             />
@@ -189,11 +186,11 @@ export default function SignUp() {
               type="password"
               id="password"
               // placeholder="비밀번호를 입력해주세요"
-              {...register("password", {
-                required: "비밀번호는 필수로 작성해야 합니다",
+              {...register('password', {
+                required: '비밀번호는 필수로 작성해야 합니다',
                 pattern: {
                   // value: /^(?=.*[a-z])(?=.*\d)[a-z\d]{2,12}$/,
-                  message: "올바른 형태의 비밀번호를 입력해 주세요",
+                  message: '올바른 형태의 비밀번호를 입력해 주세요',
                 },
               })}
               title="영어 소문자, 숫자로 조합된 2~12자로 입력해주세요"
@@ -213,12 +210,12 @@ export default function SignUp() {
               type="password"
               id="confirmPassword"
               // placeholder="비밀번호를 한 번 더 입력해주세요"
-              {...register("confirmPassword", {
-                required: "비밀번호 확인은 필수로 작성해야 합니다",
+              {...register('confirmPassword', {
+                required: '비밀번호 확인은 필수로 작성해야 합니다',
                 validate: {
                   check: (val) => {
-                    if (getValues("password") !== val) {
-                      return "비밀번호가 일치하지 않습니다.";
+                    if (getValues('password') !== val) {
+                      return '비밀번호가 일치하지 않습니다.';
                     }
                   },
                 },
@@ -242,7 +239,7 @@ export default function SignUp() {
               </div>
               <label htmlFor="picture">파일 업로드 (클릭)</label>
               <input
-                {...register("image")}
+                {...register('image')}
                 id="picture"
                 type="file"
                 accept="image/*"
@@ -257,7 +254,7 @@ export default function SignUp() {
               type="text"
               id="dog_name"
               // placeholder="반려견 이름을 입력해주세요"
-              {...register("dog_name")}
+              {...register('dog_name')}
             />
           </div>
 
@@ -267,7 +264,7 @@ export default function SignUp() {
               id="introduction"
               className={styles.introText}
               placeholder="당신의 반려견을 소개해 주세요"
-              {...register("introduction")}
+              {...register('introduction')}
             />
           </div>
 

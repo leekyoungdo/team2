@@ -1,8 +1,8 @@
-import styles from "./UserProfile.module.scss";
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import axios from "axios";
+import styles from './UserProfile.module.scss';
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 export default function UserProfile() {
   const [userInfo, setUserInfo] = useState({});
@@ -50,7 +50,7 @@ export default function UserProfile() {
           `${process.env.REACT_APP_HOST}/chat/createroom`,
           {
             chat_name: `${username}&${nickname}`,
-            chat_category: "dm",
+            chat_category: 'dm',
             user_id: userInfo.user_id,
           },
           { withCredentials: true }
@@ -59,8 +59,8 @@ export default function UserProfile() {
           navigator(`/dm/${res.data.chat_name}`);
         });
     } else {
-      alert("로그인이 필요한 서비스입니다.");
-      navigator("/user/signin");
+      alert('로그인이 필요한 서비스입니다.');
+      navigator('/user/signin');
     }
   };
 
@@ -121,24 +121,6 @@ export default function UserProfile() {
                     <td>{value.makeboard}</td>
                   </tr>
                 ))}
-              {/* <tr>
-                <td>일상</td>
-                <td>행복한 저녁 시간~</td>
-                <td>2024-01-05</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>자유</td>
-                <td>이럴 때는 어쩌죠?</td>
-                <td>2024-01-05</td>
-                <td>100</td>
-              </tr>
-              <tr>
-                <td>일상</td>
-                <td>꼬까옷 입고 폴짝!</td>
-                <td>2024-01-05</td>
-                <td>100</td>
-              </tr> */}
             </tbody>
           </table>
         </div>

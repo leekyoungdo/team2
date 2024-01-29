@@ -1,9 +1,9 @@
-import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import styles from "./signin.module.scss";
-import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../redux/action/nicknameAction";
+import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import styles from './signin.module.scss';
+import { useDispatch } from 'react-redux';
+import { loginSuccess } from '../../redux/action/nicknameAction';
 
 export default function SignIn() {
   const {
@@ -31,19 +31,19 @@ export default function SignIn() {
 
         if (res.data.result) {
           dispatch(loginSuccess(res.data));
-          navigator("/"); // home으로 이동
+          navigator('/');
         } else {
-          alert("로그인에 실패하였습니다.");
+          alert('로그인에 실패하였습니다.');
         }
       })
       .catch((err) => {
         console.log(err);
-        alert("error!");
+        alert('error!');
       });
   };
 
   const onInvalid = (err) => {
-    console.log("로그인 실패", err);
+    console.log('로그인 실패', err);
   };
 
   return (
@@ -61,8 +61,8 @@ export default function SignIn() {
               type="text"
               id="user_id"
               placeholder="아이디를 입력해주세요"
-              {...register("user_id", {
-                required: "아이디를 입력해 주세요",
+              {...register('user_id', {
+                required: '아이디를 입력해 주세요',
               })}
             />
             {errors.user_id && (
@@ -76,8 +76,8 @@ export default function SignIn() {
             <input
               type="password"
               placeholder="비밀번호를 입력해주세요"
-              {...register("password", {
-                required: "비밀번호를 입력해 주세요",
+              {...register('password', {
+                required: '비밀번호를 입력해 주세요',
               })}
             />
             {errors.password && (
@@ -95,7 +95,7 @@ export default function SignIn() {
           </button>
 
           <button
-            onClick={() => navigator("/user/signup")}
+            onClick={() => navigator('/user/signup')}
             className={`${styles.formGroup} ${styles.btn} ${styles.btnSignup}`}
           >
             회원가입
